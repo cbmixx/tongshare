@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  sharing_id: 1
+  group_id: 1
+  priority: 1
+
+two:
+  sharing_id: 1
+  group_id: 1
+  priority: 1

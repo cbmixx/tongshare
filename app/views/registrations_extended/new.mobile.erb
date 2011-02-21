@@ -1,0 +1,42 @@
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+
+<%= devise_error_messages_translated! %>
+
+<table>
+  <tr>
+    <td>
+      <%= label_for_login :employee_no%>
+    </td>
+    <td>
+      <%= text_field_for_login :employee_no%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <label for="infopass">清华大学Info密码</label>
+    </td>
+    <td>
+      <%= password_field_tag "infopass", nil%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= f.label :password, '“同享日程”密码'%>
+    </td>
+    <td>
+      <%= f.password_field :password%>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= f.label :password_confirmation, '确认密码', :class=>"title"  %>
+    </td>
+    <td>
+      <%= f.password_field :password_confirmation, :class=>"textvalue" %>
+    </td>
+  </tr>
+</table>
+
+<%= f.submit "注册"%>
+
+<% end %>

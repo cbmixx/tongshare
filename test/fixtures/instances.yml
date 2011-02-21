@@ -1,0 +1,23 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString1
+  begin: 2011-02-10 18:28:47
+  end: 2011-02-10 18:28:47
+  location: MyString
+  extra_info: MyText
+  event_id: 1
+  index: 1
+  override: false
+  creator_id: 1
+
+two:
+  name: MyString2
+  begin: 2011-02-10 18:28:47
+  end: 2011-02-10 18:28:47
+  location: MyString
+  extra_info: MyText
+  event_id: 1
+  index: 1
+  override: false
+  creator_id: 1

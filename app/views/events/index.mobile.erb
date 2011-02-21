@@ -1,0 +1,17 @@
+你好，<%= current_user.friendly_name %> <br/>
+<%= l Time.now, :format => :short %> <%=  number_of_week_in_thu %> <br/>
+
+<%= link_to_unless_current "接下来", {:range => :next} %>&nbsp;&nbsp;
+<%= link_to_unless_current "今天", {:range => :day, :offset => 0} %>&nbsp;&nbsp;
+<%= link_to_unless_current "明天", {:range => :day, :offset => 1} %>&nbsp;&nbsp;
+<%= link_to_unless_current "本周", {:range => :week, :offset => 0} %>&nbsp;&nbsp;
+<%= link_to_unless_current "下周", {:range => :week, :offset => 1} %>&nbsp;&nbsp;
+<br/><br/>
+
+<% @instances.each do |instance|%>
+  <%= link_to instance.name, event_path(instance.event, :inst=>instance.id) %><br/>
+  <%= instance.location.blank? ? "" : (instance.location + "<br/>").html_safe%>
+  <%= friendly_time_range instance.begin, instance.end %>
+  <%#= link_to "删除", instance.event, :method => "delete" %>
+  <hr/>
+<% end %>

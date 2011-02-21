@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  method_type: 1
+  value: 1
+  time_type: 1
+
+two:
+  method_type: 1
+  value: 1
+  time_type: 1

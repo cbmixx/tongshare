@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  event_id: 1
+  shared_from: 1
+  extra_info: MyText
+
+two:
+  event_id: 1
+  shared_from: 1
+  extra_info: MyText

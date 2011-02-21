@@ -1,0 +1,20 @@
+<%= form_for(@sharing) do |f| %>
+  <% if @sharing.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= I18n.t 'activerecord.errors.template.header', :count => @sharing.errors.count %></h2>
+
+      <ul>
+        <% @sharing.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>粘贴或填写被邀请者的学号或电子邮件地址，使用逗号、分号、空格、制表符或换行符分割</div>
+  <%= text_area_tag "raw_string"%>
+ 
+  <%= f.submit "提交" %>
+<% end %>
+
+   <%= button_to "添加", {:action => "add_members"}, {:remote => true}%>

@@ -1,0 +1,53 @@
+zh-CN:      
+  activerecord:
+    errors:
+      models:
+        user_identifier:
+          attributes:
+            login_value:
+              employee_no_invalid: "学号格式不正确"
+              mobile_invalid: "手机号格式不正确"
+              taken: "登录名“%{value}”已被占用"
+              blank: "学号不能为空" #currently, only employee_no cannot be empty
+        user:
+          attributes:
+            password:
+              confirmation: "两次输入的密码不一致"
+              too_short: "密码长度不够"
+              blank: "密码不能为空"
+            email:
+              taken: "\"%{value}\"已被占用"
+        event:
+          attributes:
+            rrule_count:
+
+      #messages:
+      #  invalid: "格式不正确"
+
+      template:
+        header: "您输入的信息中含有%{count}个错误，请更正"
+
+    models:
+      user: "用户"
+      event: "日程"
+
+    attributes:
+      user:
+        email: "电子邮件"
+        password: ""      #another trick
+        login_value: ""   #just a trick
+
+      user_identifier:
+        login_value: "登录名"
+        employee_no: "学号"
+        mobile: "手机号"
+        email: "电子邮件"
+
+      event:
+        name: "日程标题"
+        begin: "开始于"
+        end: "结束于"
+        location: "地点"
+        extra_info: "描述"
+        rrule_count: "重复次数"
+

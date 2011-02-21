@@ -1,0 +1,32 @@
+<%#deprecated%>
+<%= div_for @event, :class => "show" do %>
+  <div class="event name"><%= @event.name %></div>
+  <div class="event creator">由<%= @event.creator.friendly_name %>创建</div>
+  <div class="event time"><%= friendly_time_range @event.begin, @event.end  %></div>
+  <%#TODO: Human-readable recurrence logic%>
+
+  <div class="event location">地点：<%= @event.location %></div>
+  <div class="event extra">
+    <%= @event.extra_info %>
+  </div>
+
+  <% if (attendees = get_attendees(@event)) %>
+    <%= content_box nil, "参与者", true do %>
+      <div class="event attendee">
+        <ul>
+          <% attendees.each do |att| %>
+            <li><%=att%></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="event buttons">
+    <%= styled_button "编辑", edit_event_path(@event) %>
+    <%= link_to "删除", @event, :method => "delete",
+        :confirm => ("你确实要删除\"#{@event.name}\"吗？" + (@event.recurring? ? "这是一个重复的事件，所有重复项都会被删除！" : ""))
+    %>
+  </div>
+
+<% end %>

@@ -1,0 +1,23 @@
+<h2><%= @event.name %></h2>
+
+<% if @event.recurring? %>
+  <% if @instance.nil? %>
+    <%= friendly_time_range @event.begin, @event.end %>
+  <% else %>
+    <%= friendly_time_range @instance.begin, @instance.end  %>
+  <% end %>
+  <br/>
+  重复：
+  <%= "从#{l @event.begin, :format => :date_only}开始，" unless (@instance.nil? || @event.begin == @instance.begin) %>
+  <%=  show_friendly_rrule(@event) %>
+<% else %>
+  <%= friendly_time_range @event.begin, @event.end %>
+<% end %>
+<br/>
+
+<%if !@event.location.blank?%>
+地点：<%= @event.location %><br/>
+<%end%>
+
+
+<p><%= @event.extra_info %></p>

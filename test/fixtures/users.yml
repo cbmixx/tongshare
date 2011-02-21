@@ -1,0 +1,39 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+ id: 1
+ email: jez@example.com
+ encrypted_password: $2a$10$PoBe1MvkoGJsjMVTEjKqgeBUp.xdfzWoiDjBzQhtLAj16NqIa2fOy
+ password_salt: $2a$10$PoBe1MvkoGJsjMVTEjKqge
+ #reset_password_token: nil
+ #remember_token: nil
+ #remember_created_at: nil
+ sign_in_count: 1
+ current_sign_in_at: <%=Time.now - 30.minutes %>
+ last_sign_in_at: 2011-01-02 08:31:23
+ current_sign_in_ip: 127.0.0.1
+ last_sign_in_ip: 127.0.0.1
+ #confirmation_token: nil
+ confirmed_at: 2011-01-02 08:31:23
+ confirmation_sent_at: 2011-01-02 08:30:59
+ created_at: 2011-01-02 08:30:59
+ updated_at: 2011-01-02 08:31:23
+
+two:
+ id: 2
+ email: foo@example.com
+ encrypted_password: $2a$10$PoBe1MvkoGJsjMVTEjKqgeBUp.xdfzWoiDjBzQhtLAj16NqIa2fOy
+ password_salt: $2a$10$PoBe1MvkoGJsjMVTEjKqge
+ #reset_password_token: nil
+ #remember_token: nil
+ #remember_created_at: nil
+ sign_in_count: 1
+ current_sign_in_at: <%=Time.now - 30.minutes %>
+ last_sign_in_at: 2011-01-02 08:31:23
+ current_sign_in_ip: 127.0.0.1
+ last_sign_in_ip: 127.0.0.1
+ #confirmation_token: nil
+ confirmed_at: 2011-01-02 08:31:23
+ confirmation_sent_at: 2011-01-02 08:30:59
+ created_at: 2011-01-02 08:30:59
+ updated_at: 2011-01-02 08:31:23

@@ -1,0 +1,29 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one_instance:
+  id: 1
+  name: meeting
+  begin: 2011-01-19 20:00:00
+  end: 2011-01-19 21:00:00
+  location: 6C101
+  extra_info: 
+  creator_id: 1
+
+weekly_count:
+  id: 2
+  name: course
+  begin: 2011-01-19 08:00:00
+  end: 2011-01-19 09:35:00
+  location: 6C201
+  extra_info: which course?
+  rrule: FREQ=WEEKLY; DAY=WE; COUNT=5
+  creator_id: 2
+
+security_course:
+  name: 密码学及安全计算
+  begin: 2011-01-28 8:00:00
+  end: 2011-01-28 9:35:00
+  location: 六教6A309
+  extra_info: 陈震，限选，全周
+  creator_id: 1
+  rrule: 

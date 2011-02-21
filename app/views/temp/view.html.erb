@@ -1,0 +1,16 @@
+<a href="/oauth_consumers">Manage OAuth</a>
+<p>Calendars:</p>
+<% @cals.each do |cal| %>
+  <p><%= cal %></p>
+<% end %>
+<br>
+<p>Events in first calendar:</p>
+<% @events.each do |e| %>
+  <p>Title: <%= e.title %> </p>
+  <p>Where: <%= e.where %> </p>
+  <p>Start Time: <%= e.start_time %> </p>
+  <p>End Time: <%= e.end_time %> </p>
+  <p>RRULE: <%= e.recurrence.to_recurrence_string if e.recurrence %> </p>
+  <p>xml: <%= e.to_xml %> </p>
+  <br>
+<% end %>

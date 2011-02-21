@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <title>同享日程<%= "-#{@title}" if defined? @title%></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <%= javascript_include_tag "translations.js" %>
+    <%= javascript_include_tag "i18n.js" %>
+    <%= javascript_include_tag :defaults %>
+
+    <%= stylesheet_link_tag "biz/reset", "biz/layout", "biz/style", :media=>"all"%>
+
+<%#= javascript_include_tag "biz/jquery-1.4.2.min" %>
+    <%= javascript_include_tag "biz/maxheight"%>
+    <%#= javascript_include_tag "biz/script" %>
+    <!--[if lt IE 7]>
+    <%= stylesheet_link_tag "biz/ie6"%>
+    <%= javascript_include_tag "biz/ie_png" %>
+      <script type="text/javascript">
+              ie_png.fix('.png');
+      </script>
+    <![endif]-->
+    <!--[if lt IE 9]>
+    <%= javascript_include_tag "biz/html5" %>
+    <![endif]-->
+
+    <%= csrf_meta_tag %>
+
+    <%= calendar_date_select_includes :locale => 'cn' %>
+
+    <%= stylesheet_link_tag "scaffold" %>
+    <%= stylesheet_link_tag "application" %>
+
+  </head>
+
+  <body id="page1" onLoad="new ElementMaxHeight();">
+    <div class="tail-bottom">
+      <div id="main">
+        <!-- header -->
+        <header>
+          <div class="nav-box">
+            <nav>
+              <ul class="fright">
+                <li><%= link_to(image_tag("biz/pic-home-act.gif"), :root, :title=>"首页")%></li>
+                <li><%= link_to(image_tag("biz/pic-sitemap.gif"), destroy_user_session_path, :title=>"注销")%></li>
+              </ul>
+              <ul>
+                  <% if user_signed_in? %>
+                  <li>
+                    <%= link_to "我的日程", :controller => "events", :range => :next %>
+                  <li>
+                    <%= link_to "新建日程", new_event_path%>
+                  </li>
+                  <li><a href="#">个人信息</a></li>
+                  <li><a href="#">日历同步</a></li>
+                  <li><a href="#">群组管理</a></li>
+                  </li>
+                  <% else %>
+                  <li>
+                    <%= link_to "同享日程", :root %>
+                  </li>
+                  <%  end %>
+              </ul>
+
+            </nav>
+          </div>
+        </header>
+
+        <div class="wrapper indent">
+          <!-- content -->
+          <section id="content">
+            <div class="noticebar">
+              <% if alert %>
+                <div id="alert"><%= alert %></div>
+              <% end %>
+              <% if notice %>
+                <div id="notice"><%= notice %></div>
+              <% end %>
+            </div>
+            <%= yield %>
+          </section>
+          <!-- aside -->
+          <aside>
+            <div class="inside">
+              <% if current_page? :root %>
+                <h2>登录</h2>
+                <%= render(:partial => "sessions_extended/login_form", :locals => {:small => true})%>
+              <% else %>
+
+              <% end %>
+            </div>
+          </aside>
+        </div>
+        <!-- footer -->
+        <footer>
+          <div class="inside">
+            <a href="http://www.templatemonster.com" class="new_window">Website template</a> designed by TemplateMonster.com
+          </div>
+        </footer>
+      </div>
+    </div>
+
+  </body>
+</html>

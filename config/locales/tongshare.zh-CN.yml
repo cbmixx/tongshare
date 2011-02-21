@@ -1,0 +1,15 @@
+zh-CN:
+  tongshare:
+    event:
+      created: "日程\"%{name}\"创建成功"
+      updated: "日程\"%{name}\"修改成功"
+      recurrence:
+        none: "不重复"
+        weekly: "按周重复"
+        daily: "按日重复"
+        interval_suffix_weekly: "周"
+        interval_suffix_daily: "天"
+    acceptance:
+      denied: "已退出活动"
+      
+        

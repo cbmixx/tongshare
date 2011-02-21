@@ -1,0 +1,28 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+em_one:
+  login_value: 2007011000
+  user_id: 1
+  login_type: employee_no
+em_two:
+  login_value: 2007011001
+  user_id: 2
+  login_type: employee_no
+
+email_one:
+  login_value: foo@bar.com
+  user_id: 1
+  login_type: email
+email_two:
+  login_value: bar@foo.com
+  user_id: 2
+  login_type: email
+
+mo_one:
+  login_value: 13000000000
+  user_id: 1
+  login_type: mobile
+mo_two:
+  login_value: 13000000001
+  user_id: 2
+  login_type: mobile

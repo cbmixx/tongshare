@@ -1,0 +1,54 @@
+<%= content_box "查看", "活动" do%>
+
+  <%= div_for @event, :class => "show" do %>
+    <div class="event name"><%= @event.name %></div>
+    <div class="event creator">由<%= @event.creator.friendly_name %>创建</div>
+
+    <% if @event.recurring? %>
+      <div class="event time">
+        <% if @instance.nil? %>
+          <%= friendly_time_range @event.begin, @event.end %>
+        <% else %>
+          <%= friendly_time_range @instance.begin, @instance.end  %>
+        <% end %>
+      </div>
+      <div class="event rrule">
+        重复：
+        <%= "从#{l @event.begin, :format => :date_only}开始，" unless (@instance.nil? || @event.begin == @instance.begin) %>
+        <%=  show_friendly_rrule(@event) %>
+      </div>
+    <% else %>
+      <%= friendly_time_range @event.begin, @event.end %>
+    <% end %>
+
+    <div class="event location">地点：<%= @event.location.blank? ? "（未指定）" : @event.location %></div>
+    <div class="event extra">
+      <%= @event.extra_info %>
+    </div>
+    <br/>
+    <div class="event buttons">
+      <%= styled_button "编辑", edit_event_path(@event) if can? :edit, @event %>
+      <%= styled_button "删除", @event, :method => "delete",
+        :confirm => ("你确实要删除\"#{@event.name}\"吗？" + (@event.recurring? ? "这是一个重复的事件，所有重复项都会被删除！" : "")) \
+         if can? :destroy, @event %>
+
+      <% acc = find_acceptance(@event) %>
+      <%= styled_button "退出活动", {:controller => "acceptance", :action => "deny", :id => acc.id}, :confirm => "确实要退出该活动吗？" if can? :deny, find_acceptance(@event)%>
+    </div>
+
+  <%end%>
+
+<%end%>
+
+<% if !(attendees = get_attendees(@event)).empty? %>
+      <%= content_box "活动", "参与者", true do %>
+        <div class="event attendee">
+          <ul>
+            <% attendees.each do |att| %>
+              <li><%=att%></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+<% end %>
+

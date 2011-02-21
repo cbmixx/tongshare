@@ -1,0 +1,51 @@
+<%#= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+
+<% small ||= false %>
+<%= form_for("user", :url => user_session_path,
+                      :html => {:id => "login_form",
+                                :class => small ? "login_small" : nil }
+            ) do |f| %>
+<fieldset>
+<div class="field">
+  <% if small %>
+    <%
+    options = <<OPTIONS
+        <option value="#{UserIdentifier::TYPE_EMPLOYEE_NO}" selected>学号/工作证号</option>
+        <option value="#{UserIdentifier::TYPE_EMAIL}">电子邮件</option>
+        <option value="#{UserIdentifier::TYPE_MOBILE}">手机号</option>
+OPTIONS
+%>
+    <%= select_tag "login_type", options.html_safe, :class => "textvalue"   #seems a bug in rails 3.0, escape < as &lt;. .html_safe goes around it.
+    %>
+  <% else %>
+  <label class="title">登录名：</label>
+    <%= login_type_selector UserIdentifier::TYPE_EMPLOYEE_NO, true %>
+    <%= login_type_selector UserIdentifier::TYPE_EMAIL %>
+   <%= login_type_selector UserIdentifier::TYPE_MOBILE %>
+  <%end%>
+</div>
+
+<div class="field">
+  <% if !small %><label class="title">&nbsp;</label><%end%>
+    <%= text_field_tag :login_value, params[:login_value], :maxlength => UserIdentifier::MAX_VALUE_LENGTH, :class=>"textvalue" %>
+</div>
+
+ <div class="field">
+  <%= f.label :password, '密码：', :class => 'title'%>
+  <%= f.password_field :password, :class=>"textvalue"%>
+ </div>
+
+ <div class="field">
+   <label class="title">&nbsp;</label>
+  <%# if devise_mapping.rememberable? -%>
+   <%= f.check_box :remember_me %> <%= f.label :remember_me, '记住我' %>
+  <%# end -%>
+ </div>
+  <div class="field">
+    <label class="title">&nbsp;</label>
+    <%= submit_button f, "login_form", "登录"%>
+    <%= styled_button "立即注册", new_user_registration_path %>
+  <%#= f.submit "登录" %>
+  </div>
+</fieldset>
+<% end %>

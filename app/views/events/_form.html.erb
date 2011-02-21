@@ -1,0 +1,69 @@
+  <%= form_for(@event, :html => {:id => "event_form"}) do |f| %>
+    <% if @event.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= I18n.t 'activerecord.errors.template.header', :count => @event.errors.count %></h2>
+
+        <ul>
+          <% @event.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div id="event_details">
+      <fieldset>
+        <div class="field">
+          <%= f.label :name, :class=>"title" %>
+          <%= f.text_field :name, :class=>"textvalue" %>
+        </div>
+        <div class="field">
+          <%= f.label :begin, :class=>"title"  %>
+          <%= f.calendar_date_select :begin, :class=>"textvalue"%>
+        </div>
+        <div class="field">
+          <%= f.label :end, :class=>"title"%>
+          <%= f.calendar_date_select :end, :class=>"textvalue" %>
+        </div>
+        <div class="field">
+          <label class="title">重复</label>
+          <%= frequency_radio_buttons f %>
+        </div>
+
+        <div id="repeat_options" style="display:none">
+          <fieldset>
+            <div class="field">
+              <div id="repeat_legend" style="display:none"></div>
+                <%= f.label :rrule_interval, "每隔", :class=>"title" %>
+                <%= f.number_field :rrule_interval, :min => 1, :maxlength => 3 %>
+                <span id="interval_suffix">天</span>
+            </div>
+            <div id="rrule_days_panel" class="field" style="display:none">
+              <label class="title">重复于</label><%= days_check_boxes f %>
+            </div>
+            <div id="rrule_end_panel" class="field">
+              <label class="title">重复终止于</label>
+              <%= f.number_field :rrule_count, :min => 1, :maxlength => 3 %> 事件之后
+              <%#TODO: repeat_until (how to assign this value to Recurrence??; TODO: never?%>
+            </div>
+          </fieldset>
+        </div>
+        <%= javascript_tag "show_repeat_options(\"#{@event.rrule_frequency}\");" %>
+
+        <div class="field">
+          <%= f.label :location, :class=>"title"  %>
+          <%= f.text_field :location, :class=>"textvalue" %>
+        </div>
+        <div class="field">
+          <%= f.label :extra_info, :class=>"title"  %>
+          <%= f.text_area :extra_info %>
+        </div>
+      </fieldset>
+    </div>
+    <div class="field">
+      <label class="title">&nbsp;</label>
+      <%= submit_button f, "event_form", "提交" %>
+      <%= styled_button "取消", :back %>
+    </div>
+
+  <% end %>
