@@ -6,6 +6,17 @@
   week_str = "，#{week_str}" unless week_str.blank?
 %>
 <div id="current_time">现在是<%= l Time.now, :format => :long %><%=week_str%>。</div>
+
+<% if @not_confirmed %>
+<div>
+  <span class="stressed">注意！</span>
+    系统未能验证你的学号，请立即
+    <strong><%= link_to "重新验证", @auth_path%></strong><br/>
+    如果学号未通过验证，系统将无法导入你的课表，并且其它用户可以在注册时<strong>覆盖该学号，从而导致你的</strong>
+    <span class="stressed">同享日程账户丢失！</span>
+</div>
+<% end %>
+
 <%#*<div id="share_notice">%>
   <%#*<span>个被邀请的活动</span>%>
   <%#*<span><个被推荐的活动</span>%>

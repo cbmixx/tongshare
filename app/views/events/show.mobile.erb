@@ -21,3 +21,15 @@
 
 
 <p><%= @event.extra_info %></p>
+
+<hr/>
+
+<% if !(attendees = get_attendees(@event)).empty? %>
+<p>活动参与者：<br/>
+  <ul>
+    <% attendees.each do |att| %>
+      <li><%=att%></li>
+    <% end %>
+  </ul>
+</p>
+<% end %>

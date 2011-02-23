@@ -1,3 +1,4 @@
+# encoding: UTF-8
 #this will destroy old uid = 1 and create a new one
 class AddUid1AndConfirmedToUser < ActiveRecord::Migration
   def self.up

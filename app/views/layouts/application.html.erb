@@ -51,9 +51,9 @@
                   <li>
                     <%= link_to "新建日程", new_event_path%>
                   </li>
-                  <li><a href="#">个人信息</a></li>
-                  <li><a href="#">日历同步</a></li>
-                  <li><a href="#">群组管理</a></li>
+                  <%#*<li><a href="#">个人信息</a></li>%>
+                  <%#*<li><a href="#">日历同步</a></li>%>
+                  <%#*<li><a href="#">群组管理</a></li>%>
                   </li>
                   <% else %>
                   <li>
@@ -73,7 +73,7 @@
               <% if alert %>
                 <div id="alert"><%= alert %></div>
               <% end %>
-              <% if notice %>
+              <% if notice%>
                 <div id="notice"><%= notice %></div>
               <% end %>
             </div>
@@ -94,6 +94,12 @@
         <!-- footer -->
         <footer>
           <div class="inside">
+            BRAVURA | 华彩 出品<br/><br/>
+            <div id="acknowledge">致谢：清华大学计算机系软件所、高性能所、ACM/ICPC实验室<br/>
+            清华大学信研院CPU中心、网络安全实验室<br/>
+            清华大学计算机系团委、科协、学生会
+            </div>
+            <br/>
             <a href="http://www.templatemonster.com" class="new_window">Website template</a> designed by TemplateMonster.com
           </div>
         </footer>

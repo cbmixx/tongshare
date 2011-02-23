@@ -26,7 +26,7 @@ set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
 
 namespace :deploy do
   task :start, :roles => :app, :except => { :no_release => true } do
-    run "cd #{current_path} && bundle install && rake db:migrate RAILS_ENV=production && #{try_sudo} #{unicorn_binary} -c#{unicorn_config} -E #{rails_env} -D"
+    run "cd #{current_path} && bundle install && rake db:migrate RAILS_ENV=production && ln -s /var/www/tongshare/shared/environments/production.rb #{current_path}/config/environments/production.rb && ln -s /var/www/tongshare/shared/public/javascripts/translations.js #{current_path}/public/javascripts/translations.js && #{try_sudo} #{unicorn_binary} -c#{unicorn_config} -E #{rails_env} -D"
   end
   
   task :stop, :roles => :app, :except => { :no_release => true } do 

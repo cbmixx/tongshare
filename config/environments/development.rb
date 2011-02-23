@@ -42,5 +42,6 @@ Tongshare::Application.configure do
   config.time_zone = 'Beijing'
 
   AUTH_SERVER_PATH = "http://localhost:3001/thuauth/auth_with_xls_and_get_name/"
+  SECRET = "this is a secret"
 end
 

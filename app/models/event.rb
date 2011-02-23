@@ -3,10 +3,18 @@ require 'gcal4ruby'
 class Event < ActiveRecord::Base
 
   MAX_INSTANCE_COUNT = 64
+  SECONDS_OF_A_DAY = 24 * 60 * 60
+
+  RRULE_END_BY_NEVER = 0  #won't store into database, currently not supported
+  RRULE_END_BY_COUNT = 1  #won't store into database
+  RRULE_END_BY_DATE = 2   #won't store into database
+
+  
+
   # In order to make Event.new(:creator_id => creator_id) work, attr_accessible :creator_id
   # seems to be necessary!
   attr_accessible :name, :begin, :end, :location, :extra_info, :rrule, :creator_id
-  attr_accessible :rrule_interval, :rrule_frequency, :rrule_days, :rrule_count
+  attr_accessible :rrule_interval, :rrule_frequency, :rrule_days, :rrule_count, :rrule_repeat_until
 
   belongs_to :creator, :class_name => "User"
   has_many :acceptances, :foreign_key => "event_id", :dependent => :destroy
@@ -33,6 +41,16 @@ class Event < ActiveRecord::Base
     else
       self.rrule_days = []
     end
+
+    #check repeat_end_condition
+    if self.rrule_end_condition == RRULE_END_BY_NEVER || self.rrule_end_condition == RRULE_END_BY_COUNT
+      self.recurrence.repeat_until = nil
+    end
+
+    if self.rrule_end_condition == RRULE_END_BY_NEVER || self.rrule_end_condition == RRULE_END_BY_DATE
+      self.recurrence.count = nil
+    end
+    ##
 
     self.rrule = self.recurrence.rrule
     logger.debug self.rrule.to_yaml
@@ -151,11 +169,38 @@ class Event < ActiveRecord::Base
   end
 
   def rrule_count
-    self.recurrence.count || 1
+    self.recurrence.count
   end
 
   def rrule_count=(count)
     self.recurrence.count = count.to_i
+  end
+
+  def rrule_repeat_until
+    self.recurrence.repeat_until
+  end
+
+  def rrule_repeat_until=(date)
+    self.recurrence.repeat_until=(date)
+  end
+
+  def rrule_end_condition
+    if !defined? @rrule_end_condition
+      if self.recurrence.count.nil? && self.recurrence.repeat_until.nil?
+        RRULE_END_BY_NEVER
+      elsif !self.recurrence.repeat_until.nil?
+        RRULE_END_BY_DATE
+      else
+        RRULE_END_BY_COUNT
+      end
+    else
+      @rrule_end_condition
+    end
+  end
+
+  def rrule_end_condition=(cond)
+    @rrule_end_condition=cond
+    #will check consistency in "save"
   end
 
   def recurring?
@@ -186,28 +231,31 @@ class Event < ActiveRecord::Base
       #i.save
     else
       #rec = GCal4Ruby::Recurrence.new
-      #rec.from_rrule(self.rrule) # rec.load('RRULE:' + self.rrule) will encounter bug since self.rrule may begin with 'RRULE:'
-      
+      #rec.from_rrule(self.rrule) # rec.load('RRULE:' + self.rrule) will encounter bug since self.rrule may begin with 'RRULE:'      
       #modified by Wander
       rec = self.recurrence
       interval = self.rrule_interval
+      count = 0
       if rec.frequency == 'DAILY'
-        return false if rec.count > MAX_INSTANCE_COUNT
-        for j in 0..(rec.count - 1)
-            self.instances.build(
-              :name => self.name,
-              :location => self.location,
-              :extra_info => self.extra_info,
-              :begin => self.begin + (j * interval).day,
-              :end => self.end + (j * interval).day,
-              :override => false,
-              :index => j,
-              :creator_id => self.creator_id
-            )          
+        while 1
+          self.instances.build(
+            :name => self.name,
+            :location => self.location,
+            :extra_info => self.extra_info,
+            :begin => self.begin + count * interval * SECONDS_OF_A_DAY,
+            :end => self.end + count * interval * SECONDS_OF_A_DAY,
+            :override => false,
+            :index => count,
+            :creator_id => self.creator_id
+          )
+          count += 1
+          break if !rec.count.nil? and count >= rec.count
+          break if !rec.repeat_until.nil? and self.begin + count * interval * SECONDS_OF_A_DAY > rec.repeat_until
+          return false if count > MAX_INSTANCE_COUNT
         end
+        
       elsif rec.frequency == 'WEEKLY'
         now = self.begin
-        count = 0
         interval = 0
         interval = rec.interval - 1 if rec.interval > 1
         while 1
@@ -225,25 +273,18 @@ class Event < ActiveRecord::Base
             )
             #i.save
             count += 1
-          end
-          now += 3600 * 24 # now += 1.day seems to be too slow in 1.8.7
-          if now.wday == 0 # now.sunday? is too new for ruby1.8.7
-            now += (interval * 7).day
-          end
-
-          if count >= MAX_INSTANCE_COUNT
-            return false
-          end
-
-          if rec.count and count >= rec.count.to_i
-            break
-          end
+          end         
+          break if !rec.count.nil? and count >= rec.count
+          break if !rec.repeat_until.nil? and now > rec.repeat_until
+          return false if count > MAX_INSTANCE_COUNT
           
-          if rec.repeat_until and now >= rec.repeat_until
-            break
+          now += SECONDS_OF_A_DAY # now += 1.day seems to be too slow in 1.8.7
+          if now.wday == 0 # now.sunday? is too new for ruby1.8.7
+            now += interval * 7 * SECONDS_OF_A_DAY
           end
+
         end
-        logger.debug 'instance generated:' + self.instances.size.to_s
+        
       elsif rec.frequency == 'MONTHLY'
         #TODO
       elsif rec.frequency == 'YEARLY'
@@ -251,7 +292,9 @@ class Event < ActiveRecord::Base
       else
         logger.debug "#{__method__}:unknown frequency: #{rec.frequency}"
       end
+      logger.debug "#{__method__}:instance generated:" + self.instances.size.to_s
     end
+    
     true
   end
   

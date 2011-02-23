@@ -219,12 +219,14 @@ module GCal4Ruby
           @repeat_until = @start_time + delta
         else
           #TODO offset?
-          @repeat_until = r.to_time
+          @repeat_until = r.to_time.localtime + (24 * 60 * 60 - 1) #1s before the next day
         end
       elsif r.is_a?(Time)
         @repeat_until = r
+      elsif r.nil?  #add by Wander
+        @repeat_until = nil
       else
-        raise RecurrenceValueError, "Repeat_until must be a date or a time"
+        raise RecurrenceValueError, "Repeat_until must be a date or a time or nil"
       end
     end
 
@@ -247,6 +249,16 @@ module GCal4Ruby
         raise RecurrenceValueError, "Interval must be a Integer and greater than 1"
       end
 
+    end
+
+    def count=(i)
+      if i.is_a?(Integer)
+        @count = i
+      elsif i.nil?
+        @count = nil
+      else
+        raise RecurrenceValueError, "Count must be a Integer or nil"
+      end
     end
 
     # days must be an array of Integers

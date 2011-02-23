@@ -2,40 +2,19 @@
 
 <%= devise_error_messages_translated! %>
 
-<table>
-  <tr>
-    <td>
-      <%= label_for_login :employee_no%>
-    </td>
-    <td>
-      <%= text_field_for_login :employee_no%>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <label for="infopass">清华大学Info密码</label>
-    </td>
-    <td>
-      <%= password_field_tag "infopass", nil%>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <%= f.label :password, '“同享日程”密码'%>
-    </td>
-    <td>
-      <%= f.password_field :password%>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <%= f.label :password_confirmation, '确认密码', :class=>"title"  %>
-    </td>
-    <td>
-      <%= f.password_field :password_confirmation, :class=>"textvalue" %>
-    </td>
-  </tr>
-</table>
+<%= label_for_login :employee_no%><br/>
+<%= text_field_for_login :employee_no%><br/>
+
+<%= f.label :password, '“同享日程”密码'%><br/>
+<%= f.password_field :password, :size => nil%><br/>
+
+<%= f.label :password_confirmation, '确认密码', :class=>"title"  %><br/>
+<%= f.password_field :password_confirmation, :class=>"textvalue", :size => nil %><br/>
+
+<label for="infopass">清华大学Info密码</label><br/>
+<%= password_field_tag "infopass", nil%><br/>
+
+<p>我们根据您的学号和Info密码来确认您的身份并自动获取您的课表信息。“同享日程”不会保存您的Info密码，也不会读取或保存除学号和课表以外的任何个人信息。</p>
 
 <%= f.submit "注册"%>
 

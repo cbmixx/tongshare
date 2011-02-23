@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  time: 2011-02-23 22:09:19
+  method_type: 1
+  instance_id: 1
+
+two:
+  time: 2011-02-23 22:09:19
+  method_type: 1
+  instance_id: 1

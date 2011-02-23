@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # Type should be in {"employee_no", "mobile", "email"}
 class UserIdentifier < ActiveRecord::Base
   extend UsersHelper

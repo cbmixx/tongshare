@@ -59,19 +59,29 @@ root {
 }
 
 .noticebar {
- 
+    margin-left: 50px;
 }
 
 .noticebar #alert {
+    margin-bottom: 15px;
+    color: #FF5811;
+    font-weight: bold;
+}
 
+.noticebar #alert:before {
+    content: "\2717";
 }
 
 .noticebar #notice {
-
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
+.noticebar #notice:before {
+    content: "\2714";
+}
 
-.login_small {clear:right;width:100%;overflow:hidde}
+.login_small {clear:right;width:100%;overflow:hidden}
 .login_small fieldset {border:none;float:left;}
 .login_small .field {clear:both;min-height:30px;height:auto !important;height:30px}
 .login_small .field .title {font-weight:bold; width:auto;margin-bottom:3px;}
@@ -116,4 +126,20 @@ root {
 .stressed {
     font-weight: bold;
     color: #F85811;
+}
+
+#acknowledge {
+    text-indent: -3em;
+    position: relative;
+    text-align: left;
+    width: 330px;
+    margin: 0 auto;
+}
+
+.hanging:before{
+    width: 3em;
+    text-align: right;
+    display: block;
+    float: left;
+    position: relative;
 }

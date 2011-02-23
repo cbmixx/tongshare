@@ -29,7 +29,7 @@ module AuthHelper
 
   def auth_path_with_password(username, password, redirect_to)
     result = AUTH_SERVER_PATH + "?username=#{URI.escape(username)}&redirect_to=#{URI.escape(redirect_to)}"
-    e = encrypt(password, AuthController::SECRET)
+    e = encrypt(password, SECRET)
     result << "&aes=#{URI.escape(e)}"
   end
 end

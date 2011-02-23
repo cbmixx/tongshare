@@ -1,3 +1,6 @@
+# encoding: UTF-8
+$KCODE = "UTF-8"
+
 # Load the rails application
 require File.expand_path('../application', __FILE__)
 
@@ -14,3 +17,4 @@ CalendarDateSelect::FORMATS[:chinese] = {
   :javascript_include => "format_chinese"
 }
 CalendarDateSelect.format = :iso_date
+

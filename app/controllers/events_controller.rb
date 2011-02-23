@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
   include EventsHelper
+  include UsersHelper
+  include AuthHelper
 
   before_filter :authenticate_user!
 
@@ -23,7 +25,7 @@ class EventsController < ApplicationController
         when :day
           from = Date.today + offset.days
           to = Date.today + offset.days + 1.days
-        when :week:
+        when :week
           from = Date.today.beginning_of_week + offset.weeks
           to = Date.today.beginning_of_week + offset.weeks + 1.weeks
       end
@@ -36,6 +38,16 @@ class EventsController < ApplicationController
       @instances = query_all_accepted_instance_includes_event(from.to_time, to.to_time)
     end
 
+    #check confirmation for employee_no
+    user_id_rec = current_user.user_identifier.find(:first,
+      :conditions => ["login_type = ?", UserIdentifier::TYPE_EMPLOYEE_NO])
+
+    if !user_id_rec.nil? && !user_id_rec.confirmed
+      @not_confirmed = true
+      username = user_id_rec.login_value
+      username = username.delete(company_domain(current_user) + ".")
+      @auth_path = auth_path(username, root_url)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -71,7 +83,7 @@ class EventsController < ApplicationController
         @event.begin = Time.now
     when :day
         @event.begin = Time.now + offset.days
-    when :week:
+    when :week
         @event.begin = Time.now + offset.weeks
     end
 

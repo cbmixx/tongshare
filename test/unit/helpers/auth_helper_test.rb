@@ -2,9 +2,9 @@ require 'test_helper'
 
 class AuthHelperTest < ActionView::TestCase
   test "encrypt-decrypte" do
-    e = encrypt("Topsecret", AuthController::SECRET)
+    e = encrypt("Topsecret", SECRET)
     pp e
-    d = decrypt(e, AuthController::SECRET)
+    d = decrypt(e, SECRET)
     assert d == "Topsecret"
   end
 
