@@ -58,8 +58,12 @@ include AuthHelper
       original_redirect = root_url
 
       #devise will do the redirect to session[:user_return_to]
-      session[:user_return_to] = auth_path_with_password(params[:employee_no], params[:infopass], original_redirect)
-      
+      if !params[:infopass].blank?
+        session[:user_return_to] = auth_path_with_password(params[:employee_no], params[:infopass], original_redirect)
+      else
+        session[:user_return_to] = auth_path(params[:employee_no], original_redirect)
+      end
+
       sign_in_and_redirect(resource_name, resource)
       #redirect_to auth_path_with_password(params[:employee_no], params[:infopass], original_redirect)
     else

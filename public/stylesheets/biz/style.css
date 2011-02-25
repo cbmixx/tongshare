@@ -34,7 +34,7 @@ fieldset {border:0}
 .news li {line-height:1.538em;padding-top:20px}
 .news li strong {display:block;padding-bottom:6px}
 .recent {margin-bottom:-20px}
-.recent li {width:100%;clear:left;vertical-align:top;line-height:1.538em;padding-bottom:20px} 
+.recent li {width:100%;clear:left;vertical-align:top;line-height:1.538em;padding-bottom:20px}
 .recent li img {float:left}
 .recent li strong {display:block;padding-bottom:6px}
 .recent li.alt {padding-bottom:0}

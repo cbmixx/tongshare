@@ -1,8 +1,8 @@
 zh-CN:
   tongshare:
     event:
-      created: "日程\"%{name}\"创建成功"
-      updated: "日程\"%{name}\"修改成功"
+      created: "活动\"%{name}\"创建成功"
+      updated: "活动\"%{name}\"修改成功"
       recurrence:
         none: "不重复"
         weekly: "按周重复"

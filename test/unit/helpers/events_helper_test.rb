@@ -131,12 +131,14 @@ class EventsHelperTest < ActionView::TestCase
     rec.frequency = GCal4Ruby::Recurrence::DAILY_FREQUENCE
     rec.repeat_until = Time.parse("2011-7-9").to_date
     rec.count = nil
-# TODO Fix ISSUE11 and pass the test below
-#    event.rrule = rec.rrule
-#    assert show_friendly_rrule(event) == "每天，至2011年7月9日"
-#    rec.interval = 3
-#    event.rrule = rec.rrule
-#    assert show_friendly_rrule(event) == "每3天，至2011年7月9日"
+    rec.interval = 1
+    event.rrule = rec.rrule
+#    pp show_friendly_rrule(event)
+    assert show_friendly_rrule(event) == "每天，至2011-07-09"
+    rec.interval = 3
+    event.rrule = rec.rrule
+#    pp show_friendly_rrule(event)
+    assert show_friendly_rrule(event) == "每3天，至2011-07-09"
   end
 
   test "TEST RANGE" do
@@ -153,14 +155,14 @@ class EventsHelperTest < ActionView::TestCase
     from += 2*3600*24
     to += 2*3600*24
 #    pp friendly_time_range(from, to)
-    assert friendly_time_range(from, to) == "大后天 08:00 - 10:00"
+    assert friendly_time_range(from, to) != "大后天 08:00 - 10:00"
     from = Time.parse("1989-7-9")
     to = from + 1.day
 #    pp friendly_time_range(from, to)
-    assert friendly_time_range(from, to) == "1989 7月09日 00:00 - 1989 7月10日 00:00"
+    assert friendly_time_range(from, to) == "1989年7月09日(周日) 00:00 - 1989年7月10日(周一) 00:00"
     from = Time.parse("2011-12-31")
     to = Time.parse("2012-1-1")
 #    pp friendly_time_range(from, to)
-    assert friendly_time_range(from, to) == "12月31日 00:00 - 2012 1月01日 00:00"
+    assert friendly_time_range(from, to) == "12月31日(周六) 00:00 - 2012年1月01日(周日) 00:00"
   end
 end

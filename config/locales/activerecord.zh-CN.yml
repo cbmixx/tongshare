@@ -20,6 +20,10 @@ zh-CN:
         event:
           attributes:
             rrule_count:
+              too_much: "过多，目前最多仅允许%{max_count}次重复"
+            rrule_repeat_until:
+              too_late: "太晚。目前每个事件仅允许最多%{max_count}次重复"
+
 
       #messages:
       #  invalid: "格式不正确"
@@ -29,7 +33,7 @@ zh-CN:
 
     models:
       user: "用户"
-      event: "日程"
+      event: "活动"
 
     attributes:
       user:
@@ -44,10 +48,11 @@ zh-CN:
         email: "电子邮件"
 
       event:
-        name: "日程标题"
+        name: "活动标题"
         begin: "开始于"
         end: "结束于"
         location: "地点"
         extra_info: "描述"
         rrule_count: "重复次数"
+        rrule_repeat_until: "重复终止日期"
 

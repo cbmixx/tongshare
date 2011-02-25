@@ -17,7 +17,7 @@ OPTIONS
 %>
     <%#= select_tag "login_type", options.html_safe, :class => "textvalue"   #seems a bug in rails 3.0, escape < as &lt;. .html_safe goes around it.
     %>
-    
+
   <%# else %>
   <%#*<label class="title">登录名：</label>%>
     <%#= login_type_selector UserIdentifier::TYPE_EMPLOYEE_NO, true %>

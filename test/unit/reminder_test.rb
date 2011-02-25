@@ -1,8 +1,23 @@
 require 'test_helper'
 
 class ReminderTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  fixtures :events
+  setup do
+    Instance.delete_all
+    Reminder.delete_all
+    ReminderQueue.delete_all
+  end
+
+  test "basic test" do
+    e = events(:one_instance)
+    e.add_reminder(1, Reminder::TIME_DAY, Reminder::METHOD_EMAIL)
+    e.save
+    assert e.reminders.first.reminder_queues.size == 0
+    e.begin = Time.now + 2.day
+    e.save
+    assert e.reminders.first.reminder_queues.size == 1
+    e.begin = Time.parse("2011-01-01")
+    e.save
+    assert e.reminders.first.reminder_queues.size == 0
   end
 end

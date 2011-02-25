@@ -46,16 +46,16 @@
                 <label class="title">重复结束条件</label>
                 <%= f.radio_button :rrule_end_condition, Event::RRULE_END_BY_COUNT %>
                 <%= label_tag "event_rrule_end_condition_#{Event::RRULE_END_BY_COUNT}", "重复次数：" %>
-                <%= f.number_field :rrule_count, :min => 1, :maxlength => 3,
+                <%= f.number_field :rrule_count, :min => 1, :max => Event::MAX_INSTANCE_COUNT, :maxlength => 3,
                       :onclick => "$('event_rrule_end_condition_#{Event::RRULE_END_BY_COUNT}').checked = true" %> 次
               </div><br/>
-              <%#*<div>%>
-                <%#*<label class="title">&nbsp;&nbsp;</label>%>
-                <%#= f.radio_button :rrule_end_condition, Event::RRULE_END_BY_DATE%>
-                <%#= label_tag "event_rrule_end_condition_#{Event::RRULE_END_BY_DATE}", "终止日期：" %>
-                <%#= f.calendar_date_select :repeat_until, :class=>"datevalue", :time => false,
+              <div>
+                <label class="title">&nbsp;&nbsp;</label>
+                <%= f.radio_button :rrule_end_condition, Event::RRULE_END_BY_DATE%>
+                <%= label_tag "event_rrule_end_condition_#{Event::RRULE_END_BY_DATE}", "终止日期：" %>
+                <%= f.calendar_date_select :rrule_repeat_until, :class=>"datevalue", :time => false,
                             :onchange => "$('event_rrule_end_condition_#{Event::RRULE_END_BY_DATE}').checked = true"%>
-              <%#*</div>%>
+              </div>
 
             </div>
           </fieldset>

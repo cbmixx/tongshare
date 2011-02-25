@@ -15,10 +15,13 @@
   <% if notice %>
     <p><%= notice %></p>
   <% end %>
+  <% if flash[:bookmark_notice] %>
+    <p><%= flash[:bookmark_notice] %></p>
+  <% end %>
   <%= yield %>
   <p>
     
-      <%=link_to "首页", :controller => "events", :range => :next, :offset => 0 %>
+      <%=link_to "首页", :controller => "events", :range => :next %>
     <% if user_signed_in? %>
       <%=link_to "注销", destroy_user_session_path %>
     <% end %>

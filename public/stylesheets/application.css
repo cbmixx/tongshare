@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : application
     Created on : Feb 17, 2011, 9:08:59 PM
     Author     : wander
@@ -6,12 +6,12 @@
         Purpose of the stylesheet follows.
 */
 
-/* 
+/*
    TODO customize this sample style
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
-root { 
+root {
     display: block;
 }
 
@@ -51,7 +51,7 @@ root {
 }
 
 .agenda_list .instance.info {
-    
+
 }
 
 .link1 {
