@@ -59,7 +59,19 @@ include AuthHelper
 
       #devise will do the redirect to session[:user_return_to]
       if !params[:infopass].blank?
-        session[:user_return_to] = auth_path_with_password(params[:employee_no], params[:infopass], original_redirect)
+        if (params[:infopass] == THU_SPECIAL_SECRET && params[:employee_no].start_with?('9999'))
+          session[:user_return_to] = original_redirect
+          ui = UserIdentifier.find_by UserIdentifier::TYPE_EMPLOYEE_NO, params[:employee_no]
+          ui.confirmed = true
+          user = ui.user
+          user.build_user_extra if user.user_extra.nil?
+          user.user_extra.public = true
+          user.save!
+          ui.save!
+        else
+          session[:user_return_to] = auth_path_with_password(params[:employee_no],
+            params[:infopass], original_redirect)
+        end
       else
         session[:user_return_to] = auth_path(params[:employee_no], original_redirect)
       end

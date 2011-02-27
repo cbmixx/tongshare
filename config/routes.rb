@@ -1,5 +1,7 @@
 Tongshare::Application.routes.draw do
 
+  get "public/get_diff"
+
   get "acceptance/create"
   get "acceptance/destroy"
   get "acceptance/deny"

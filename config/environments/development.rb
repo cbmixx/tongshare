@@ -43,5 +43,7 @@ Tongshare::Application.configure do
 
   AUTH_SERVER_PATH = "http://localhost:3001/thuauth/auth_with_xls_and_get_name/"
   SECRET = "this is a secret"
+
+  THU_SPECIAL_SECRET = "I am special" # for special user registration (e.g. Association, Centenary)
 end
 
