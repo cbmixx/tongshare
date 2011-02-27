@@ -1,1 +1,6 @@
 <%= image_tag "slides_home/poster.png" %>
+
+<% content_for :aside do %>
+  <h2>登录</h2>
+  <%= render(:partial => "sessions_extended/login_form", :locals => {:small => true})%>
+<% end %>
