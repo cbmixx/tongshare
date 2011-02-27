@@ -165,4 +165,21 @@ class EventsHelperTest < ActionView::TestCase
 #    pp friendly_time_range(from, to)
     assert friendly_time_range(from, to) == "12月31日(周六) 00:00 - 2012年1月01日(周日) 00:00"
   end
+
+  test "test with xls2events" do
+    data = IO.read("test/fixtures/lc.xls")
+    xls2events(data, 1234) #just a invalid user
+    query = Acceptance.where(:user_id => 1234)
+    assert query.size == 14
+    data = IO.read("test/fixtures/ly.xls")
+    xls2events(data, 1234)
+    query = Acceptance.where(:user_id => 1234)
+    assert query.size == 16
+    data = IO.read("test/fixtures/lc.xls")
+    xls2events(data, 1234) #just a invalid user
+    query = Acceptance.where(:user_id => 1234)
+    assert query.size == 14
+
+  end
+
 end
