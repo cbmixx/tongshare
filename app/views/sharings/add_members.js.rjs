@@ -1,2 +1,2 @@
-# TODO Operate on the page object
-page << "alert('test');"
+page << "data = #{@json};"
+page << "add_members(#{@json});"

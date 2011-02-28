@@ -31,6 +31,9 @@
     <%= stylesheet_link_tag "scaffold" %>
     <%= stylesheet_link_tag "application" %>
 
+    <%= yield :js_ext %>
+    <%= yield :css_ext %>
+    <%= yield :meta_ext %>
   </head>
 
   <body id="page1" onLoad="new ElementMaxHeight();">

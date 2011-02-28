@@ -1,5 +1,5 @@
 class SharingsController < ApplicationController
-
+  include SharingsHelper
   before_filter :authenticate_user!
 
   def index
@@ -16,7 +16,27 @@ class SharingsController < ApplicationController
   end
 
   def add_members
-    logger.debug params[:raw_string]
+    result = {:valid => [], :dummy => [], :invalid => [], :parse_errored => []}
+
+    items = parse_sharings_raw(params[:raw_string])
+    for item in items
+      if item[:type].nil?
+        result[:parse_errored] << item[:login_value]
+        next
+      end
+
+      ui = UserIdentifier.find_by(item[:type], item[:login_value])
+      if !ui.nil?
+        result[:valid] << {:id => ui.user_id, :name => item[:login_value]}  #do not expose user_friendly_name or attackers can enumerate 学号/姓名 pair by add sharings.
+      elsif item[:type] == UserIdentifier::TYPE_EMPLOYEE_NO
+        result[:dummy] << item[:login_value]
+      else
+        result[:invalid] << item[:login_value]
+      end
+    end
+
+    @json = result.to_json
+
     respond_to do |format|
       format.js
     end

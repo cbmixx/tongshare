@@ -1,3 +1,16 @@
+<% content_for :js_ext do %>
+  <%= javascript_include_tag "sharing.js" %>
+<% end %>
+
+<%= form_tag url_for(:action => "add_members"), :id => "add_members_form", :remote => true do %>
+  <div>粘贴或填写被邀请者的学号或电子邮件地址，使用逗号、分号、空格、制表符或换行符分割</div>
+  <%= text_area_tag "raw_string"%>
+  <br/>
+  <%= submit_tag "添加"%>
+<% end %>
+
+  <hr/>
+
 <%= form_for(@sharing) do |f| %>
   <% if @sharing.errors.any? %>
     <div id="error_explanation">
@@ -10,11 +23,27 @@
       </ul>
     </div>
   <% end %>
-  <%= f.submit "提交" %>
-<% end %>
 
-<%= form_tag url_for(:action => "add_members"), :id => "add_members_form", :remote => true do %>
-  <div>粘贴或填写被邀请者的学号或电子邮件地址，使用逗号、分号、空格、制表符或换行符分割</div>
-  <%= text_area_tag "raw_string"%>
-  <p><%= button_to "添加", {:action => "add_members"}, {:remote => true}%></p>
+  <div id="new_members_container">
+    <ul id="new_members">
+    </ul>
+  </div>
+
+  <div id="errors_container">
+    <div id="errors_dummy_container" style="display:none">
+      以下用户没有注册或者没有通过身份验证，他们将在注册或验证完成后收到您的活动分享：
+      <ul id="errors_dummy"></ul>
+    </div>
+    <div id="errors_invalid_container" style="display:none">
+      以下用户没有注册且无法获取其学号，因此无法收到活动分享：
+      <ul id="errors_invalid"></ul>
+    </div>
+    <div id="errors_parse_errored_container" style="display:none">
+      无法解析以下字串：
+      <ul id="errors_parse_errored"></ul>
+    </div>
+  </div>
+ 
+
+  <%= f.submit "提交" %>
 <% end %>
