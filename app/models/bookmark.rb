@@ -1,4 +1,6 @@
 class Bookmark < ActiveRecord::Base
+  belongs_to :user
+
   attr_accessible :user_id, :mark, :count
 
   MAX_BOOKMARKS_PER_USER = 64

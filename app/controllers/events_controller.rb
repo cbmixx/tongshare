@@ -42,8 +42,8 @@ class EventsController < ApplicationController
     user_id_rec = current_user.user_identifier.find(:first,
       :conditions => ["login_type = ?", UserIdentifier::TYPE_EMPLOYEE_NO])
 
-    if !user_id_rec.nil? && !user_id_rec.confirmed
-      @not_confirmed = true
+    if !user_id_rec.nil?
+      @not_confirmed = !user_id_rec.confirmed
       username = user_id_rec.login_value
       username = username.delete(company_domain(current_user) + ".")
       @auth_path = auth_path(username, root_url)

@@ -71,6 +71,12 @@
     <% end %>
     <br/>
     <%= styled_button '新建活动', new_event_path(:offset => params[:offset], :range => params[:range])%>
+
+    <br/>
+    <% if !@not_confirmed %>
+      <div><%=  link_to "重新导入课表", @auth_path %></div>
+    <% end %>
+
   <%end%>
 </div>
 

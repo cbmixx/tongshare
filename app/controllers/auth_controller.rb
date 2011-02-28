@@ -42,10 +42,6 @@ class AuthController < ApplicationController
 
     ui = UserIdentifier.find_by UserIdentifier::TYPE_EMPLOYEE_NO, username
     if !ui.nil?
-      #add confirmation
-      ui.confirmed = true
-      ui.save!
-
       #add name
       user = ui.user
       user.build_user_extra if user.user_extra.nil?
@@ -53,6 +49,10 @@ class AuthController < ApplicationController
       user.save!
 
       xls2events data, user.id
+
+      #add confirmation
+      ui.confirmed = true
+      ui.save!
     end
 
     respond_to do |format|

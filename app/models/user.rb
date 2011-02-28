@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
   has_many :acceptance, :dependent => :destroy
   has_many :sharing, :foreign_key => "shared_from", :dependent => :destroy
   has_many :user_sharing, :dependent => :destroy
+  has_many :bookmark, :dependent => :destroy
 
   has_one :user_extra, :dependent => :destroy
   has_one :admin_extra, :dependent => :destroy

@@ -19,7 +19,8 @@ class CourseClass
   VALID_SECOND_ROW = ",星期一,星期二,星期三,星期四,星期五,星期六,星期日"
 
   COURSE_REGEX = /(.*)\((.*)\)/
-  SPECIAL_WEEK_MODIFIER_REGEX = /(\d)-(\d)周/
+  SPECIAL_WEEK_MODIFIER_REGEX = /(\d+)-(\d+)周/
+  SUPER_SPECIAL_WEEK_MODIFIER_REGEX = /第([\d,-]+)周+/
 
   attr_accessor :class_set
   attr_accessor :name
@@ -44,18 +45,36 @@ class CourseClass
       name = result[0];
       extra = result[1];
       course_class = CourseClass.new(class_set)
-      class_set << course_class
       course_class.name = name
       course_class.extra_info = extra
       options = extra.split("；")
       course_class.teacher = options.first
       course_class.location = options.last
       for i in 1...options.size-1
+        if (m = options[i].match SUPER_SPECIAL_WEEK_MODIFIER_REGEX)
+          week_specs = m[1].split(',')
+          course_class.week_modifier = options[i]
+          course_class.location = options.first
+          course_class.teacher = ""
+          course_class.day_time = day_time
+          course_class.week_day = week_day
+          for week_spec in week_specs
+            special_class = course_class.dup
+            if (week_spec.match /\d+-\d+/)
+              special_class.week_modifier = week_spec + "周"
+            else
+              special_class.week_modifier = week_spec + '-' + week_spec + "周"
+            end
+            class_set << special_class
+          end
+          return
+        end
         course_class.week_modifier = options[i] if VALID_WEEK_MODIFIERS.include? options[i]
         course_class.week_modifier = options[i] if options[i].match SPECIAL_WEEK_MODIFIER_REGEX
       end
       course_class.day_time = day_time
       course_class.week_day = week_day
+      class_set << course_class
     end
   end
 

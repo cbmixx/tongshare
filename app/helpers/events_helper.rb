@@ -13,6 +13,8 @@ module EventsHelper
   # Note! This day is Sunday instead of Monday(since Monday is +1)
   FIRST_DAY_IN_SEMESTER = "2011-2-20"
 
+  TIME_SPEC_REGEX = /时间(\d+:\d+)-(\d+:\d+)/
+
   def xls2events(data, user_id)
     #remove previous acceptances
     prev = Acceptance.joins(:event).where("events.creator_id = ? AND acceptances.user_id = ?", 1, user_id)
@@ -40,8 +42,14 @@ module EventsHelper
     week_day = course_class.week_day
     day_time = course_class.day_time-1 # from 1..6 to 0..5
     # Note that week_day = 7 for Sunday so first Sunday class will be 6 days after the first Monday
-    event.begin = Time.parse(FIRST_DAY_IN_SEMESTER + " " + COURSE_BEGINES[day_time]) + week_day.days
-    event.end = Time.parse(FIRST_DAY_IN_SEMESTER + " " + COURSE_ENDS[day_time]) + week_day.days
+    begin_time_string = COURSE_BEGINES[day_time]
+    end_time_string = COURSE_ENDS[day_time]
+    if (m = course_class.extra_info.match TIME_SPEC_REGEX)
+      begin_time_string = m[1]
+      end_time_string = m[2]
+    end
+    event.begin = Time.parse(FIRST_DAY_IN_SEMESTER + " " + begin_time_string) + week_day.days
+    event.end = Time.parse(FIRST_DAY_IN_SEMESTER + " " + end_time_string) + week_day.days
     rrule = GCal4Ruby::Recurrence.new
     rrule.frequency = GCal4Ruby::Recurrence::WEEKLY_FREQUENCE
     rrule.set_day(week_day)
