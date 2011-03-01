@@ -15,7 +15,7 @@ class InstanceTest < ActiveSupport::TestCase
   test "test for repeat_until" do
     e = Event.new
     e.name = "test for repeat_until"
-    e.rrule_repeat_until = Date.parse("2011-02-27")
+    e.rrule_repeat_until = "2011-02-27"
     #assert e.recurrence.repeat_until == Time.parse("2011-02-28") - 1
     e.begin = Time.parse("2011-02-23") + 3600
     e.end = Time.parse("2011-02-23") + 7200
@@ -31,7 +31,7 @@ class InstanceTest < ActiveSupport::TestCase
     e.creator_id = 1
     e.rrule_frequency= GCal4Ruby::Recurrence::WEEKLY_FREQUENCE
     e.rrule_days=[3]
-    e.rrule_repeat_until=Date.parse("2011-03-01")
+    e.rrule_repeat_until = "2011-03-01"
     e.save
     assert e.instances.size == 1
     
@@ -42,7 +42,7 @@ class InstanceTest < ActiveSupport::TestCase
     e.creator_id = 1
     e.rrule_frequency = GCal4Ruby::Recurrence::WEEKLY_FREQUENCE
     e.rrule_days=[3]
-    e.rrule_repeat_until = Date.parse("2011-03-02")
+    e.rrule_repeat_until = "2011-03-02"
     e.save
     assert e.instances.size == 2
   end

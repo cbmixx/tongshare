@@ -19,14 +19,15 @@ class Event < ActiveRecord::Base
   belongs_to :creator, :class_name => "User"
   has_many :acceptances, :foreign_key => "event_id", :dependent => :destroy
   has_many :sharings, :foreign_key => "event_id", :dependent => :destroy
-  has_many :reminders, :foreign_key => "event_id", :dependent => :destroy
   has_many :instances, :foreign_key => "event_id", :dependent => :destroy
+  has_many :reminders, :dependent => :destroy
 
   #TODO validates
   validates :name, :begin, :creator_id, :presence => true
   validates_numericality_of :rrule_count, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 1, :less_than_or_equal_to => MAX_INSTANCE_COUNT
   validates_inclusion_of :rrule_frequency, :in => GCal4Ruby::Recurrence::DUMMY_FREQS
-  
+
+  include SharingsHelper
   #
   #
 
@@ -96,15 +97,13 @@ class Event < ActiveRecord::Base
     # I think this won't work since sharing has no attr_accessor!
     s = self.sharings.new(:shared_from => current_user_id, :extra_info => extra_info)
     #ids = user_ids.split(%r{[,;]\s*}
-    uids = User.where(:id => user_ids)
+    nodup_user_ids = user_ids - find_duplicated_sharing(current_user_id, self.id, user_ids)
+    uids = User.where(:id => nodup_user_ids)
+    return true if uids.empty?
     uids.each do |id|
       s.add_user_sharing(id.id, user_priority)
     end
-    ret = s.save
-    # if !ret
-    #   return s.errors
-    # end
-    # ret
+    s.save
   end
 
   def query_instance(time_begin, time_end)
@@ -130,11 +129,12 @@ class Event < ActiveRecord::Base
   end
 
   def add_reminder(value, time_type = Reminder::TIME_DAY, method_type = Reminder::METHOD_EMAIL)
-    self.reminders.build(
+    r = self.reminders.new(
+      :method_type => method_type,
       :value => value,
-      :time_type => time_type,
-      :method_type => method_type
+      :time_type => time_type
     )
+    r.save
   end
 
   #virtual fields for recurrence logic

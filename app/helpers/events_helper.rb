@@ -213,6 +213,7 @@ module EventsHelper
       UserSharing.
         #select(SQLConstant::SELECT_EVENT). deleted by Wander
         joins(SQLConstant::JOINS_BASE).
+        includes(:sharing => :event).
         where(
           build_where(SQLConstant::WHERE_USER_ID, SQLConstant::WHERE_DECISION_UNDECIDED, SQLConstant::WHERE_PRIORITY),
           user_id,
@@ -221,6 +222,7 @@ module EventsHelper
       UserSharing.
         #select(SQLConstant::SELECT_EVENT). deleted by Wander
         joins(SQLConstant::JOINS_BASE).
+        includes(:sharing => :event).
         where(
           build_where(SQLConstant::WHERE_USER_ID, SQLConstant::WHERE_DECISION, SQLConstant::WHERE_PRIORITY),
           user_id,

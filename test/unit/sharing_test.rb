@@ -2,6 +2,7 @@ require 'test_helper'
 
 class SharingTest < ActiveSupport::TestCase
   include EventsHelper
+  include SharingsHelper
   fixtures :user_identifiers
   fixtures :users
   fixtures :events
@@ -36,21 +37,28 @@ class SharingTest < ActiveSupport::TestCase
     #pp ret
     assert ret
 
+    #test for find_duplicated_sharing
+    ret = find_duplicated_sharing(1, events(:one_instance).id, [1, 2, 3, 4, 5])
+    #user 3, 4 not exist
+    assert ret.size == 2 && ret.include?(1) && ret.include?(2)
+    events(:one_instance).add_sharing(1, "extra", [1, 2, 3, 4, 1, 2])
+    assert events(:one_instance).sharings.size == 1 # should not create sharing in previous line
+
+
     assert events(:one_instance).open_to_user?(2)
     
     #pp events(:one_instance).sharings
     ret = events(:one_instance).sharings.to_a[0].user_sharings.to_a
     #pp ret.size
-    assert ret.size == 2
-    assert ret[0].user_id == 1
-    assert ret[1].user_id == 2
+    assert ret.size == 1
+    assert ret[0].user_id == 2
 
     #decide_by_user, accept
-    assert_nil ret[1].accept?
+    assert_nil ret[0].accept?
     assert events(:one_instance).decide_by_user(2, true)
-    assert ret[1].accept?
+    assert ret[0].accept?
     assert events(:one_instance).decide_by_user(2, false)
-    assert !ret[1].accept?
+    assert !ret[0].accept?
 
     #query series
     time_begin = Time.parse('2011-01-19 00:00:00')
