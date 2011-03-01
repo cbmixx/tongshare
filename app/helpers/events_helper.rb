@@ -207,10 +207,11 @@ module EventsHelper
 #  end
 
   # !readonly value returned
+  # TODO: consider including UserSharing.sharing.event
   def query_sharing_event(priority = UserSharing::PRIORITY_INVITE, decision = Acceptance::DECISION_UNDECIDED, user_id = current_user.id)
     if decision == Acceptance::DECISION_UNDECIDED
       UserSharing.
-        select(SQLConstant::SELECT_EVENT).
+        #select(SQLConstant::SELECT_EVENT). deleted by Wander
         joins(SQLConstant::JOINS_BASE).
         where(
           build_where(SQLConstant::WHERE_USER_ID, SQLConstant::WHERE_DECISION_UNDECIDED, SQLConstant::WHERE_PRIORITY),
@@ -218,7 +219,7 @@ module EventsHelper
           priority).to_a
     else
       UserSharing.
-        select(SQLConstant::SELECT_EVENT).
+        #select(SQLConstant::SELECT_EVENT). deleted by Wander
         joins(SQLConstant::JOINS_BASE).
         where(
           build_where(SQLConstant::WHERE_USER_ID, SQLConstant::WHERE_DECISION, SQLConstant::WHERE_PRIORITY),

@@ -4,10 +4,10 @@ class UserSharing < ActiveRecord::Base
   PRIORITY_INVITE = 0
   PRIORITY_RECOMMENDATION = 1
 
-  attr_accessible :user_id, :priority, :sharing_id
-
   belongs_to :sharing
   belongs_to :user
+
+  attr_accessible :priority, :sharing_id, :user_id
   
   validates :user_id, :priority, :presence => true
   #:sharing_id

@@ -54,6 +54,20 @@ root {
 
 }
 
+.agenda_list .sharing.item {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.agenda_list .sharing.name {
+    font-size: larger;
+    margin-bottom: 5px;
+}
+
+.agenda_list .sharing.links {
+    text-align: right;
+}
+
 .link1 {
     float: left;
 }
@@ -123,6 +137,10 @@ root {
     margin-left: 105px;
 }
 
+.field_div {
+    margin-left: 105px;
+}
+
 .stressed {
     font-weight: bold;
     color: #F85811;
@@ -142,4 +160,10 @@ root {
     display: block;
     float: left;
     position: relative;
+}
+
+.sharing.title {
+    font-weight: bold;
+    font-size: large;
+    margin-bottom: 15px;
 }

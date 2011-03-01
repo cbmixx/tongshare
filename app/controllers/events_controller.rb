@@ -49,6 +49,9 @@ class EventsController < ApplicationController
       @auth_path = auth_path(username, root_url)
     end
 
+    #sharing
+    @invited_user_sharings = query_sharing_event
+
     respond_to do |format|
       format.html # index.html.erb
       #format.xml  { render :xml => @instances }

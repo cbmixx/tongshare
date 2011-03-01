@@ -56,7 +56,7 @@ HTML
   def styled_button(*args)
     name = args[0]
     args.delete_at(0)
-    if args.last.is_a? Hash
+    if args.last.is_a?(Hash) && (args.length > 1)
       args.last[:class] = 'link1'
     else
       args << {:class => 'link1'}
@@ -78,7 +78,12 @@ HTML
     content = <<HTML
     <div class="wrapper"><a href="#" class="link1" onclick="$('#{id}').submit();"><span><span>#{text}</span></span></a></div>
 HTML
-    content += form.submit(text, :style => "width:0px; height:0px;")
+    
+    if form.nil?
+      content += submit_tag(text, :style => "width:0px; height:0px; border:0px")
+    else
+      content += form.submit(text, :style => "width:0px; height:0px; border:0px")
+    end
     content.html_safe
   end
 

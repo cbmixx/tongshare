@@ -11,5 +11,7 @@ zh-CN:
         interval_suffix_daily: "天"
     acceptance:
       denied: "已退出活动"
+    sharing:
+      created: "已将活动\"%{name}\"分享给%{count}位用户"
       
         

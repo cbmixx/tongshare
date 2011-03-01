@@ -1,5 +1,7 @@
 class SharingsController < ApplicationController
   include SharingsHelper
+  include RegistrationsExtendedHelper
+  include UsersHelper
   before_filter :authenticate_user!
 
   def index
@@ -35,6 +37,8 @@ class SharingsController < ApplicationController
       end
     end
 
+    #TODO: filter duplicated
+
     @json = result.to_json
 
     respond_to do |format|
@@ -43,6 +47,7 @@ class SharingsController < ApplicationController
   end
 
   def new
+    @event = Event.find(params[:event_id])  
     @sharing = Sharing.new
     @sharing.shared_from = current_user.id
     @sharing.event_id = params[:event_id]
@@ -54,17 +59,35 @@ class SharingsController < ApplicationController
   end
 
   def create
-    @sharing = Sharing.new(params[:sharing])
-    @sharing.shared_from = current_user.id
-    @sharing.event_id = params[:event_id]
-    authorize! :new, @sharing
+    #create a dummy sharing for permission check
+    sharing = Sharing.new(params[:sharing])
+    sharing.shared_from = current_user.id
+    authorize! :create, sharing
 
-    ret = @sharing.save
+    members = []
+    #prepare dummy users
+    if !params[:dummy].nil?
+      params[:dummy].each do |employee_no|
+        dummy = check_or_create_dummy_user(employee_no, company_domain)
+        #if an illegal employee_no is submitted in params[:dummy], check_or_create_dummy_user will raise exceptions since it calls User.save! and the value won't pass validation.
+        members << dummy.id
+      end
+    end
+
+    #add normal users
+    params[:members].each do |id|
+      members << id.to_i
+    end
+
+    @event = Event.find(sharing.event_id)
+    ret = @event.add_sharing(current_user.id, sharing.extra_info, members)
+
+    #ret = @sharing.save
     respond_to do |format|
       if ret
-        format.html { redirect_to(@sharing.event, :notice => I18n.t('tongshare.sharing.created', :name => @sharing.event.name)) }
+        format.html { redirect_to(@event, :notice => I18n.t('tongshare.sharing.created', :name => @event.name, :count => members.count)) }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "new" } #TODO: is it necessary to restore previous data? I guess there won't be validation errors unless attackers XXOO
       end
     end
   end

@@ -53,8 +53,21 @@ HTML
     content.html_safe
   end
 
-  #create a dummy user with only user_id and an employee_no in user_identifier. Return the new dummy user, or raise exceptions when error occurs
-  def create_dummy_user(employee_no, company_domain)
+  #create a dummy user with only user_id and an employee_no in user_identifier. raise exceptions when error occurs.
+  #(1) If no user exists with "employee_no", create a dummy and return the new dummy user.
+  #(2) If a dummy exists with "employee_no", return the existing dummy user.
+  #(3) If a real user exists with "employee_no", return the existing real user.
+  def check_or_create_dummy_user(employee_no, company_domain)
+    #dummy_identifier = UserIdentifier.find_by_login_type_and_login_value(UserIdentifier::TYPE_EMPLOYEE_NO_DUMMY,
+    #                company_domain + "." + employee_no)
+    dummy_identifier = UserIdentifier.find(:first, :conditions => [
+            "(login_type = ? OR login_type = ?) AND login_value = ?",
+            UserIdentifier::TYPE_EMPLOYEE_NO_DUMMY,
+            UserIdentifier::TYPE_EMPLOYEE_NO,
+            company_domain + "." + employee_no
+        ])
+    return dummy_identifier.user if !dummy_identifier.nil?
+
     user = User.new :email => "#{UUIDTools::UUID.random_create}@null.#{company_domain}",
                     :password => random_password
     user.user_identifier.build :login_type => UserIdentifier::TYPE_EMPLOYEE_NO_DUMMY,

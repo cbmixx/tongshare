@@ -34,6 +34,7 @@ zh-CN:
     models:
       user: "用户"
       event: "活动"
+      sharing: "分享"
 
     attributes:
       user:
@@ -56,3 +57,6 @@ zh-CN:
         rrule_count: "重复次数"
         rrule_repeat_until: "重复终止日期"
 
+      sharing:
+        shared_from: "来自"
+        extra_info: "活动评论或说明"

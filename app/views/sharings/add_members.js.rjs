@@ -1,2 +1,2 @@
-page << "data = #{@json};"
+#page << "data = #{@json};"
 page << "add_members(#{@json});"
