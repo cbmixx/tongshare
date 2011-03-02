@@ -76,14 +76,15 @@ HTML
 
   def submit_button(form, id, text)
     content = <<HTML
-    <div class="wrapper"><a href="#" class="link1" onclick="$('#{id}').submit();"><span><span>#{text}</span></span></a></div>
+    <div class="wrapper"><a href="#" class="link1" onclick="if($('#{id}').onsubmit==null||$('#{id}').onsubmit()){$('#{id}').submit();}"><span><span>#{text}</span></span></a></div>
 HTML
-    
+
     if form.nil?
-      content += submit_tag(text, :style => "width:0px; height:0px; border:0px")
+      content += submit_tag(text, :style => "width:0px; height:0px; border:0px;")
     else
-      content += form.submit(text, :style => "width:0px; height:0px; border:0px")
+      content += form.submit(text, :style => "width:0px; height:0px; border:0px;")
     end
+    
     content.html_safe
   end
 

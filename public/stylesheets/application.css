@@ -167,3 +167,8 @@ root {
     font-size: large;
     margin-bottom: 15px;
 }
+
+.instruction_list {
+    list-style-type: decimal;
+    
+}

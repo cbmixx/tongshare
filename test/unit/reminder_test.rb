@@ -10,8 +10,8 @@ class ReminderTest < ActiveSupport::TestCase
 
   test "basic test" do
     e = events(:one_instance)
-    e.add_reminder(1, Reminder::TIME_DAY, Reminder::METHOD_EMAIL)
     e.save
+    e.add_reminder(1, Reminder::TIME_DAY, Reminder::METHOD_EMAIL)
     assert e.reminders.first.reminder_queues.size == 0
     e.begin = Time.now + 2.day
     e.save

@@ -21,10 +21,11 @@
   <%= yield %>
   <p>
     
-      <%=link_to "首页", :controller => "events", :range => :next %>
+      <%=link_to "首页", :controller => "events", :range => :next %>&nbsp;&nbsp;
     <% if user_signed_in? %>
-      <%=link_to "注销", destroy_user_session_path %>
+      <%=link_to "注销", destroy_user_session_path %>&nbsp;&nbsp;
     <% end %>
+      <%=link_to "意见反馈", "http://blog.tongshare.com/feedback" %>&nbsp;&nbsp;
   </p>
 </body>
 </html>

@@ -43,16 +43,33 @@ class AuthController < ApplicationController
     ui = UserIdentifier.find_by UserIdentifier::TYPE_EMPLOYEE_NO, username
     if !ui.nil?
       #add name
-      user = ui.user
-      user.build_user_extra if user.user_extra.nil?
-      user.user_extra.name = name
-      user.save!
+      passed = false
+      if !name.blank?
+        begin
+          user = ui.user
+          user.build_user_extra if user.user_extra.nil?
+          user.user_extra.name = name
+          user.save!
+          passed = true
+        rescue Exception => e
+          logger.error e.to_yaml
+        end
+      end
 
-      xls2events data, user.id
+      if !data.blank?
+        begin
+          xls2events data, user.id
+          passed = true
+        rescue
+          logger.error e.to_yaml
+        end
+      end
 
       #add confirmation
-      ui.confirmed = true
-      ui.save!
+      if passed
+        ui.confirmed = true
+        ui.save!
+      end
     end
 
     respond_to do |format|

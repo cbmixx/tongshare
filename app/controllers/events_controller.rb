@@ -2,6 +2,7 @@ class EventsController < ApplicationController
   include EventsHelper
   include UsersHelper
   include AuthHelper
+  include CurriculumHelper
 
   before_filter :authenticate_user!
 
@@ -11,23 +12,31 @@ class EventsController < ApplicationController
     #@events = Event.find_all_by_creator_id current_user.id
     authorize! :index, Event
 
-    params[:range] = :next unless ["next", "day", "week"].include?(params[:range])
+    params[:range] = "next" unless ["next", "day", "week"].include?(params[:range])
     params[:offset] ||= 0
     params[:limit] ||= 10
-    range = params[:range].to_sym
-    offset = params[:offset].to_i
-    limit = params[:limit].to_i
+    @range = params[:range].to_sym
+    @offset = params[:offset].to_i
+    @limit = params[:limit].to_i
 
-    if range == :next
-      @instances = query_next_accepted_instance_includes_event(Time.now, limit)  #TODO: paginate
+    if @range == :next
+      @instances = query_next_accepted_instance_includes_event(Time.now, @limit + 1, current_user.id, @offset)
+      if @instances.count == @limit + 1
+        #not the last page
+        @instances.delete_at(@instances.count - 1)
+        @is_last_page = false
+      else
+        @is_last_page = true
+      end
+      @limit = @instances.count
     else
-      case range
+      case @range
         when :day
-          from = Date.today + offset.days
-          to = Date.today + offset.days + 1.days
+          from = Date.today + @offset.days
+          to = Date.today + @offset.days + 1.days
         when :week
-          from = Date.today.beginning_of_week + offset.weeks
-          to = Date.today.beginning_of_week + offset.weeks + 1.weeks
+          from = Date.today.beginning_of_week + @offset.weeks
+          to = Date.today.beginning_of_week + @offset.weeks + 1.weeks
       end
 
       #TODO: this month, all(events)
@@ -51,6 +60,8 @@ class EventsController < ApplicationController
 
     #sharing
     @invited_user_sharings = query_sharing_event
+
+    @curriculum_empty = curriculum_empty?(current_user)
 
     respond_to do |format|
       format.html # index.html.erb

@@ -86,20 +86,19 @@ include AuthHelper
   end
 
   def edit
-    #TODO
+    current_user.build_user_extra if current_user.user_extra.nil?
+    authorize! :edit, current_user
     super
-    authorize! :update
   end
 
   def update
-    #TODO
+    authorize! :update, current_user
     super
-    authorize! :update
+    
   end
 
   def destroy
-    #TODO
+    authorize :destroy, current_user
     super
-    authorize :destroy
   end
 end

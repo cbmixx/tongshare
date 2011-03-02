@@ -13,5 +13,11 @@ zh-CN:
       denied: "已退出活动"
     sharing:
       created: "已将活动\"%{name}\"分享给%{count}位用户"
+    curriculum:
+      file_empty: "请选择一个课表文件"
+      file_ext_error: "只允许上传Excel类型的文件，其后缀为.xls"
+      import_finish: "课表导入成功"
+      import_failed: "课表导入失败，请确认你上传的文件是从清华选课系统的“整体课表”导出的，且文件类型为XLS（Excel电子表格）"
+
       
         

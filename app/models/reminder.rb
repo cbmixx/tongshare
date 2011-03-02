@@ -10,7 +10,7 @@ class Reminder < ActiveRecord::Base
   TIMES = [TIME_DAY, TIME_HOUR, TIME_MINUTE, TIME_SECOND]
 
   attr_accessible :method_type, :value, :time_type
-  belongs_to :event, :class_name => "Event"
+  belongs_to :event
   has_many :reminder_queues, :dependent => :destroy
   
   validates_inclusion_of :method_type, :in => METHODS
@@ -34,29 +34,32 @@ class Reminder < ActiveRecord::Base
   end
 
   def value_in_second
-    if self.time_type == TIME_DAY
+    if time_type == TIME_DAY
       value * 24 * 3600
-    elsif self.time_type == TIME_HOUR
+    elsif time_type == TIME_HOUR
       value * 3600
-    elsif self.time_type == TIME_MINUTE
+    elsif time_type == TIME_MINUTE
       value * 60
-    elsif self.time_type == TIME_SECOND
+    elsif time_type == TIME_SECOND
       value 
     end
   end
   
   protected
   def generate_reminder_queue
-    v = self.value_in_second
-    self.event.instances.each do |i|
-      if i.begin - v > now
-        i.reminder_queues.build(:method_type => self.method_type, :time => i.begin - v)
+    v = value_in_second
+    # (true) -> discard cache
+    self.event.instances(true).each do |i|
+      if i.begin - v > Time.now
+        self.reminder_queues.build(:method_type => method_type, :time => i.begin - v, :instance_id => i.id)
       end
     end
   end
 
   def drop_reminder_queue
-    self.reminder_queues.destroy
+    self.reminder_queues.each do |rq|
+      rq.destroy
+    end
   end
   
 end

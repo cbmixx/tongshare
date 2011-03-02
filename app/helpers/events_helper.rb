@@ -3,6 +3,7 @@ module EventsHelper
   require 'gcal4ruby/recurrence'
   require 'time'
   require 'pp'
+  require 'ftools'
 
    # Please check these time settings. Are they correct?
   COURSE_BEGINES = ["8:00", "9:50", "13:30", "15:20", "17:05", "19:20"]
@@ -16,24 +17,38 @@ module EventsHelper
   TIME_SPEC_REGEX = /时间(\d+:\d+)-(\d+:\d+)/
 
   def xls2events(data, user_id)
+
+    #save xls file
+    #TODO: there are too many read/write/read/write... in the process of parsing xls files
+    dir = "data/curriculum"
+    File.makedirs(dir) unless File.exists?(dir)
+    path = File.join(dir, "user_#{user_id.to_s}.xls")
+    File.open(path, "wb") { |f| f.write(data) }
+
     #remove previous acceptances
+    return false if data.nil? || data == ""
+    class_set = CourseClass::parse_xls_from_data(data)
+
+    return false if class_set.nil?
+
     prev = Acceptance.joins(:event).where("events.creator_id = ? AND acceptances.user_id = ?", 1, user_id)
     prev.each do |p|
       p.destroy
     end
-    return false if data.nil? || data == ""
-    class_set = CourseClass::parse_xls_from_data(data)
+
     class_set.each do |c|
       e = class2event(c, 1)
       query = Event.where(:name => e.name, :extra_info => e.extra_info, :begin => e.begin.utc)
       if query.exists?
         e = query.first
       else
-        e.save
+        return false unless e.save
       end
       acc = Acceptance.new(:event_id => e.id, :user_id => user_id, :decision => Acceptance::DECISION_ACCEPTED)
-      acc.save
+      return false unless acc.save
     end
+
+    return true
   end
 
   # Convert a course_class to an event created by creator_id
@@ -105,8 +120,8 @@ module EventsHelper
     Instance.includes(:event).where("creator_id = ? AND end >= ? AND begin <= ?", creator_id, time_begin.utc, time_end.utc).order("begin").to_a
   end
 
-  def query_next_own_instance_includes_event(current_time, limit_count, creator_id = current_user.id)
-    Instance.includes(:event).where("creator_id = ? AND end >= ?", creator_id, current_time.utc).order("begin").limit(limit_count).to_a
+  def query_next_own_instance_includes_event(current_time, limit_count, creator_id = current_user.id, offset = 0)
+    Instance.includes(:event).where("creator_id = ? AND end >= ?", creator_id, current_time.utc).order("begin").offset(offset).limit(limit_count).to_a
   end
 
   def query_own_event(limit_from, limit_num, creator_id = current_user.id)
@@ -146,9 +161,9 @@ module EventsHelper
     (query_sharing_accepted_instance_includes_event(time_begin, time_end, user_id) + query_own_instance_includes_event(time_begin, time_end, user_id)).sort{|a, b| a.begin <=> b.begin}
   end
 
-  def query_next_accepted_instance_includes_event(current_time, limit_count, user_id = current_user.id)
-    (query_next_sharing_accepted_instance_includes_event(current_time, limit_count, user_id) +
-        query_next_own_instance_includes_event(current_time, limit_count, user_id)).sort{|a, b| a.begin <=> b.begin}
+  def query_next_accepted_instance_includes_event(current_time, limit_count, user_id = current_user.id, offset = 0)
+    (query_next_sharing_accepted_instance_includes_event(current_time, limit_count, user_id, offset) +
+        query_next_own_instance_includes_event(current_time, limit_count, user_id, offset)).sort{|a, b| a.begin <=> b.begin}
   end
 
 #  def query_sharing_accepted_instance_includes_event(time_begin, time_end, user_id = current_user.id)
@@ -156,7 +171,7 @@ module EventsHelper
 #    Instance.includes(:event).find(ids).to_a
 #  end
 
-  def query_next_sharing_accepted_instance_includes_event(current_time, limit_count, user_id = current_user.id)
+  def query_next_sharing_accepted_instance_includes_event(current_time, limit_count, user_id = current_user.id, offset = 0)
     Instance.
       includes(:event).
       joins(:event => :acceptances).
@@ -165,7 +180,7 @@ module EventsHelper
         current_time.utc,
         user_id,
         Acceptance::DECISION_ACCEPTED).
-      order('instances.begin').limit(limit_count).
+      order('instances.begin').offset(offset).limit(limit_count).
       to_a
   end
   

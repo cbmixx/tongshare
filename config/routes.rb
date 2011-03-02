@@ -2,6 +2,10 @@ Tongshare::Application.routes.draw do
 
   get "public/get_diff"
 
+  get "curriculum/upload"
+  get "curriculum/save"
+  post "curriculum/save"
+
   get "acceptance/create"
   get "acceptance/destroy"
   get "acceptance/deny"
@@ -17,14 +21,14 @@ Tongshare::Application.routes.draw do
     :sessions => "sessions_extended"
     }
 
-  resources :oauth_consumers do
-    get :callback, :on => :member
-  end
+#  resources :oauth_consumers do
+#    get :callback, :on => :member
+#  end
 
   get "home/index"
 
-  get "temp/view"
-  get "temp/cal"
+  #get "temp/view"
+  #get "temp/cal"
 
   get "sharings/add_members"
   post "sharings/add_members"

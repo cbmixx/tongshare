@@ -35,12 +35,15 @@ zh-CN:
       user: "用户"
       event: "活动"
       sharing: "分享"
+      user_extra: "个人资料"
 
     attributes:
       user:
         email: "电子邮件"
         password: ""      #another trick
         login_value: ""   #just a trick
+        user_extra:
+          renren_url: "人人网个人主页"
 
       user_identifier:
         login_value: "登录名"
@@ -60,3 +63,6 @@ zh-CN:
       sharing:
         shared_from: "来自"
         extra_info: "活动评论或说明"
+      user_extra:
+        renren_url: "人人网个人主页"
+

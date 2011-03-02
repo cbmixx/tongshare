@@ -3,7 +3,7 @@
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
+  <%= devise_error_messages_translated! %>
 
   <p><%= f.label :email %><br />
   <%= f.text_field :email %></p>
@@ -16,6 +16,13 @@
 
   <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
   <%= f.password_field :current_password %></p>
+
+  <%= f.fields_for :user_extra do |extra| %>
+    <div class="field">
+      <%= extra.label :renren_url, :class=>"title" %>
+      <%= extra.text_field :renren_url, :class=>"textvalue" %>
+    </div>
+  <% end %>
 
   <p><%= f.submit "Update" %></p>
 <% end %>
