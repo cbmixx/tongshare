@@ -1,0 +1,61 @@
+<% content_for :js_ext do %>
+  <%= javascript_tag do%>
+    function checkFileExtension(elem) {
+        var filePath = elem.value;
+
+        if(filePath == null || filePath.length == 0)
+        {
+          alert(I18n.t("tongshare.curriculum.file_empty"));
+            return false;
+        }
+
+        //var validExtensions = new Array();
+        var ext;
+        if(filePath.indexOf('.') == -1)
+        {
+          ext = "";
+        }
+        else
+        {
+          ext = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
+        }
+
+        var validExtensions = ['xls', 'do'];
+
+        for(var i = 0; i < validExtensions.length; i++) {
+            if(ext == validExtensions[i])
+                return true;
+        }
+
+        alert(I18n.t("tongshare.curriculum.file_ext_error"));
+        elem.value = "";
+        return false;
+    }
+  <% end %>
+<% end %>
+
+<%= content_box "上传", "课表" do %>
+  <%= form_tag({:action => "save"}, :multipart => true, :id=>"upload_form", :onsubmit=>"return checkFileExtension($('xls_file'));" ) do %>
+    <div class="field">
+      <%= label_tag "xls_file", "课表文件", :class=>"title" %>
+      <%= file_field_tag "xls_file", :accept=>"application/vnd.ms-excel", :onchange=>"return checkFileExtension(this);"%>
+    </div>
+    <div class="field_help">
+      <div><span class="stressed">怎样获得课表文件？</span>（以下为本科生操作步骤，仅供参考）</div>
+      <div>
+        <ol class="instruction_list">
+          <li>进入<a href="http://info.tsinghua.edu.cn" target="_blank">清华大学信息门户</a>，登录。</li>
+          <li>在“选课信息”栏目中，点击“进入选课”。</li>
+          <li>点击页面左边的“整体课表”。注意，只有“整体课表”能够包含所有课程（包括实验课）信息。</li>
+          <li>点击页面右上方的“导出为XLS”按钮，保存文件。</li>
+          <li>在本页面上传你得到的XLS文件。</li>
+        </ol>
+      </div>
+    </div>
+    <br/>
+    <div class="field">
+      <label class="title">&nbsp;&nbsp;</label>
+      <%= submit_button nil, "upload_form", "提交"%>
+    </div>
+  <% end %>
+<% end %>
