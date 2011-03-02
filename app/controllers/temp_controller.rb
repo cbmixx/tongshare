@@ -6,10 +6,10 @@ include GcalHelper
 include EventsHelper
   
   def cal
-    #SysMailer.reminder_email(current_user).deliver
+    SysMailer.test_email(params[:email]).deliver if !params[:email].nil?
 
-     data = IO.read("test/fixtures/lc.xls")
-     xls2events(data, current_user.id)
+     #data = IO.read("test/fixtures/lc.xls")
+     #xls2events(data, current_user.id)
 
     
 #    time_begin = Time.utc(2011, 1, 1)
