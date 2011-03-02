@@ -72,11 +72,17 @@ class Event < ActiveRecord::Base
     #seems no improving...
     #Instance.transaction do
     ret = super
-    #end
+
+    #reload instances
+    self.instances(true)
+    #regenerate reminder_queues
+    self.reminders(true).each do |r|
+      r.save
+    end
+
     logger.debug errors.to_yaml
     return false if !ret
     #TODO edit each for better performance?
-    #TODO: LC: you should return true/false. Once fail to generate, you need to rollback the newly created event.
     return true
   end
 
@@ -135,6 +141,9 @@ class Event < ActiveRecord::Base
       :time_type => time_type
     )
     r.save
+    # force reload reminders
+    self.reminders(true)
+    true
   end
 
   #virtual fields for recurrence logic

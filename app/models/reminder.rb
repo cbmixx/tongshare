@@ -30,7 +30,9 @@ class Reminder < ActiveRecord::Base
   def save
     drop_reminder_queue
     generate_reminder_queue
-    super
+    ret = super
+    self.reminder_queues(true)
+    ret
   end
 
   def value_in_second
@@ -48,8 +50,7 @@ class Reminder < ActiveRecord::Base
   protected
   def generate_reminder_queue
     v = value_in_second
-    # (true) -> discard cache
-    self.event.instances(true).each do |i|
+    self.event.instances.each do |i|
       if i.begin - v > Time.now
         self.reminder_queues.build(:method_type => method_type, :time => i.begin - v, :instance_id => i.id)
       end
