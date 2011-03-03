@@ -130,7 +130,6 @@ ActiveRecord::Schema.define(:version => 20110302154349) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "public",     :default => false
-    t.string   "renren_url"
     t.string   "renren_id"
   end
 
