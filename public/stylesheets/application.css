@@ -19,6 +19,27 @@ root {
     margin-left: 50px;
 }
 
+#header_ann {
+    margin-left: 50px;
+    margin-top: 10px;
+}
+
+#header_ann li {
+    list-style-type: disc;
+    margin-bottom: 2px;
+}
+
+#sidebar_ann .subtitle {
+    margin-top: 5px;
+    margin-bottom: 2px;
+    font-weight: bold;
+}
+
+#sidebar_ann li {
+    list-style-type: disc;
+    margin-bottom: 2px;
+}
+
 .agenda_list .agenda_pannel ul li {
     display: inline;
     font-weight: bold;
@@ -127,6 +148,16 @@ root {
 
 .event.show .event.buttons .link1 {
     margin-right: 20px;
+}
+
+.event.attendee li {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.event.attendee .name {
+    min-width: 4em;
+    float: left;
 }
 
 .field .link1 {

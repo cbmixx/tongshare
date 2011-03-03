@@ -1,20 +1,7 @@
 你好，<%= current_user.friendly_name %> <br/>
 <%= l Time.now, :format => :long %> <%=  number_of_week_in_thu %> <br/>
 
-<% if @not_confirmed %>
-<p><strong>注意！</strong>
-    系统未能验证你的学号，请立即
-    <strong><%= link_to "重新验证", @auth_path%></strong><br/>
-    如果学号未通过验证，系统将无法导入你的课表，并且其它用户可以在注册时<strong>覆盖该学号，从而导致你的
-    同享日程账户丢失！</strong>
-</p>
-<% end %>
-
-<% if @curriculum_empty %>
-<p><strong>课表有问题？</strong>
-  请尝试用电脑登录并通过Excel课表文件导入课表
-</p>
-<% end %>
+<%= header_announcement %>
 
 <%= link_to_unless_current "接下来", {:range => :next} %>&nbsp;&nbsp;
 <%= link_to_unless_current "今天", {:range => :day, :offset => 0} %>&nbsp;&nbsp;
@@ -39,4 +26,9 @@
     <% end %><br/>
     <%= link_to "之前的活动", {:offset => [0, @offset - @limit].max} if @offset > 0 %>
     <%= link_to "之后的活动", {:offset => @offset + @limit} if !@is_last_page %>
+<% end %>
+
+<br/><br/>
+<% if !@not_confirmed %>
+  <%= link_to "重新导入课表", @auth_path %>
 <% end %>

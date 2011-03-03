@@ -10,10 +10,10 @@ html,body {height:100%}
 /* Header */
 header {height:100px;position:relative}
 /* Content */
-section#content {width:739px;float:left}
+section#content {width:700px;float:left}
 .inner_copy, .inner_copy a {border:0;float:left;background:#fff;color:#f00;width:50% !important;line-height:10px;font-size:10px;margin:-120% 0 0 0;overflow:hidden;padding:0}
 /* Sidebar */
-aside {float:left;width:261px}
+aside {float:left;width:300px}
 /* Footer */
 footer {text-align:center;height:111px;line-height:1.538em}
 /* Left & Right alignment */

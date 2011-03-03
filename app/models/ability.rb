@@ -60,6 +60,7 @@ class Ability
 
     #user can edit profile
     can :update, User, :id => @user.id
+    can :destroy, User, :id => @user.id
 
     #Manage sharing
     can :create, Sharing do |s|

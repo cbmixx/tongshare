@@ -28,7 +28,12 @@
 <p>活动参与者：<br/>
   <ul>
     <% attendees.each do |att| %>
-      <li><%=att%></li>
+      <li>
+        <%=att.friendly_name%>
+        <% if (!att.user_extra.nil? && !att.user_extra.renren_url.blank?) %>
+          <%= link_to "人人主页", generate_renren_url(att.user_extra.renren_id, true), :target=>"_blank" %>
+        <%end%>
+      </li>
     <% end %>
   </ul>
   （仅显示已注册用户）

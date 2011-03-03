@@ -46,7 +46,16 @@
         <div class="event attendee">
           <ul>
             <% attendees.each do |att| %>
-              <li><%=att%></li>
+              <li>
+                <div class="name"><%=att.friendly_name%></div>
+                <% if (!att.user_extra.nil? && !att.user_extra.renren_url.blank?) %>
+                  <%= link_to att.user_extra.renren_url, :target=>"_blank", :title=>"访问#{att.friendly_name}的人人网个人主页" do %>
+                    <%= image_tag 'renren.png'%>
+                  <% end %>
+                <% else %>
+                  &nbsp;
+                <% end %>
+              </li>
             <% end %>
           </ul>
         </div>

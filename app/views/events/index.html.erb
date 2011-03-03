@@ -1,3 +1,7 @@
+<% content_for :aside do %>
+  <%= sidebar_announcement %>
+<% end %>
+
 <div id="welcome">
 <strong>你好，<%= current_user.friendly_name %>！</strong>
 
@@ -7,28 +11,13 @@
 %>
 <div id="current_time">现在是<%= l Time.now, :format => :long %><%=week_str%>。</div>
 
-<% if @not_confirmed %>
-<div>
-  <span class="stressed">注意！</span>
-    系统未能验证你的学号，请立即
-    <strong><%= link_to "重新验证", @auth_path%></strong><br/>
-    如果学号未通过验证，系统将无法导入你的课表，并且其它用户可以在注册时<strong>覆盖该学号，从而导致你的</strong>
-    <span class="stressed">同享日程账户丢失！</span>
-</div>
-<% end %>
-
-<% if @curriculum_empty %>
-<div>
-  <span class="stressed">课表有问题？</span>
-  尝试<%= link_to "通过课表文件导入课表", {:controller=>"curriculum", :action=>"upload"}%>
-</div>
-<% end %>
-
 <%#*<div id="share_notice">%>
   <%#*<span>个被邀请的活动</span>%>
   <%#*<span><个被推荐的活动</span>%>
 <%#*</div>%>
 </div>
+
+<%= header_announcement %>
 
 <div class="agenda_list" id="my_events">
   <%= content_box "我的", "日程", false do %>
@@ -78,7 +67,7 @@
         <% if @offset == 0 %>
           以上是即将发生的前<%=@limit%>个活动
         <% else %>
-          以上是即将发生的第<%=@offset + 1%>个到<%=@offset + @limit + 1%>个活动。
+          以上是即将发生的第<%=@offset + 1%>个到<%=@offset + @limit%>个活动。
         <% end %>
         <%= link_to "之前的活动", {:offset => [0, @offset - @limit].max} if @offset > 0 %>
         <%= link_to "之后的活动", {:offset => @offset + @limit} if !@is_last_page %>
@@ -89,10 +78,10 @@
 
     <br/>
 
-    <%# if !@not_confirmed %>
-      <%#*<div><%=  link_to "重新导入课表", @auth_path %>
-      <%#*</div>%>
-    <%# end %>
+    <% if !@not_confirmed %>
+        <%=  link_to "重新导入课表", @auth_path %>
+        &nbsp;&nbsp;
+    <% end %>
 
     <%= link_to "通过课表文件导入课表", {:controller=>"curriculum", :action=>"upload"}%>
 

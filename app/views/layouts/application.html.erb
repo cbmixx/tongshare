@@ -51,13 +51,16 @@
                   <% if user_signed_in? %>
                   <li>
                     <%= link_to "我的日程", :controller => "events", :range => :next %>
+                  </li>
                   <li>
                     <%= link_to "新建活动", new_event_path%>
+                  </li>
+                  <li>
+                    <%= link_to "个人资料", edit_user_registration_path%>
                   </li>
                   <%#*<li><a href="#">个人信息</a></li>%>
                   <%#*<li><a href="#">日历同步</a></li>%>
                   <%#*<li><a href="#">群组管理</a></li>%>
-                  </li>
                   <% else %>
                   <li>
                     <%= link_to "同享日程", :root %>

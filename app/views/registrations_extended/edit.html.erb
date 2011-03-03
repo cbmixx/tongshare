@@ -1,34 +1,60 @@
+<%= content_box "个人", "资料" do %>
+  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+    <%= devise_error_messages_translated! %>
 
+    <%= f.hidden_field :email%>
 
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+    <%= f.fields_for :user_extra do |extra| %>
+      <div class="field">
+        <%= extra.label :renren_url, "人人网个人主页", :class=>"title"%>
+        <%= extra.text_field :renren_url, :class=>"textvalue" %>
+        <div class="field_help">
+          <div>想认识上同一节课的ta吗？填写你的人人个人主页地址，让ta找到你吧！</div>
+          <div class="stressed">怎样获得人人网个人主页地址？</div>
+          <div>
+            <ul class="instruction_list">
+              <li>登录<a href="http://www.renren.com" target="_blank">人人网</a></li>
+              <li>登录后，点击页面上方的“个人主页”链接，从浏览器的地址栏中复制“个人主页”页面的地址。</li>
+              <li>正确的地址类似于：http://www.renren.com/profile.do?id=356208904</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages_translated! %>
-
-  <p><%= f.label :email %><br />
-  <%= f.text_field :email %></p>
-
-  <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password %></p>
-
-  <p><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></p>
-
-  <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></p>
-
-  <%= f.fields_for :user_extra do |extra| %>
     <div class="field">
-      <%= extra.label :renren_url, :class=>"title" %>
-      <%= extra.text_field :renren_url, :class=>"textvalue" %>
+      <%= f.label :password, "修改密码", :class=>"title" %>
+      <%= f.password_field :password, :class=>"textvalue" %>
+        <div class="field_help">
+          若不修改密码，请把这里留空
+        </div>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation, "再输一次", :class=>"title" %>
+      <%= f.password_field :password_confirmation, :class=>"textvalue" %>
+      <div class="field_help">
+        若不修改密码，请把这里留空
+      </div>
+    </div>
+
+    <div class="field">
+      <%= f.label :current_password, "当前密码", :class=>"title" %>
+      <%= f.password_field :current_password, :class=>"textvalue" %>
+      <div class="field_help">
+        需要您输入当前的“同享日程”密码以提高安全性。
+      </div>
+    </div>
+    <div class="field">
+      <label class="title">&nbsp;</label>
+      <%= submit_button f, "user_edit", "提交" %>
+      <%= styled_button "取消", :back %>
     </div>
   <% end %>
 
-  <p><%= f.submit "Update" %></p>
-<% end %>
+  <br/>
+  <div class="field" id="destroy_account">
+      <span class="field_help"><%= link_to "将我的帐号永久删除", registration_path(resource_name), :confirm => "你确定要永久删号吗？你在“同享日程”上创建的所有活动及其它任何数据都将无法恢复！", :method => :delete %></span>
+  </div>
 
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
-
-<%= link_to "Back", :back %>
+<% end  %>

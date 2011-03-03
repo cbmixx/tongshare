@@ -24,8 +24,8 @@ class User < ActiveRecord::Base
   before_save :ensure_authentication_token 
        
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :id, :user_identifier
-  attr_accessible :user_extra, :admin_extra
+  attr_accessible :id, :email, :password, :password_confirmation, :remember_me, :id, :user_identifier
+  attr_accessible :user_extra_attributes, :admin_extra_attributes
   
   has_many :user_identifier, :dependent => :destroy
   has_many :group, :foreign_key => "creator_id", :dependent => :destroy
@@ -37,6 +37,8 @@ class User < ActiveRecord::Base
   has_many :bookmark, :dependent => :destroy
 
   has_one :user_extra, :dependent => :destroy
+  accepts_nested_attributes_for :user_extra
+  
   has_one :admin_extra, :dependent => :destroy
   has_one :google, :class_name => "GoogleToken", :dependent=> :destroy
   #FIXME hack!
@@ -73,4 +75,25 @@ class User < ActiveRecord::Base
     return nil
   end
 
+  #override devise's
+  def update_with_password(params={})
+    current_password = params.delete(:current_password)
+
+    if params[:password].blank?
+      params.delete(:password)
+      params.delete(:password_confirmation) if params[:password_confirmation].blank?
+    end
+
+    result = if (params[:password].blank? || valid_password?(current_password))
+      update_attributes(params)
+    else
+      self.errors.add(:current_password, current_password.blank? ? :blank : :invalid)
+      self.attributes = params
+      false
+    end
+
+    clean_up_passwords
+    result
+  end
+  
 end

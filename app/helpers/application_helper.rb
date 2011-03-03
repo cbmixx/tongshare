@@ -1,6 +1,9 @@
 require 'pp'
 
 module ApplicationHelper
+  include AuthHelper
+  include CurriculumHelper
+  
   def devise_error_messages_translated!
     return "" if resource.errors.empty?
 
@@ -86,6 +89,28 @@ HTML
     end
     
     content.html_safe
+  end
+
+  def header_announcement
+    #check confirmation for employee_no
+    user_id_rec = current_user.user_identifier.find(:first,
+      :conditions => ["login_type = ?", UserIdentifier::TYPE_EMPLOYEE_NO])
+
+    if !user_id_rec.nil?
+      @not_confirmed = !user_id_rec.confirmed
+      username = user_id_rec.login_value
+      username = username.delete(company_domain(current_user) + ".")
+      @auth_path = auth_path(username, root_url)
+    end
+
+    @curriculum_empty = curriculum_empty?(current_user)
+    @renren_url_empty = (current_user.user_extra.nil? || current_user.user_extra.renren_id.blank?)
+
+    render :partial=>"shared/header_announcement"
+  end
+
+  def sidebar_announcement
+    render :partial=>"shared/sidebar_announcement"
   end
 
 end

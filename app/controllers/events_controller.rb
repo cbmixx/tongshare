@@ -3,6 +3,7 @@ class EventsController < ApplicationController
   include UsersHelper
   include AuthHelper
   include CurriculumHelper
+  include SiteConnectHelper
 
   before_filter :authenticate_user!
 
