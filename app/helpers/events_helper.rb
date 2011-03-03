@@ -172,45 +172,45 @@ module EventsHelper
 #  end
 
   def query_next_sharing_accepted_instance_includes_event(current_time, limit_count, user_id = current_user.id, offset = 0)
-#    acceptances = Acceptance.where("user_id=? AND decision=?", user_id, true).to_a  #AND decision=? add by Wander
-#    events = acceptances.map { |a| a.event }
-##    pp events # TODO TEST
-#    results = []
-#    for event in events
-#      instances = Instance.where("event_id=? AND end>=?", event.id, current_time.utc).order(:begin).limit(limit_count).to_a
-##      pp instances # TODO TEST
-#      new_results = []
-#      result_index = 0
-#      instance_index = 0
-#      while (result_index < results.size && instance_index < instances.size)
-#        if (instances[instance_index].begin < results[result_index].begin)
-#          new_results << instances[instance_index]
-#          instance_index += 1
-#        else
-#          new_results << results[result_index]
-#          result_index += 1
-#        end
-#      end
-#      for i in instance_index...instances.size
-#        new_results << instances[i]
-#      end
-#      for i in result_index...results.size
-#        new_results << results[i]
-#      end
-#      results = new_results[0...limit_count+offset]
-#    end
-##    pp results.size
-#    return results[offset...offset+limit_count]
-    Instance.
-      includes(:event).
-      joins(:event => :acceptances).
-      where(
-        build_where(SQLConstant::WHERE_ENDTIME, SQLConstant::WHERE_ACCEPTANCE_USER, SQLConstant::WHERE_DECISION),
-        current_time.utc,
-        user_id,
-        Acceptance::DECISION_ACCEPTED).
-      offset(offset).limit(limit_count).
-      to_a
+    acceptances = Acceptance.where("user_id=? AND decision=?", user_id, true).to_a  #AND decision=? add by Wander
+    events = acceptances.map { |a| a.event }
+#    pp events # TODO TEST
+    results = []
+    for event in events
+      instances = Instance.where("event_id=? AND end>=?", event.id, current_time.utc).order(:begin).limit(limit_count).to_a
+#      pp instances # TODO TEST
+      new_results = []
+      result_index = 0
+      instance_index = 0
+      while (result_index < results.size && instance_index < instances.size)
+        if (instances[instance_index].begin < results[result_index].begin)
+          new_results << instances[instance_index]
+          instance_index += 1
+        else
+          new_results << results[result_index]
+          result_index += 1
+        end
+      end
+      for i in instance_index...instances.size
+        new_results << instances[i]
+      end
+      for i in result_index...results.size
+        new_results << results[i]
+      end
+      results = new_results[0...limit_count+offset]
+    end
+#    pp results.size
+    return results[offset...offset+limit_count]
+#    Instance.
+#      includes(:event).
+#      joins(:event => :acceptances).
+#      where(
+#        build_where(SQLConstant::WHERE_ENDTIME, SQLConstant::WHERE_ACCEPTANCE_USER, SQLConstant::WHERE_DECISION),
+#        current_time.utc,
+#        user_id,
+#        Acceptance::DECISION_ACCEPTED).
+#      order('instances.begin').offset(offset).limit(limit_count).
+#      to_a
   end
   
   def query_sharing_accepted_instance_includes_event(time_begin, time_end, user_id = current_user.id)
