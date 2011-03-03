@@ -1,0 +1,27 @@
+<div id="header_ann">
+  <ul>
+    <% if @not_confirmed %>
+      <li>
+        <span class="stressed">未通过身份验证！</span>
+          请立即
+          <%= link_to "重新验证", @auth_path%>。<br/>
+          如果未通过身份验证，系统将无法导入你的课表，且其它用户可以在注册时<strong>覆盖你的学号，从而导致你的</strong>
+          <span class="stressed">账户丢失！</span>
+      </li>
+    <% end %>
+
+    <% if @curriculum_empty %>
+      <li>
+        <span class="stressed">课表有问题？</span>
+        尝试<%= link_to "通过课表文件导入课表", {:controller=>"curriculum", :action=>"upload"}%>
+      </li>
+    <% end %>
+
+    <% if @renren_url_empty %>
+      <li>
+        <span class="stressed">让Ta找到你！</span>
+        立即<%= link_to "填写人人网个人主页地址", edit_user_registration_path%>
+      </li>
+    <% end %>
+  </ul>
+</div>
