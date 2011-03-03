@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
   has_one :admin_extra, :dependent => :destroy
   has_one :google, :class_name => "GoogleToken", :dependent=> :destroy
   #FIXME hack!
-  has_many :consumer_tokens, :class_name => "GoogleToken", :dependent => :destroy
+  has_many :consumer_tokens, :dependent => :destroy
 
 
   #merge errors of children into this model
