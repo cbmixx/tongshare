@@ -2,10 +2,12 @@ module SiteConnectHelper
   def parse_renren_url(str)
     return nil if str.blank?
     if str.match(/\A[0-9]+\Z/) != nil #id
-      return str
+      #return str
+      return nil
     elsif str.match(/\/|\.|\?|\=/) == nil #domain
-      return nil if ["home", "profile"].include?(str.downcase)
-      return "domain:" + str
+      #return nil if ["home", "profile"].include?(str.downcase)
+      #return "domain:" + str
+      return nil
     else #may be uri
       uri = URI.parse(str)
       if !uri.host.blank?
@@ -13,13 +15,16 @@ module SiteConnectHelper
           if(uri.query.blank?)  #domain
             domain = uri.path
             domain = domain[1..-1] if domain.start_with?("/")
-            return parse_renren_url(domain)
+            return nil if domain.empty?
+            return nil if ["home", "profile"].include?(domain.downcase)
+            return "domain:" + domain
+            #return parse_renren_url(domain)
           else  #id
             queries = CGI.parse(uri.query)
             if queries["id"].nil? || queries["id"].count != 1
               return nil
             else
-              return queries["id"][0]
+              return "id:" + queries["id"][0]
             end
           end
         else
@@ -39,9 +44,9 @@ module SiteConnectHelper
     return nil if str.blank?
     if str.start_with?("domain:")
       return "http://www.renren.com/" + str[7..-1]  #7 = "domain:".count  #TODO: how to support custom domain for 3g.renren.com?
-    else
+    elsif str.start_with?("id:")
       prefix = mobile ? "3g" : "www"
-      return "http://#{prefix}.renren.com/profile.do?id=#{str}"
+      return "http://#{prefix}.renren.com/profile.do?id=#{str[3..-1]}"
     end
   end
 

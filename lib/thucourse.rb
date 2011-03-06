@@ -50,7 +50,7 @@ class CourseClass
       options = extra.split("；")
       course_class.teacher = options.first
       course_class.location = options.last
-      for i in 1...options.size-1
+      for i in 0...options.size
         if (m = options[i].match SUPER_SPECIAL_WEEK_MODIFIER_REGEX)
           week_specs = m[1].split(',')
           course_class.week_modifier = options[i]

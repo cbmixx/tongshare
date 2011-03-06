@@ -1,4 +1,8 @@
 class AddCompanyDomainToLoginValue < ActiveRecord::Migration
+  class UserIdentifier < ActiveRecord::Base
+    attr_accessible :login_value, :email
+  end
+  
   def self.up
     UserIdentifier.find_all_by_login_type("employee_no").each do |u|
       u.update_attribute :login_value, "tsinghua.edu.cn." + u.login_value

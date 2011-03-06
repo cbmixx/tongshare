@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  instance_id: 1
+  user_id: 1
+  feedback_value: MyString
+
+two:
+  instance_id: 1
+  user_id: 1
+  feedback_value: MyString

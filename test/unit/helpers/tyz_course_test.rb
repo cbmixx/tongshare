@@ -38,4 +38,16 @@ class TyzCourseTest < ActionView::TestCase
     assert rec.interval == 1
     assert rec.count == 5
   end
+
+  test "JAVA" do
+    events = find_classes("Java语言程序设计FZ1")
+    assert events.size == 1
+    assert events[0].location == "东主楼9区224室"
+    assert events[0].begin.localtime == Time.parse("2011-2-25 15:20")+1.week
+    rec = GCal4Ruby::Recurrence.new
+    rec.from_rrule(events[0].rrule)
+    assert rec.frequency == GCal4Ruby::Recurrence::WEEKLY_FREQUENCE
+    assert rec.interval == 1
+    assert rec.count == 15
+  end
 end

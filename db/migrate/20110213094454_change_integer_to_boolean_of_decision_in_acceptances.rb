@@ -4,5 +4,6 @@ class ChangeIntegerToBooleanOfDecisionInAcceptances < ActiveRecord::Migration
   end
 
   def self.down
+    change_column :acceptances, :decision, :integer
   end
 end

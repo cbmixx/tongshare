@@ -6,7 +6,8 @@ class Sharing < ActiveRecord::Base
   attr_accessible :event_id, :shared_from, :extra_info
   
   belongs_to :event
-  #belongs_to :user  #add by wander
+  belongs_to :user, :foreign_key => "shared_from"  #add by wander
+  
   has_many :user_sharings, :dependent => :destroy
   has_many :group_sharings, :dependent => :destroy
 

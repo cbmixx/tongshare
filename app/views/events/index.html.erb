@@ -96,12 +96,16 @@
         <% sharing = user_sharing.sharing %>
         <%= div_for(sharing, :class => "item") do %>
           <div class="sharing name">
-            <%= link_to sharing.event.name, sharing.event, :title => sharing.extra_info%>
+            <%= link_to sharing.event.name, event_path(sharing.event, :sharing => sharing.id), :title => sharing.extra_info%>
           </div>
           <div class="sharing info">
             <span><%sharing.event.location%></span>
             <span>
               <%= friendly_time_range sharing.event.begin, sharing.event.end %>
+            </span>
+            <span>
+              来自
+              <%= sharing.user.friendly_name  %>
             </span>
           </div>
           <div class="sharing links">

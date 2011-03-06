@@ -45,7 +45,7 @@ module EventsHelper
         return false unless e.save
       end
       acc = Acceptance.new(:event_id => e.id, :user_id => user_id, :decision => Acceptance::DECISION_ACCEPTED)
-      return false unless acc.save
+      logger.error acc.errors.to_yaml unless acc.save
     end
 
     return true
@@ -252,6 +252,7 @@ module EventsHelper
 
   # !readonly value returned
   # TODO: consider including UserSharing.sharing.event
+  # TODO: consider including UserSharing.sharing.user
   def query_sharing_event(priority = UserSharing::PRIORITY_INVITE, decision = Acceptance::DECISION_UNDECIDED, user_id = current_user.id)
     if decision == Acceptance::DECISION_UNDECIDED
       UserSharing.
@@ -342,7 +343,7 @@ module EventsHelper
     users << event.creator unless event.creator.id == 1
     
     for acceptance in event.acceptances
-      users << acceptance.user
+      users << acceptance.user if acceptance.decision == true
     end
 
     return [] if (users.size == 1 && users[0].id == current_user.id)
@@ -350,12 +351,16 @@ module EventsHelper
     pp users
 
     result = []
+    for user in users
+      ui = user.user_identifier.find_by_login_type(UserIdentifier::TYPE_EMPLOYEE_NO)
+      result << user if (ui && ui.confirmed)
+    end
 #    for user in users
 #      result << user.friendly_name.html_safe
 #    end
 
 #    return result
-     return users
+     return result
   end
 
   def find_acceptance(event, user = current_user)

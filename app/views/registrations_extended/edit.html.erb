@@ -1,5 +1,6 @@
-<%= content_box "个人", "资料" do %>
-  <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+
+  <%= content_box "个人", "资料" do %>
     <%= devise_error_messages_translated! %>
 
     <%= f.hidden_field :email%>
@@ -23,7 +24,26 @@
     <% end %>
 
     <div class="field">
-      <%= f.label :password, "修改密码", :class=>"title" %>
+      <label class="title">&nbsp;</label>
+      <%= submit_button f, "user_edit", "提交" %>
+      <%= styled_button "取消", :back %>
+    </div>
+
+  <% end %>
+
+  <%= content_box "修改", "密码", true do %>
+
+
+    <div class="field">
+      <%= f.label :current_password, "原密码", :class=>"title" %>
+      <%= f.password_field :current_password, :class=>"textvalue" %>
+      <div class="field_help">
+        需要您输入当前的“同享日程”密码以提高安全性。
+      </div>
+    </div>
+
+    <div class="field">
+      <%= f.label :password, "新密码", :class=>"title" %>
       <%= f.password_field :password, :class=>"textvalue" %>
         <div class="field_help">
           若不修改密码，请把这里留空
@@ -31,7 +51,7 @@
     </div>
 
     <div class="field">
-      <%= f.label :password_confirmation, "再输一次", :class=>"title" %>
+      <%= f.label :password_confirmation, "确认新密码", :class=>"title" %>
       <%= f.password_field :password_confirmation, :class=>"textvalue" %>
       <div class="field_help">
         若不修改密码，请把这里留空
@@ -39,22 +59,16 @@
     </div>
 
     <div class="field">
-      <%= f.label :current_password, "当前密码", :class=>"title" %>
-      <%= f.password_field :current_password, :class=>"textvalue" %>
-      <div class="field_help">
-        需要您输入当前的“同享日程”密码以提高安全性。
-      </div>
-    </div>
-    <div class="field">
       <label class="title">&nbsp;</label>
       <%= submit_button f, "user_edit", "提交" %>
       <%= styled_button "取消", :back %>
     </div>
-  <% end %>
 
-  <br/>
-  <div class="field" id="destroy_account">
-      <span class="field_help"><%= link_to "将我的帐号永久删除", registration_path(resource_name), :confirm => "你确定要永久删号吗？你在“同享日程”上创建的所有活动及其它任何数据都将无法恢复！", :method => :delete %></span>
-  </div>
+
+    <br/>
+    <div class="field" id="destroy_account">
+        <span class="field_help"><%= link_to "将我的帐号永久删除", registration_path(resource_name), :confirm => "你确定要永久删号吗？你在“同享日程”上创建的所有活动及其它任何数据都将无法恢复！", :method => :delete %></span>
+    </div>
+  <% end %>
 
 <% end  %>

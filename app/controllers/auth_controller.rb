@@ -42,11 +42,11 @@ class AuthController < ApplicationController
 
     ui = UserIdentifier.find_by UserIdentifier::TYPE_EMPLOYEE_NO, username
     if !ui.nil?
+      user = ui.user
       #add name
       passed = false
       if !name.blank?
         begin
-          user = ui.user
           user.build_user_extra if user.user_extra.nil?
           user.user_extra.name = name
           user.save!

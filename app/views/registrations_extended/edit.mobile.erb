@@ -1,0 +1,20 @@
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+  <%= devise_error_messages_translated! %>
+
+  <%= f.hidden_field :email%>
+
+  <%= f.fields_for :user_extra do |extra| %>
+    <%= extra.label :renren_url, "人人网个人主页", :class=>"title"%>
+    <%= extra.text_field :renren_url, :class=>"textvalue" %>
+    <p>想认识上同一节课的Ta吗？填写你的人人个人主页地址，让Ta找到你吧！<br/>
+      请访问<a href="http://3g.renren.com" target="_blank">手机人人</a>，登录后点击“个人主页”，并将其链接粘贴到这里。<br/>
+      正确的地址类似于：<br/>
+      http://3g.renren.com/profile.do?id=356208904&amp;(blablabla)<br/>
+      或者：<br/>
+      http://www.renren.com/profile.do?id=356208904<br/>
+      如果用手机粘贴地址有困难，请使用电脑登录并粘贴你的人人地址。
+    </p>
+  <% end %>
+
+  <%= f.submit "提交" %>
+<% end %>
