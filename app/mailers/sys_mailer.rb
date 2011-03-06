@@ -18,6 +18,7 @@ class SysMailer < ActionMailer::Base
     @user_sharing = user_sharing
 
     mail(:to => @user.email,
+         :reply_to => @shared_from.email, 
          :subject => I18n.t("tongshare.sharing.email.subject", :user_name => @shared_from.friendly_name)
     )   
   end
