@@ -367,6 +367,11 @@ module EventsHelper
     event.acceptances.find(:first, :conditions => ["user_id = ?", user.id])
   end
 
+  #add by Wander
+  def find_all_acceptances(event, user = current_user)
+    event.acceptances.find(:all, :conditions => ["user_id = ?", user.id])
+  end
+
   def show_friendly_rrule(event) #TODO i18n
     rrule = event.rrule
     return "" if rrule.nil? || rrule == ""

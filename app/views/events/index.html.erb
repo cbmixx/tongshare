@@ -56,7 +56,7 @@
                   if can? :destroy, instance.event
             %>
             <% acc = find_acceptance(instance.event) %>
-             <%= link_to "退出活动", {:controller => "acceptance", :action => "deny", :id => acc.id}, :confirm => "确实要退出该活动吗？" if can? :deny, acc%>
+             <%= link_to "退出活动", {:controller => "acceptance", :action => "exit", :id => acc.id}, :confirm => "确实要退出该活动吗？" if can? :exit, acc%>
           </span>
         </div>
       <% end %>
@@ -96,7 +96,7 @@
         <% sharing = user_sharing.sharing %>
         <%= div_for(sharing, :class => "item") do %>
           <div class="sharing name">
-            <%= link_to sharing.event.name, event_path(sharing.event, :sharing => sharing.id), :title => sharing.extra_info%>
+            <%= link_to sharing.event.name, event_path(sharing.event), :title => sharing.extra_info%>
           </div>
           <div class="sharing info">
             <span><%sharing.event.location%></span>

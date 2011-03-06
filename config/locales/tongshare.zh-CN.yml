@@ -10,7 +10,10 @@ zh-CN:
         interval_suffix_weekly: "周"
         interval_suffix_daily: "天"
     acceptance:
-      denied: "已退出活动"
+      accepted: "已接受活动\"%{name}\""
+      denied: "已拒绝活动\"%{name}\""
+      restored: "已重新接受活动\"%{name}\""
+      exited: "已退出活动\"%{name}\""
     sharing:
       created: "已将活动\"%{name}\"分享给%{count}位用户"
       email:

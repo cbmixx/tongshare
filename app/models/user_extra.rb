@@ -1,7 +1,7 @@
 class UserExtra < ActiveRecord::Base
 
   include SiteConnectHelper
-  attr_accessible :user_id, :name, :mobile, :public, :renren_id  
+  attr_accessible :user_id, :name, :mobile, :public, :renren_id, :renren_url
   belongs_to :user
 
   validates_format_of :renren_id, :with => /\A((id:[0-9]+)|(domain:.+))\Z/, :allow_nil => true, :allow_blank => true
@@ -17,7 +17,7 @@ class UserExtra < ActiveRecord::Base
 
   def renren_url=(str)
     ret = parse_renren_url(str)
-    #logger.debug "test: " + ret.to_yaml
+    logger.debug "test: " + ret.to_yaml
     self.renren_id = ret.nil? ? str : ret #when illegal, write str to renren_id. That will raise validation error as expected.
   end
 

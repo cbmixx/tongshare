@@ -10,6 +10,7 @@ Tongshare::Application.routes.draw do
   get "acceptance/destroy"
   get "acceptance/deny"
   get "acceptance/accept"
+  get "acceptance/exit"
 
   post "auth/confirm"
 

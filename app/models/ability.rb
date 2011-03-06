@@ -1,6 +1,7 @@
 class Ability
 
   include CanCan::Ability
+  include EventsHelper
 
   def initialize(user)
     # Define abilities for the passed in user here. For example:
@@ -56,7 +57,15 @@ class Ability
       #TODO: I think we need to build a index table showing whether a user can access to an event
     end
     can :index, Event
-    
+    can :share, Event do |e|
+      own = e.creator_id == @user.id
+      if own
+        true
+      else
+        acc = find_acceptance(e, @user)
+        !acc.nil? && acc.decision
+      end
+    end
 
     #user can edit profile
     can :update, User, :id => @user.id
@@ -64,7 +73,7 @@ class Ability
 
     #Manage sharing
     can :create, Sharing do |s|
-      s.shared_from == @user.id && can?(:show, s.event)
+      s.shared_from == @user.id && can?(:share, s.event)
     end
     #currently, cannot modify/destroy
 
@@ -73,8 +82,15 @@ class Ability
     cannot :update_sys, Sharing
 
     #user can edit acceptance they owns
-    can :deny, Acceptance, :user_id => @user.id
-
+    can :accept, Acceptance do |a|
+      (can? :show, a.event) && (a.user_id == @user.id) && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
+    end
+    can :deny, Acceptance do |a|
+      (can? :show, a.event) && (a.user_id == @user.id) && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
+    end
+    can :exit, Acceptance, :user_id => @user.id
+    can :restore, Acceptance, :user_id => @user.id
+    
     #Recommend to individuals
     can :write, UserSharing,
         :priority => UserSharing::PRIORITY_RECOMMENDATION,

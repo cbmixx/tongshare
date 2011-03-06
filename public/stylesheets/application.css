@@ -160,6 +160,18 @@ root {
     float: left;
 }
 
+.event.sharings .quote {
+    margin-left: 10px;
+}
+
+.event.sharings .event.buttons .wrapper {
+    display: inline;
+}
+
+.event.sharings .event.buttons .link1 {
+    margin-right: 20px;
+}
+
 .field .link1 {
     margin-right: 20px;
 }

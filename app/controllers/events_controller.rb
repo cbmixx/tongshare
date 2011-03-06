@@ -73,10 +73,12 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.xml
   def show
-    @event = Event.find(params[:id])
-    @instance = params[:inst].blank? ? nil : Instance.find(params[:inst])
-
+    @event = Event.find(params[:id])   
     authorize! :show, @event
+
+    @instance = params[:inst].blank? ? nil : Instance.find(params[:inst])
+    @acceptances = find_all_acceptances(@event)
+    @sharings = @event.sharings.all(:conditions => ['user_sharings.user_id = ?', current_user.id], :joins => [:user_sharings])
 
     respond_to do |format|
       format.html # show.html.erb

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110306031117) do
+ActiveRecord::Schema.define(:version => 20110306085504) do
 
   create_table "acceptances", :force => true do |t|
     t.integer  "event_id"
@@ -19,6 +19,9 @@ ActiveRecord::Schema.define(:version => 20110306031117) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "acceptances", ["event_id"], :name => "index_acceptances_on_event_id"
+  add_index "acceptances", ["user_id"], :name => "index_acceptances_on_user_id"
 
   create_table "admin_extras", :force => true do |t|
     t.integer  "user_id"
@@ -57,6 +60,11 @@ ActiveRecord::Schema.define(:version => 20110306031117) do
     t.datetime "updated_at"
     t.string   "rrule"
   end
+
+  add_index "events", ["begin"], :name => "index_events_on_begin"
+  add_index "events", ["creator_id"], :name => "index_events_on_creator_id"
+  add_index "events", ["end"], :name => "index_events_on_end"
+  add_index "events", ["updated_at"], :name => "index_events_on_updated_at"
 
   create_table "feedbacks", :force => true do |t|
     t.integer  "instance_id"
@@ -97,6 +105,11 @@ ActiveRecord::Schema.define(:version => 20110306031117) do
     t.integer  "creator_id"
   end
 
+  add_index "instances", ["begin"], :name => "index_instances_on_begin"
+  add_index "instances", ["creator_id"], :name => "index_instances_on_creator_id"
+  add_index "instances", ["end"], :name => "index_instances_on_end"
+  add_index "instances", ["event_id"], :name => "index_instances_on_event_id"
+
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
@@ -131,6 +144,9 @@ ActiveRecord::Schema.define(:version => 20110306031117) do
     t.datetime "updated_at"
   end
 
+  add_index "sharings", ["event_id"], :name => "index_sharings_on_event_id"
+  add_index "sharings", ["shared_from"], :name => "index_sharings_on_shared_from"
+
   create_table "user_extras", :force => true do |t|
     t.integer  "user_id"
     t.string   "name"
@@ -141,6 +157,9 @@ ActiveRecord::Schema.define(:version => 20110306031117) do
     t.string   "renren_id"
   end
 
+  add_index "user_extras", ["name"], :name => "index_user_extras_on_name"
+  add_index "user_extras", ["user_id"], :name => "index_user_extras_on_user_id"
+
   create_table "user_identifiers", :force => true do |t|
     t.string   "login_value"
     t.integer  "user_id"
@@ -150,7 +169,9 @@ ActiveRecord::Schema.define(:version => 20110306031117) do
     t.boolean  "confirmed",   :default => false
   end
 
+  add_index "user_identifiers", ["confirmed"], :name => "index_user_identifiers_on_confirmed"
   add_index "user_identifiers", ["login_type", "login_value"], :name => "index_user_identifiers_on_type_and_value", :unique => true
+  add_index "user_identifiers", ["user_id"], :name => "index_user_identifiers_on_user_id"
 
   create_table "user_sharings", :force => true do |t|
     t.integer  "sharing_id"
@@ -159,6 +180,10 @@ ActiveRecord::Schema.define(:version => 20110306031117) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "user_sharings", ["priority"], :name => "index_user_sharings_on_priority"
+  add_index "user_sharings", ["sharing_id"], :name => "index_user_sharings_on_sharing_id"
+  add_index "user_sharings", ["user_id"], :name => "index_user_sharings_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                               :default => "", :null => false
