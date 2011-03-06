@@ -41,6 +41,7 @@ Tongshare::Application.configure do
     #default args
     #:arguments => '-i -t' 
   }
+  config.action_mailer.default_url_options = { :host => "127.0.0.1:3000" }
 
   #time zone
   config.time_zone = 'Beijing'

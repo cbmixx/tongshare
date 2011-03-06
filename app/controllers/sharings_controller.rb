@@ -81,7 +81,13 @@ class SharingsController < ApplicationController
 
     @event = Event.find(sharing.event_id)
     ret = @event.add_sharing(current_user.id, sharing.extra_info, members)
-
+    if ret
+      sharing = @event.sharings.last
+      sharing.user_sharings.each do |us|
+        mail = SysMailer.user_sharing_request_email(us)
+        mail.deliver
+      end
+    end
     #ret = @sharing.save
     respond_to do |format|
       if ret

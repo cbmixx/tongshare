@@ -13,6 +13,8 @@ zh-CN:
       denied: "已退出活动"
     sharing:
       created: "已将活动\"%{name}\"分享给%{count}位用户"
+      email:
+        subject: "来自%{user_name}的分享邀请"
     curriculum:
       file_empty: "请选择一个课表文件"
       file_ext_error: "只允许上传Excel类型的文件，其后缀为.xls"
