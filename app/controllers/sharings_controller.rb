@@ -85,7 +85,7 @@ class SharingsController < ApplicationController
       sharing = @event.sharings.last
       sharing.user_sharings.each do |us|
         mail = SysMailer.user_sharing_request_email(us)
-        mail.deliver
+        mail.deliver if !mail.nil?
       end
     end
     #ret = @sharing.save

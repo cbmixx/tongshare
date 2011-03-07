@@ -14,6 +14,9 @@ zh-CN:
       denied: "已拒绝活动\"%{name}\""
       restored: "已重新接受活动\"%{name}\""
       exited: "已退出活动\"%{name}\""
+      email:
+        denied_subject: "%{name}已拒绝您的分享邀请"
+        accepted_subject: "%{name}已接受您的分享邀请"
     sharing:
       created: "已将活动\"%{name}\"分享给%{count}位用户"
       email:
