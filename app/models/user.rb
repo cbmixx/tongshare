@@ -97,4 +97,8 @@ class User < ActiveRecord::Base
     result
   end
   
+  def active?
+    true
+  end
+  
 end
