@@ -8,14 +8,14 @@ set :deploy_to, "/var/www/#{application}"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
-set :user, "deployer"
-set :runner, "deployer"
+set :user, "tongshare"
+set :runner, "tongshare"
 
 set :scm, :subversion
 set :scm_user, "paullzn"
 set :scm_password, "Zv9Kw9sF2kJ9"
 
-server "lives3.net", :app, :web, :db, :primary => true
+server "s2.tongshare.com", :app, :web, :db, :primary => true
 
 default_run_options[:pty] = true
 
@@ -26,25 +26,26 @@ set :unicorn_pid, "#{current_path}/tmp/pids/unicorn.pid"
 
 namespace :deploy do
   task :start, :roles => :app, :except => { :no_release => true } do
-    run "cd #{current_path} && bundle install && rake db:migrate RAILS_ENV=production && ln -s /var/www/tongshare/shared/environments/production.rb #{current_path}/config/environments/production.rb && ln -s /var/www/tongshare/shared/public/javascripts/translations.js #{current_path}/public/javascripts/translations.js && ln -s /var/www/tongshare/shared/data #{current_path}/data && #{try_sudo} #{unicorn_binary} -c#{unicorn_config} -E #{rails_env} -D"
+    run "cd #{current_path} && #{try_sudo} #{unicorn_binary} -c#{unicorn_config} -E #{rails_env} -D"
   end
-  
-  task :stop, :roles => :app, :except => { :no_release => true } do 
+
+  task :stop, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} kill `cat #{unicorn_pid}`"
   end
-  
+
   task :graceful_stop, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} kill -s QUIT `cat #{unicorn_pid}`"
   end
-  
-  task :reload, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} kill -s USR2 `cat #{unicorn_pid}`"
-  end
-  
+
   task :restart, :roles => :app, :except => { :no_release => true } do
-    stop
-    sleep 5
-    start
+    run "#{try_sudo} kill -s USR2 `cat #{unicorn_pid}`"
   end
 end
 
+#optional task to reconfigure databases (copied from book Agile)
+after "deploy:update_code", :link_and_bundle_install
+desc "install the necessary prerequisites"
+task :link_and_bundle_install, :roles => :app do
+#  run "cd #{release_path} && bundle install"
+  run "ln -s /var/www/tongshare/shared/environments/production.rb #{release_path}/config/environments/production.rb && ln -s /var/www/tongshare/shared/public/javascripts/translations.js #{release_path}/public/javascripts/translations.js && ln -s /var/www/tongshare/shared/data #{release_path}/data && cd #{release_path} && bundle install"
+end

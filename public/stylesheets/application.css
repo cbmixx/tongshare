@@ -100,7 +100,7 @@ root {
 .noticebar #alert {
     margin-bottom: 15px;
     color: #FF5811;
-    font-weight: bold;
+    font-weight: bold;event creator
 }
 
 .noticebar #alert:before {
@@ -137,6 +137,12 @@ root {
     margin-left: 1em;
     font-style: italic;
     margin-bottom: 10px;
+}
+
+.event.show .instance.warning {
+    margin-left: 1em;
+    margin-bottom: 10px;
+    color: red;
 }
 
 .event.show .event.buttons {

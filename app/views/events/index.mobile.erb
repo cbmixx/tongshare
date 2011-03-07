@@ -11,7 +11,11 @@
 <br/><br/>
 
 <% @instances.each do |instance|%>
-  <%= link_to instance.name, event_path(instance.event, :inst=>instance.id) %><br/>
+  <%= link_to instance.name, event_path(instance.event, :inst=>instance.id) %>
+  <% if instance.warning_count > 0 %>
+  <font color="red">（有报警！）</font>
+  <% end %>
+  <br/>
   <%= instance.location.blank? ? "" : (instance.location + "<br/>").html_safe%>
   <%= friendly_time_range instance.begin, instance.end %>
   <%#= link_to "删除", instance.event, :method => "delete" %>

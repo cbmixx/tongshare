@@ -346,9 +346,9 @@ module EventsHelper
       users << acceptance.user if acceptance.decision == true
     end
 
-    return [] if (users.size == 1 && users[0].id == current_user.id)
-
-    pp users
+#    return [] if (users.size == 1 && users[0].id == current_user.id)
+#
+#    pp users
 
     result = []
     for user in users

@@ -21,7 +21,7 @@ class AddUid1AndConfirmedToUser < ActiveRecord::Migration
 
   class UserExtra < ActiveRecord::Base
     belongs_to :user
-    attr_accessible :name
+    attr_accessible :name, :user_id
   end
 
   def self.up

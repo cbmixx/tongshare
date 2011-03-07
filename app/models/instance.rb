@@ -6,4 +6,9 @@ class Instance < ActiveRecord::Base
   has_many :feedback, :dependent => :destroy
 
   #validates :event_id, :creator_id, :presence => true
+
+  def warning_count
+    Feedback.where("instance_id=? AND value=?",
+        self.id, Feedback::WARNING).count
+  end
 end

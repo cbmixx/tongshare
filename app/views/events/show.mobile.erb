@@ -1,5 +1,14 @@
 <h2><%= @event.name %></h2>
 
+<% if @warning_count && @warning_count > 0 %>
+<p>
+<font color="red">
+  <%=  sprintf("共有%.1f%%的参与者报警", @warning_reliability * 100) %>
+  <%= sprintf("(包括我在内)") if @warninged  %>
+</font>
+</p>
+<% end %>
+
 <% if @event.recurring? %>
   <% if @instance.nil? %>
     <%= friendly_time_range @event.begin, @event.end %>
@@ -22,6 +31,10 @@
 
 <p><%= @event.extra_info %></p>
 
+<%= link_to "报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::WARNING) if @instance && !@warninged %>
+<%= link_to "取消报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::DISABLE_WARNING) if @instance && @warninged %>
+<%= "(报警：该节课有点名、小测)" if @event.creator_id == 1%>
+
 <hr/>
 
 <% if !(attendees = get_attendees(@event)).empty? %>
@@ -36,6 +49,6 @@
       </li>
     <% end %>
   </ul>
-  （仅显示已注册用户）
+  （仅显示已注册并通过验证的用户）
 </p>
 <% end %>

@@ -3,6 +3,12 @@
   <%= div_for @event, :class => "show" do %>
     <div class="event name"><%= @event.name %></div>
     <div class="event creator">由<%= @event.creator.friendly_name %>创建</div>
+    <% if @warning_count && @warning_count > 0 %>
+    <div class="instance warning">
+      <%=  sprintf("共有%.1f%%的参与者报警", @warning_reliability * 100) %>
+      <%= sprintf("(包括我在内)") if @warninged  %>
+    </div>
+    <% end %>
 
     <% if @event.recurring? %>
       <div class="event time">
@@ -26,12 +32,16 @@
       <%= @event.extra_info %>
     </div>
     <br/>
+    <p><%= "(报警：该节课有点名、小测)" if @event.creator_id == 1 %></p>
     <div class="event buttons">
       <%= styled_button "编辑", edit_event_path(@event) if can? :edit, @event %>
       <%= styled_button "删除", @event, :method => "delete",
         :confirm => ("你确实要删除\"#{@event.name}\"吗？" + (@event.recurring? ? "这是一个重复的事件，所有重复项都会被删除！" : "")) \
          if can? :destroy, @event %>
-      
+      <% if @can_warn %>
+      <%= styled_button "报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::WARNING) if @instance && !@warninged %>
+      <%= styled_button "取消报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::DISABLE_WARNING) if @instance && @warninged %>
+      <% end %>
       <% acc = find_acceptance(@event) %>
       <%= styled_button "退出活动", {:controller => "acceptance", :action => "exit", :id => acc.id}, :confirm => "确实要退出该活动吗？" if can? :exit, acc%>
       <%= styled_button "分享", {:controller => "sharings", :action => "new", :event_id => @event.id} if can? :share, @event %>
@@ -64,9 +74,8 @@
     </div>
   <% end %>
 <%end%>
-
+<br/>
 <% if !(attendees = get_attendees(@event)).empty? %>
-  <br/>
   <%= content_box "活动", "参与者", true do %>
     <div class="event attendee">
       <ul>
@@ -80,11 +89,11 @@
             <% else %>
               &nbsp;
             <% end %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-    <div>（仅显示已注册用户）</div>
-  <% end %>
+	    </li>
+	    <% end %>
+          </ul>
+        </div>
+        <div>（仅显示已注册并通过验证的用户）</div>
+      <% end %>
 <% end %>
 

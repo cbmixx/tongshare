@@ -80,6 +80,29 @@ class EventsController < ApplicationController
     @acceptances = find_all_acceptances(@event)
     @sharings = @event.sharings.all(:conditions => ['user_sharings.user_id = ?', current_user.id], :joins => [:user_sharings])
 
+    if (@instance)
+      @warninged = (Feedback.where("user_id=? AND instance_id=? AND value=?",
+        current_user.id, @instance.id, Feedback::WARNING).count > 0)
+      feedback = params[:feedback]
+      if (feedback == Feedback::WARNING && !@warninged)
+        Feedback.create(:user_id => current_user.id,
+          :instance_id => @instance.id, :value => Feedback::WARNING)
+        @warninged = true
+      elsif (feedback == Feedback::DISABLE_WARNING && @warninged)
+        Feedback.where("user_id=? AND instance_id=? AND value=?",
+          current_user.id, @instance.id, Feedback::WARNING).to_a.each do |f|
+          f.destroy
+        end
+        @warninged = false
+      end
+
+      @warning_count = @instance.warning_count
+      attendee_ids = get_attendees(@event).map { |user| user.id }
+      @total_count = attendee_ids.size
+      @can_warn = attendee_ids.include? current_user.id
+      @warning_reliability = @warning_count.to_f / [@total_count, 1].max
+    end
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @event }

@@ -36,6 +36,7 @@
       <%= div_for(instance, :class => "item") do %>
         <div class="instance name">
           <%= link_to instance.name, event_path(instance.event, :inst => instance.id), :title => instance.extra_info%>
+          <%= "（有报警！）" if instance.warning_count > 0%>
         </div>
         <div class="instance info">
           <span><%=instance.location%></span>
