@@ -4,6 +4,7 @@ class EventsController < ApplicationController
   include AuthHelper
   include CurriculumHelper
   include SiteConnectHelper
+  include SharingsHelper
 
   before_filter :authenticate_user!
 
@@ -77,8 +78,9 @@ class EventsController < ApplicationController
     authorize! :show, @event
 
     @instance = params[:inst].blank? ? nil : Instance.find(params[:inst])
-    @acceptances = find_all_acceptances(@event)
+    @acceptance = find_acceptance(@event)
     @sharings = @event.sharings.all(:conditions => ['user_sharings.user_id = ?', current_user.id], :joins => [:user_sharings])
+    @invited_feedbacks = find_invited_feedback(@event.id, current_user.id)
 
     if (@instance)
       @warninged = (Feedback.where("user_id=? AND instance_id=? AND value=?",

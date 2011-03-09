@@ -29,7 +29,9 @@ class SharingsController < ApplicationController
 
       ui = UserIdentifier.find_by(item[:type], item[:login_value])
       if !ui.nil?
-        result[:valid] << {:id => ui.user_id, :name => item[:login_value]}  #do not expose user_friendly_name or attackers can enumerate 学号/姓名 pair by add sharings.
+        if ui.user_id != current_user.id
+          result[:valid] << {:id => ui.user_id, :name => item[:login_value]}  #do not expose user_friendly_name or attackers can enumerate 学号/姓名 pair by add sharings.
+        end
       elsif item[:type] == UserIdentifier::TYPE_EMPLOYEE_NO
         result[:dummy] << item[:login_value]
       else

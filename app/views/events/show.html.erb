@@ -6,7 +6,7 @@
     <% if @warning_count && @warning_count > 0 %>
     <div class="instance warning">
       <%=  sprintf("共有%.1f%%的参与者报警", @warning_reliability * 100) %>
-      <%= sprintf("(包括我在内)") if @warninged  %>
+      <%= sprintf("(包括你在内)") if @warninged  %>
     </div>
     <% end %>
 
@@ -31,8 +31,9 @@
     <div class="event extra">
       <%= @event.extra_info %>
     </div>
+
     <br/>
-    <p><%= "(报警：该节课有点名、小测)" if @event.creator_id == 1 %></p>
+    <div><%= "(报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)" if @event.creator_id == 1 %></div>
     <div class="event buttons">
       <%= styled_button "编辑", edit_event_path(@event) if can? :edit, @event %>
       <%= styled_button "删除", @event, :method => "delete",
@@ -51,6 +52,33 @@
 
 <%end%>
 
+<% unless @invited_feedbacks.nil? %>
+  <%= content_box "受邀者", "反馈", true do %>
+    <div class="event feedback">
+      <div class="statistic">
+        您发出的邀请共有<%= @invited_feedbacks[:counter][:accepted] %>人接受，
+        <%= @invited_feedbacks[:counter][:rejected] %>人拒绝，
+        <%= @invited_feedbacks[:counter][:undecided] %>人尚未回复。
+      </div>
+      <br/>
+      <ul>
+        <% for feedback in @invited_feedbacks[:data] %>
+        <li>
+           <%= feedback[:user].friendly_name %>：
+             <% if feedback[:decision].nil? %>
+                未定
+             <% elsif feedback[:decision] == true %>
+                接受
+             <% else %>
+                拒绝
+             <% end %>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<% end %>
+
 <% unless @sharings.empty? %>
   <br/>
   <%= content_box "邀请你", "参加", true do %>
@@ -67,10 +95,16 @@
         <% end %>
       </ul>
       <br/>
+      <% if @acceptance.nil? %>
       <div class="event buttons">
         <%= styled_button "接受邀请", {:controller => "acceptance", :action => "accept", :id => sharing.id} %>
         <%= styled_button "拒绝邀请", {:controller => "acceptance", :action => "deny", :id => sharing.id} %>
       </div>
+      <% elsif @acceptance.decision == true %>
+        （你已经接受了这些邀请）
+      <% else %>
+        （你已经拒绝了这些邀请）
+      <% end %>
     </div>
   <% end %>
 <%end%>

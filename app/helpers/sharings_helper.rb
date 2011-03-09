@@ -34,4 +34,36 @@ module SharingsHelper
     result
   end
 
+  #find all acceptances whose owner is invited by "user" to attend "event". If one member is in multiple sharings, this function will combine them.
+  def find_invited_feedback(event_id, invitor_id)
+
+    result = {:counter => {:accepted => 0, :rejected => 0, :undecided => 0}, :data => []}
+
+    user_ids = Set.new
+    sharings = Sharing.all(:conditions => ['event_id = ? AND shared_from = ?', event_id, invitor_id], :include => :user_sharings)
+    return nil if sharings.empty?
+    sharings.each do |s| #we consume that a user won't sharing the same event so many times
+      user_ids.merge s.user_sharings.collect {|us| us.user_id}
+    end
+
+    acceptances = Acceptance.all(:conditions => ['event_id = ? AND user_id IN (?)', event_id, user_ids.to_a], :include => :user, :order => 'decision')
+    acceptances.each do |acc|
+      result[:data] << {:user => acc.user, :decision => acc.decision}
+      if acc.decision == true
+        result[:counter][:accepted] += 1
+      else
+        result[:counter][:rejected] += 1
+      end
+      user_ids.delete(acc.user_id)
+    end
+
+    undecided = User.all(:conditions => ['id IN (?)', user_ids.to_a])
+    undecided.each do |u|
+      result[:data] << {:user => u, :decision => nil}
+      result[:counter][:undecided] += 1
+    end
+
+    result
+  end
+
 end

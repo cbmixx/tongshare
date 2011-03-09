@@ -4,7 +4,7 @@
 <p>
 <font color="red">
   <%=  sprintf("共有%.1f%%的参与者报警", @warning_reliability * 100) %>
-  <%= sprintf("(包括我在内)") if @warninged  %>
+  <%= sprintf("(包括你在内)") if @warninged  %>
 </font>
 </p>
 <% end %>
@@ -33,7 +33,7 @@
 
 <%= link_to "报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::WARNING) if @instance && !@warninged %>
 <%= link_to "取消报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::DISABLE_WARNING) if @instance && @warninged %>
-<%= "(报警：该节课有点名、小测)" if @event.creator_id == 1%>
+<%= "(报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)" if @event.creator_id == 1%>
 
 <hr/>
 

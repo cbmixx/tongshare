@@ -9,5 +9,7 @@ class AddAuthentactionToken < ActiveRecord::Migration
   def self.down
     remove_index :users, :authentication_token
     #FIXME anything here?
+    remove_column :users, :authentication_token #add by Wander
+    #TODO: is it right?
   end
 end

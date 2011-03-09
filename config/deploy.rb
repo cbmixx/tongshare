@@ -8,8 +8,8 @@ set :deploy_to, "/var/www/#{application}"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
-set :user, "tongshare"
-set :runner, "tongshare"
+set :user, "deployer"
+set :runner, "deployer"
 
 set :scm, :subversion
 set :scm_user, "paullzn"
