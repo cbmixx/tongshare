@@ -178,6 +178,8 @@ root {
     margin-right: 20px;
 }
 
+
+
 .field .link1 {
     margin-right: 20px;
 }
@@ -217,7 +219,14 @@ root {
     margin-bottom: 15px;
 }
 
+.conflict {
+    margin-left: 25px;
+}
+
+.conflict ul {
+    list-style-type: circle;
+}
+
 .instruction_list {
-    list-style-type: decimal;
-    
+    list-style-type: decimal;   
 }

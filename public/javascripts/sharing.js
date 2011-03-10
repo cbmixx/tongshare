@@ -9,7 +9,7 @@ function add_members(data)
 
         if($('new_member_' + item.id) != null)
         {
-            continue;
+            $('new_member_' + item.id).remove();
         }
 
         li = new Element("li", {
@@ -18,6 +18,36 @@ function add_members(data)
         li.insert("<span class=\"name\">" + item.name + "</span>");
         li.insert("&nbsp;&nbsp;<a href=\"javascript: del_member(" + item.id + ")\" class=\"del\">\u2717</a>");
         li.insert("<input type=\"hidden\" name=\"members[]\" value=\"" + item.id + "\">");
+
+        //conflict
+        if(item.conflict.size() > 0)
+        {
+            li.insert("&nbsp;&nbsp;<a href=\"javascript: toggle_conflict(" + item.id + ")\" class=\"conflict_link\">" +
+                I18n.t('tongshare.sharing.conflict.link') +
+                "</a>");
+
+            conflict_div = new Element("div", {"id": "conflict_" + item.id, "class": "conflict", "style": "display:none"});
+            conflict_div.insert(I18n.t('tongshare.sharing.conflict.prompt'));
+
+            conflict_list = new Element("ul");
+            for(var ci = 0; ci < item.conflict.size(); ci++)
+            {
+                conflict_list.insert('<li>' + item.conflict[ci] + '</li>');
+            }
+            conflict_div.insert(conflict_list);
+
+            if(data.recurring)
+            {
+                conflict_div.insert(I18n.t('tongshare.sharing.conflict.about_repeat') + "<br/>");
+            }
+            
+            conflict_div.insert('<a href="' + data.edit_event_path + '" target="_blank">' +
+                    I18n.t('tongshare.sharing.conflict.edit_event') +
+                    '</a>');
+
+            li.insert(conflict_div);
+        }
+
         list.insert(li);
     }
 
@@ -115,4 +145,9 @@ function checkFormValid(form)
     {
         return true;
     }
+}
+
+function toggle_conflict(id)
+{
+    Effect.toggle('conflict_' + id, 'slide', {duration: 0.5});
 }

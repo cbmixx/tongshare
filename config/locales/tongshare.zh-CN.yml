@@ -23,6 +23,11 @@ zh-CN:
       empty: "没有有效的邀请对象"
       email:
         subject: "来自%{user_name}的分享邀请"
+      conflict:
+        link: "时间冲突！"
+        prompt: "该用户在以下时间段已有日程安排："
+        edit_event: "编辑活动"
+        about_repeat: "注意：被分享的活动是有重复的，但是这里只检查第一次活动的时间冲突情况。"
     curriculum:
       file_empty: "请选择一个课表文件"
       file_ext_error: "只允许上传Excel类型的文件，其后缀为.xls"

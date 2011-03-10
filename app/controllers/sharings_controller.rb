@@ -2,6 +2,7 @@ class SharingsController < ApplicationController
   include SharingsHelper
   include RegistrationsExtendedHelper
   include UsersHelper
+  include EventsHelper
   before_filter :authenticate_user!
 
   def index
@@ -18,7 +19,11 @@ class SharingsController < ApplicationController
   end
 
   def add_members
-    result = {:valid => [], :dummy => [], :duplicated => [], :invalid => [], :parse_errored => []}
+    event = Event.find(params[:event_id])
+    result = {:valid => [], :dummy => [], :duplicated => [], :invalid => [], :parse_errored => [],
+      :edit_event_path => edit_event_path(event),
+      :recurring => event.recurring?
+      }
 
     items = parse_sharings_raw(params[:raw_string])
     for item in items
@@ -29,7 +34,15 @@ class SharingsController < ApplicationController
 
       ui = UserIdentifier.find_by(item[:type], item[:login_value])
       if !ui.nil?
-        result[:valid] << {:id => ui.user_id, :name => item[:login_value]}  #do not expose user_friendly_name or attackers can enumerate 学号/姓名 pair by add sharings.
+        data_entry = {:id => ui.user_id, :name => item[:login_value], :conflict => []}  #do not expose user_friendly_name or attackers can enumerate 学号/姓名 pair by add sharings.
+
+        #check time conflict
+        user_instances = query_all_accepted_instance_includes_event(event.begin, event.end, ui.user_id)
+        user_instances.each do |i|
+          data_entry[:conflict] << friendly_time_range(i.begin, i.end)
+        end
+        
+        result[:valid] << data_entry
       elsif item[:type] == UserIdentifier::TYPE_EMPLOYEE_NO
         result[:dummy] << item[:login_value]
       else
