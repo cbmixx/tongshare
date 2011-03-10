@@ -100,7 +100,7 @@ root {
 .noticebar #alert {
     margin-bottom: 15px;
     color: #FF5811;
-    font-weight: bold;event creator
+    font-weight: bold;
 }
 
 .noticebar #alert:before {
@@ -221,6 +221,10 @@ root {
 
 .conflict {
     margin-left: 25px;
+}
+
+a.del {
+    color: #88AAEE;
 }
 
 .conflict ul {
