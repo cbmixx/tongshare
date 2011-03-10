@@ -87,7 +87,7 @@
       <ul>
         <% for sharing in @sharings %>
           <li>
-            <div class="name"><%=sharing.user_sharings[0].user.friendly_name%></div>
+            <div class="name"><%=sharing.user.friendly_name%></div>
             <% unless sharing.extra_info.blank?  %>
               <div class="quote">“<%= sharing.extra_info %>“</div>
             <% end %>

@@ -53,6 +53,8 @@ include AuthHelper
     if resource.save
       set_flash_message :notice, :signed_up
 
+      transfer_dummy_user(params[:employee_no], company_domain, resource.id)
+
       #backup the current redirect_to (according to stored_location_for)
       #original_redirect = session[:user_return_to] || root_url
       original_redirect = root_url

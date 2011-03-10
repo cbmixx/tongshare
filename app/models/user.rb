@@ -8,6 +8,7 @@
 # by Wander: add columns for devise. 
 
 class User < ActiveRecord::Base
+  include UsersHelper
 
   #NIL_EMAIL_ALIAS_DOMAIN = 'null.tongshare.com' #see registration_extended_controller
 
@@ -68,10 +69,13 @@ class User < ActiveRecord::Base
     return name unless name.blank?
     
     employee_no_rec = self.user_identifier.find_by_login_type(UserIdentifier::TYPE_EMPLOYEE_NO)
-    return employee_no_rec.login_value unless (employee_no_rec.nil? || employee_no_rec.login_value.blank?)
+    return without_company_domain(employee_no_rec.login_value, self) unless (employee_no_rec.nil? || employee_no_rec.login_value.blank?)
 
     email_rec = self.user_identifier.find_by_login_type(UserIdentifier::TYPE_EMAIL)
     return email_rec.login_value unless (email_rec.nil? || email_rec.login_value.blank?)
+
+    employee_no_rec = self.user_identifier.find_by_login_type(UserIdentifier::TYPE_EMPLOYEE_NO_DUMMY)
+    return without_company_domain(employee_no_rec.login_value, self) unless (employee_no_rec.nil? || employee_no_rec.login_value.blank?)
 
     return nil
   end

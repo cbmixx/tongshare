@@ -45,6 +45,7 @@ function add_members(data)
     }
 
     show_errors("invalid", data.invalid);
+    show_errors("duplicated", data.duplicated);
     show_errors("parse_errored", data.parse_errored);
 
     toggle_nil_prompt();
@@ -66,8 +67,10 @@ function show_errors(type, data)
 function clear_errors()
 {
     $("errors_invalid_container").hide();
+    $("errors_duplicated_container").hide();
     $("errors_parse_errored_container").hide();
     $("errors_invalid").innerHTML = "";
+    $("errors_duplicated").innerHTML = "";
     $("errors_parse_errored").innerHTML = "";
 }
 
@@ -98,5 +101,18 @@ function toggle_nil_prompt()
     else
     {
         $('new_member_nil').hide();
+    }
+}
+
+function checkFormValid(form)
+{
+    if (form.getInputs('hidden','members[]').size() == 0 && form.getInputs('hidden', 'dummy[]').size() == 0)
+    {
+        alert(I18n.t('tongshare.sharing.empty'));
+        return false;
+    }
+    else
+    {
+        return true;
     }
 }

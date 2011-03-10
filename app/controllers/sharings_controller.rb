@@ -18,7 +18,7 @@ class SharingsController < ApplicationController
   end
 
   def add_members
-    result = {:valid => [], :dummy => [], :invalid => [], :parse_errored => []}
+    result = {:valid => [], :dummy => [], :duplicated => [], :invalid => [], :parse_errored => []}
 
     items = parse_sharings_raw(params[:raw_string])
     for item in items
@@ -29,9 +29,7 @@ class SharingsController < ApplicationController
 
       ui = UserIdentifier.find_by(item[:type], item[:login_value])
       if !ui.nil?
-        if ui.user_id != current_user.id
-          result[:valid] << {:id => ui.user_id, :name => item[:login_value]}  #do not expose user_friendly_name or attackers can enumerate 学号/姓名 pair by add sharings.
-        end
+        result[:valid] << {:id => ui.user_id, :name => item[:login_value]}  #do not expose user_friendly_name or attackers can enumerate 学号/姓名 pair by add sharings.
       elsif item[:type] == UserIdentifier::TYPE_EMPLOYEE_NO
         result[:dummy] << item[:login_value]
       else
@@ -39,7 +37,14 @@ class SharingsController < ApplicationController
       end
     end
 
-    #TODO: filter duplicated
+    #filter duplicated
+    ids = result[:valid].collect {|i| i[:id]}
+    duplicated = find_duplicated_sharing(current_user.id, params[:event_id], ids).to_set
+
+    duplicated_entries = result[:valid].select {|i| duplicated.include?(i[:id])}
+    result[:duplicated].concat(duplicated_entries.collect{|i| i[:name]})
+    result[:valid].delete_if {|i| duplicated.include?(i[:id])}
+
 
     @json = result.to_json
 
@@ -77,8 +82,10 @@ class SharingsController < ApplicationController
     end
 
     #add normal users
-    params[:members].each do |id|
-      members << id.to_i
+    if !params[:members].nil?
+      params[:members].each do |id|
+        members << id.to_i
+      end
     end
 
     @event = Event.find(sharing.event_id)
@@ -95,7 +102,10 @@ class SharingsController < ApplicationController
       if ret
         format.html { redirect_to(@event, :notice => I18n.t('tongshare.sharing.created', :name => @event.name, :count => members.count)) }
       else
-        format.html { render :action => "new" } #TODO: is it necessary to restore previous data? I guess there won't be validation errors unless attackers XXOO
+        #format.html { render :action => "new" } #TODO: is it necessary to restore previous data? I guess there won't be validation errors unless attackers XXOO
+        format.html do
+          redirect_to( {:controller=>'sharings', :action=>'new', :event_id => @event.id}, :alert => I18n.t('tongshare.sharing.failed', :name => @event.name))
+        end
       end
     end
   end

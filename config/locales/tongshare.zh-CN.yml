@@ -19,6 +19,8 @@ zh-CN:
         accepted_subject: "%{name}已接受您的分享邀请"
     sharing:
       created: "已将活动\"%{name}\"分享给%{count}位用户"
+      failed: "分享活动\"%{name}\"时出现未知错误" #occured only when hacked or js disabled
+      empty: "没有有效的邀请对象"
       email:
         subject: "来自%{user_name}的分享邀请"
     curriculum:

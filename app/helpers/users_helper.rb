@@ -4,4 +4,9 @@ module UsersHelper
   def company_domain(user = nil)
     "tsinghua.edu.cn"
   end
+
+  def without_company_domain(str, user = nil)
+    com = company_domain(user)
+    str[(com.length+1)..-1]
+  end
 end

@@ -7,6 +7,7 @@
   
     <%= form_tag url_for(:action => "add_members"), :remote => true do %>
       <fieldset>
+        <%= hidden_field_tag "event_id", @event.id %>
         <div class="field">
           <label for="raw_string" class="title">添加邀请对象</label>
           <%= text_area_tag "raw_string", nil%>
@@ -23,7 +24,7 @@
       </fieldset>
     <% end %>
 
-  <%= form_for(@sharing, :id => "sharing_form") do |f| %>
+  <%= form_for(@sharing, :html => {:onsubmit => 'return checkFormValid(this);'} ) do |f| %>
     <fieldset>
         <% if @sharing.errors.any? %>
           <div id="error_explanation">
@@ -57,6 +58,11 @@
           <div id="errors_invalid_container" class="field_div" style="display:none">
             以下用户没有注册且无法获取其学号，因此无法收到活动分享：
             <ul id="errors_invalid"></ul>
+             <br/>
+          </div>
+          <div id="errors_duplicated_container" class="field_div" style="display:none">
+            以下用户已经被分享过此活动，将不会再次发送分享：
+            <ul id="errors_duplicated"></ul>
              <br/>
           </div>
           <div id="errors_parse_errored_container" class="field_div" style="display:none">
