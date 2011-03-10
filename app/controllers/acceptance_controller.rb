@@ -45,8 +45,8 @@ class AcceptanceController < ApplicationController
     acc.decision = false
     acc.save!
 
-    mail = SysMailer.accept_or_deny_sharing_email(acc)
-    mail.deliver if !mail.nil?
+#    mail = SysMailer.accept_or_deny_sharing_email(acc)
+#    mail.deliver if !mail.nil?
     flash[:notice] = I18n.t 'tongshare.acceptance.exited', :name => acc.event.name
     if can? :read, acc.event
       redirect_to acc.event
