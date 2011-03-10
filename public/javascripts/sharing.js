@@ -15,8 +15,9 @@ function add_members(data)
         li = new Element("li", {
             "id": "new_member_" + item.id
             });
-        li.insert("<span class=\"name\">" + item.name + "</span>");
-        li.insert("&nbsp;&nbsp;<a href=\"javascript: del_member(" + item.id + ")\" class=\"del\">\u2717</a>");
+
+        li.insert("<a href=\"javascript: del_member(" + item.id + ")\" class=\"del\">\u2717</a>");
+        li.insert("&nbsp;&nbsp;<span class=\"name\">" + item.name + "</span>");
         li.insert("<input type=\"hidden\" name=\"members[]\" value=\"" + item.id + "\">");
 
         //conflict
@@ -67,8 +68,9 @@ function add_members(data)
             li = new Element("li", {
                 "id": "new_dummy_" + item
                 });
-            li.insert("<span class=\"name\">" + item + "</span>");
-            li.insert("&nbsp;&nbsp;<a href=\"javascript: del_dummy(" + item + ")\" class=\"del\">\u2717</a>");
+
+            li.insert("<a href=\"javascript: del_dummy(" + item + ")\" class=\"del\">\u2717</a>");
+            li.insert("&nbsp;&nbsp;<span class=\"name\">" + item + "</span>");
             li.insert("<input type=\"hidden\" name=\"dummy[]\" value=\"" + item + "\">");
             list.insert(li);
         }
