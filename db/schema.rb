@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110309030924) do
+ActiveRecord::Schema.define(:version => 20110309091105) do
 
   create_table "acceptances", :force => true do |t|
     t.integer  "event_id"
@@ -154,7 +154,7 @@ ActiveRecord::Schema.define(:version => 20110309030924) do
     t.string   "mobile"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "public",     :default => false
+    t.boolean  "public",              :default => false
     t.string   "renren_id"
     t.boolean  "reject_warning_flag"
   end

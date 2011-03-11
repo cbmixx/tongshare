@@ -1,6 +1,24 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
+<% content_for :name do %>
+  <%= @shared_from.friendly_name %>
+<% end %>
 
-<%= "accept_or_deny_sharing_email.html" %>
+<p>
+  <%= @shared_to.friendly_name %><%= @acceptance.decision ? "接受" : "拒绝"%>了您的活动邀请“<%= @sharing.event.name%>”
+</p>
+
+<p>活动详情：
+  <br/><%= link_to @event.name, event_url(@event)%>
+  <br/>时间：<%= @friendly_time_range %>
+
+  <% if @event.recurring? %>
+  <br/>重复：<%=  show_friendly_rrule(@event) %>
+  <% end %>
+
+  <%if !@event.location.blank?%>
+  <br/>地点：<%= @event.location %>
+  <%end%>
+
+  <%if !@event.extra_info.blank? %>
+  <br/><%=  @event.extra_info%>
+  <%end%>
+</p>

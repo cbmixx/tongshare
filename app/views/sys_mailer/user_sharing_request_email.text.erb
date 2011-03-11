@@ -1,6 +1,30 @@
-<%#
-# To change this template, choose Tools | Templates
-# and open the template in the editor.
-%>
+<% content_for :name do %>
+ <%= @user.friendly_name %>
+<% end %>
+<%= @shared_from.friendly_name %>邀请你参加活动“<%= @event.name %>”
+<% unless @user_sharing.sharing.extra_info.blank? %>
+  “<%= @user_sharing.sharing.extra_info %>”
+<% end %>
 
-<%= "sharing_request.text" %>
+活动详情：
+<%= @event.name%> (<%= event_url(@event) %>)
+时间：<%= @friendly_time_range %>
+<% if @event.recurring? %>
+重复：<%=  show_friendly_rrule(@event) %>
+<% end %>
+<%if !@event.location.blank?%>
+地点：<%= @event.location %>
+<%end%>
+<%if !@event.extra_info.blank? %>
+<%= @event.extra_info%>
+<%end%>
+
+
+接受邀请：
+<%= url_for(:controller => 'acceptance', :action => 'accept', :id => @user_sharing.sharing.id, :authentication_token => @user.authentication_token) %>
+
+拒绝邀请：
+<%= url_for(:controller => 'acceptance', :action => 'deny', :id => @user_sharing.sharing.id, :authentication_token => @user.authentication_token) %>
+
+注意：请勿转发此邮件，因为邮件内容中包含了您的“同享日程”账户信息。
+

@@ -1,0 +1,10 @@
+<% content_for :name do %>
+  <%= @user.friendly_name %>
+<% end %>
+
+<% if @instance.warning_count > 0 %>
+  活动“<%= @instance.name %>”有警报，详情见：<%= 'http://' + SITE + event_path(@instance.event, :inst => @instance.id) %>
+<% else %>
+  活动“<%= @instance.name %>”解除警报，详情见：<%= 'http://' + SITE + event_path(@instance.event, :inst => @instance.id) %>
+<% end %>
+  

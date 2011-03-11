@@ -1,6 +1,11 @@
 class SysMailer < ActionMailer::Base
   include RegistrationsExtendedHelper
-  default :from => "同享日程 <no_reply@tongshare.com>"
+  include EventsHelper  #add by Wander
+  
+  default :from => "同享日程 <no-reply@tongshare.com>"  #modified by Wander
+  default_url_options[:host] = SITE
+
+  layout 'sys_mailer' #add by Wander
 
   def test_email(to)
     mail(:to => to, :subject => "Test for sending email")
@@ -30,6 +35,9 @@ class SysMailer < ActionMailer::Base
     @user = User.find(user_sharing.user_id)
     @shared_from = User.find(user_sharing.sharing.shared_from)
     @user_sharing = user_sharing
+    @event = user_sharing.sharing.event #add by Wander
+    @friendly_time_range = friendly_time_range(@event.begin, @event.end)  #add by Wander
+
     if !nil_email_alias?(@user.email)
       headers = {:to => @user.email,
                  :subject => I18n.t("tongshare.sharing.email.subject", :user_name => @shared_from.friendly_name)}
@@ -43,14 +51,17 @@ class SysMailer < ActionMailer::Base
   def accept_or_deny_sharing_email(sharing, acceptance)
     @acceptance = acceptance
     @sharing = sharing
-    @user = User.find(sharing.shared_from)
+    @shared_from = User.find(sharing.shared_from) #modified by Wander
+    @shared_to = acceptance.user
+    @event = sharing.event
+    @friendly_time_range = friendly_time_range(@event.begin, @event.end)
 
-    if !nil_email_alias?(@user.email)
-      headers = {:to => @user.email}
+    if !nil_email_alias?(@shared_from.email)
+      headers = {:to => @shared_from.email}
       if acceptance.decision == Acceptance::DECISION_ACCEPTED
-        headers[:subject] = I18n.t("tongshare.acceptance.email.accepted_subject", :name => @user.friendly_name)
+        headers[:subject] = I18n.t("tongshare.acceptance.email.accepted_subject", :name => @shared_to.friendly_name)
       elsif acceptance.decision == Acceptance::DECISION_DENY
-        headers[:subject] = I18n.t("tongshare.acceptance.email.denied_subject", :name => @user.friendly_name)
+        headers[:subject] = I18n.t("tongshare.acceptance.email.denied_subject", :name => @shared_to.friendly_name)
       else
         return nil
       end

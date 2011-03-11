@@ -83,10 +83,10 @@ class Ability
 
     #user can edit acceptance they owns
     can :accept, Acceptance do |a|
-      (can? :show, a.event) && (a.user_id == @user.id) && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
+      (a.event.creator_id != @user.id) && (can? :show, a.event) && (a.user_id == @user.id) && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
     end
     can :deny, Acceptance do |a|
-      (can? :show, a.event) && (a.user_id == @user.id) && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
+      (a.event.creator_id != @user.id) && (can? :show, a.event) && (a.user_id == @user.id) && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
     end
     can :exit, Acceptance, :user_id => @user.id
     can :restore, Acceptance, :user_id => @user.id

@@ -1,9 +1,34 @@
-<html>
-<body>
-event.id: <%= @user_sharing.sharing.event.id %>
-event.name: <%= @user_sharing.sharing.event.name %>
-sharing.shared_from: <%= @user_sharing.sharing.shared_from %>
-sharing.extra_info: <%= @user_sharing.sharing.extra_info %>
-user.authentication_token: <%= @user.authentication_token %>
-</body>
-</html>
+<% content_for :name do %>
+ <%= @user.friendly_name %>
+<% end %>
+
+<p><%= @shared_from.friendly_name %>邀请你参加活动“<%= @event.name %>”
+<% unless @user_sharing.sharing.extra_info.blank? %>
+  <br/>“<%= @user_sharing.sharing.extra_info %>”
+<% end %>
+</p>
+
+<p>活动详情：
+<br/><%= link_to @event.name, event_url(@event)%>
+<br/>时间：<%= @friendly_time_range %>
+
+<% if @event.recurring? %>
+<br/>重复：<%=  show_friendly_rrule(@event) %>
+<% end %>
+
+<%if !@event.location.blank?%>
+<br/>地点：<%= @event.location %>
+<%end%>
+
+<%if !@event.extra_info.blank? %>
+<br/><%=  @event.extra_info%>
+<%end%>
+</p>
+
+<p>
+<%= link_to "接受邀请", url_for(:host => SITE, :controller => 'acceptance', :action => 'accept', :id => @user_sharing.sharing.id, :authentication_token => @user.authentication_token) %>
+<%= link_to "拒绝邀请", url_for(:host => SITE, :controller => 'acceptance', :action => 'deny', :id => @user_sharing.sharing.id, :authentication_token => @user.authentication_token) %>
+</p>
+
+<p>注意：请勿转发此邮件，因为邮件内容中包含了您的“同享日程”账户信息。</p>
+

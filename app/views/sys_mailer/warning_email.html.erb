@@ -1,16 +1,13 @@
-<p>您好，</p>
+<% content_for :name do %>
+  <%= @user.friendly_name %>
+<% end %>
 
 <% if @instance.warning_count > 0 %>
 <p>
-  活动“<%= @instance.name %>”有警报，详情见：<%= SITE + event_path(@instance.event, :inst => @instance.id) %>
+  活动“<%= @instance.name %>”有警报，详情见：<%= link_to event_url(@instance.event, :inst => @instance.id, :host => SITE), event_url(@instance.event, :inst => @instance.id, :host => SITE) %>
 </p>
 <% else %>
 <p>
-  活动“<%= @instance.name %>”解除警报，详情见：<%= SITE + event_path(@instance.event, :inst => @instance.id) %>
+  活动“<%= @instance.name %>”解除警报，详情见：<%= link_to event_url(@instance.event, :inst => @instance.id, :host => SITE), event_url(@instance.event, :inst => @instance.id, :host => SITE) %>
 </p>
 <% end %>
-
-<p>同享日程</p>
-<p>tongshare.com</p>
-
-<p>如果您不想再接收报警邮件，请到：<%= SITE + edit_user_registration_path %>进行设置</p>

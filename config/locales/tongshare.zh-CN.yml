@@ -16,8 +16,8 @@ zh-CN:
       restored: "已重新接受活动\"%{name}\""
       exited: "已退出活动\"%{name}\""
       email:
-        denied_subject: "%{name}已拒绝您的分享邀请"
-        accepted_subject: "%{name}已接受您的分享邀请"
+        denied_subject: "%{name}已拒绝您的活动邀请"
+        accepted_subject: "%{name}已接受您的活动邀请"
     sharing:
       created: "已将活动\"%{name}\"分享给%{count}位用户"
       failed: "分享活动\"%{name}\"时出现未知错误" #occured only when hacked or js disabled
