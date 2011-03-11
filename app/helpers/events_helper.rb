@@ -5,6 +5,11 @@ module EventsHelper
   require 'pp'
   require 'ftools'
 
+  NOTES = [["又点名了？不用怕，一有情况立即自动邮件提醒！还不赶快去填写邮箱～（自3月13日起）", '/users/edit'],
+    ["快去填写你的人人网地址，让同上一节课的Ta认识你！(自3月3日起)", '/users/edit'],
+    "同享日程可以导入研究生课表了！(自3月3日起)",
+  ]
+
    # Please check these time settings. Are they correct?
   COURSE_BEGINES = ["8:00", "9:50", "13:30", "15:20", "17:05", "19:20"]
   COURSE_ENDS = ["9:35", "11:25", "15:05", "16:55", "18:40", "20:55"]

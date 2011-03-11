@@ -156,6 +156,7 @@ ActiveRecord::Schema.define(:version => 20110309030924) do
     t.datetime "updated_at"
     t.boolean  "public",     :default => false
     t.string   "renren_id"
+    t.boolean  "reject_warning_flag"
   end
 
   add_index "user_extras", ["name"], :name => "index_user_extras_on_name"

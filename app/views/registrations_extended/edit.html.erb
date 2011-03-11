@@ -7,6 +7,12 @@
 
     <%= f.fields_for :user_extra do |extra| %>
       <div class="field">
+        <label class="title">&nbsp;</label>
+        <%= extra.check_box :reject_warning_flag %>
+        <%= extra.label :reject_warning_flag, "不发送活动报警邮件到我的邮箱"%>
+      </div>
+
+      <div class="field">
         <%= extra.label :renren_url, "人人网个人主页", :class=>"title"%>
         <%= extra.text_field :renren_url, :class=>"textvalue" %>
         <div class="field_help">

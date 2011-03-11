@@ -3,7 +3,7 @@ require 'pp'
 module ApplicationHelper
   include AuthHelper
   include CurriculumHelper
-  
+
   def devise_error_messages_translated!
     return "" if resource.errors.empty?
 

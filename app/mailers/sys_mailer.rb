@@ -5,6 +5,19 @@ class SysMailer < ActionMailer::Base
   def test_email(to)
     mail(:to => to, :subject => "Test for sending email")
   end
+  
+  def warning_email(user, instance)
+    @user = user
+    @instance = instance
+    if (!nil_email_alias?(user.email) && user.confirmed? && user.user_extra && !user.user_extra.reject_warning_flag)
+      str = (@instance.warning_count > 0 ? "有" : "解除")
+      headers = {:to => @user.email,
+        :subject => str + I18n.t("tongshare.warning") + ":" + instance.name}
+      return mail(headers)
+    else
+      return nil
+    end
+  end
 
   def reminder_email(user)
     @user = user

@@ -1,5 +1,11 @@
 <p>Welcome <%= @resource.email %>!</p>
 
-<p>You can confirm your account through the link below:</p>
+<%#*(You can confirm your account through the link below)%>
+<p>您可以通过下面的链接激活您的邮箱:</p>
+<%#*（Confirm my email address）%>
+<p>
+<%= link_to '激活邮箱：', SITE + confirmation_path(@resource, :confirmation_token => @resource.confirmation_token) %>
+<%= SITE + confirmation_path(@resource, :confirmation_token => @resource.confirmation_token) %>
+</p>
 
 <p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @resource.confirmation_token) %></p>

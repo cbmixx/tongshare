@@ -13,9 +13,17 @@
 </p>
 <% end %>
 
-<% if @renren_url_empty %>
+<% if @renren_url_empty && false %>
 <p>
   <strong>让Ta找到你！</strong>
    立即<%= link_to "填写人人网个人主页地址", edit_user_registration_path%>
 </p>
 <% end %>
+
+<p>
+<% if @note.is_a? Array %>
+<%= link_to @note[0], @note[1] %>
+<%else%>
+<%= @note %>
+<%end%>
+</p>

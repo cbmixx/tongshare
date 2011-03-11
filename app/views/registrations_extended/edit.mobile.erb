@@ -1,9 +1,19 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages_translated! %>
 
-  <%= f.hidden_field :email%>
+  <p>
+    <% resource[:email] = '' if defined?(resource) && (nil_email_alias?(resource[:email]) || !resource.confirmed?) %>
+    <%= f.label :email, '电子邮箱', :class=>"title" %>
+    <%= f.text_field :email, :class=>"textvalue" %>
+    <%#= f.label :email, "电子邮箱", :class=>"title" %>
+    <%#= f.text_field :email, :class=>"textvalue" %>
+  </p>
 
   <%= f.fields_for :user_extra do |extra| %>
+    <p>
+      <%= extra.check_box :reject_warning_flag %>
+      <%= extra.label :reject_warning_flag, "不发送活动报警邮件到我的邮箱"%>
+    </p>
     <%= extra.label :renren_url, "人人网个人主页", :class=>"title"%>
     <%= extra.text_field :renren_url, :class=>"textvalue" %>
     <p>想认识上同一节课的Ta吗？填写你的人人个人主页地址，让Ta找到你吧！<br/>

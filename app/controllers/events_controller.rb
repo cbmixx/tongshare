@@ -11,6 +11,8 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
+    @note = NOTES[rand(NOTES.size)]
+
     #@events = Event.find_all_by_creator_id current_user.id
     authorize! :index, Event
 
@@ -87,15 +89,30 @@ class EventsController < ApplicationController
         current_user.id, @instance.id, Feedback::WARNING).count > 0)
       feedback = params[:feedback]
       if (feedback == Feedback::WARNING && !@warninged)
+        original_count = @instance.warning_count
         Feedback.create(:user_id => current_user.id,
           :instance_id => @instance.id, :value => Feedback::WARNING)
         @warninged = true
+
+        if (original_count == 0)
+          for user in get_attendees(@event)
+            mail = SysMailer.warning_email(user, @instance)
+            mail.deliver unless mail.nil?
+          end
+        end
       elsif (feedback == Feedback::DISABLE_WARNING && @warninged)
         Feedback.where("user_id=? AND instance_id=? AND value=?",
           current_user.id, @instance.id, Feedback::WARNING).to_a.each do |f|
           f.destroy
         end
         @warninged = false
+        
+        if (@instance.warning_count == 0)
+          for user in get_attendees(@event)
+            mail = SysMailer.warning_email(user, @instance)
+            mail.deliver unless mail.nil?
+          end
+        end
       end
 
       @warning_count = @instance.warning_count
