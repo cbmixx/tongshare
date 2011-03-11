@@ -97,7 +97,14 @@ include AuthHelper
   def update
     authorize! :update, current_user
 
-    super  
+    super
+
+    email = resource.email
+    email_id = UserIdentifier.find_by(UserIdentifier::TYPE_EMAIL, email)
+    if (!nil_email_alias?(email) && (!resource.confirmed? || email_id.nil? || email_id.login_value != email))
+      resource.send_confirmation_instructions
+      flash[:notice] = I18n.t 'devise.confirmations_extended.send_instructions'
+    end
   end
 
   def destroy
