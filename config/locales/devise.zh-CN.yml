@@ -19,9 +19,9 @@ zh-CN:
     passwords:
       send_instructions: '几分后，您将收到重置密码的电子邮件.'
       updated: '您的密码已修改成功，请重新登录.'
-    confirmations:
-      send_instructions: '几分后，您将收到帐号激活的电子邮件.'
-      confirmed: '您的帐号已经激活，请登录.'
+    confirmations_extended:
+      send_instructions: '几分后，您将收到激活的电子邮件。激活以前，您个人资料中的电子邮箱仍然为空。如需系统重新发送激活邮件，请在个人资料中重新填写您的邮箱并提交。'
+      confirmed: '您的邮箱已经激活.'
     registrations_extended:
       signed_up: '您的帐号已注册成功.'
       updated: '帐号资料更新成功.'
