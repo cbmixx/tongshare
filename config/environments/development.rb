@@ -51,6 +51,6 @@ Tongshare::Application.configure do
 
   THU_SPECIAL_SECRET = "I am special" # for special user registration (e.g. Association, Centenary)
 
-  SITE = "s2.tongshare.com"
+  SITE = "localhost:3000"
 end
 

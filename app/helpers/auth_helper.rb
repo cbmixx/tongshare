@@ -24,12 +24,19 @@ module AuthHelper
   end
 
   def auth_path(username, redirect_to)
-    AUTH_SERVER_PATH + "?username=#{URI.escape(username)}&redirect_to=#{URI.escape(redirect_to)}"
-  end
+    result = AUTH_SERVER_PATH + "?username=#{URI.escape(username)}&redirect_to=#{URI.escape(redirect_to)}"
+    post_url = "http://" + SITE+"/auth/confirm"
+    result << "&post_url="+post_url
+    post_hash = (Digest::SHA2.new << post_url + SECRET).to_s
+    result << "&post_hash="+URI.escape(post_hash)  end
 
   def auth_path_with_password(username, password, redirect_to)
     result = AUTH_SERVER_PATH + "?username=#{URI.escape(username)}&redirect_to=#{URI.escape(redirect_to)}"
     e = encrypt(password, SECRET)
     result << "&aes=#{URI.escape(e)}"
+    post_url = "http://" + SITE+"/auth/confirm"
+    result << "&post_url="+post_url
+    post_hash = (Digest::SHA2.new << post_url + SECRET).to_s
+    result << "&post_hash="+URI.escape(post_hash)
   end
 end
