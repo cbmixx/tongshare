@@ -3,7 +3,13 @@
   <%= content_box "个人", "资料" do %>
     <%= devise_error_messages_translated! %>
 
-    <%= f.hidden_field :email%>
+    <div class="field">
+      <% resource[:email] = '' if defined?(resource) && (nil_email_alias?(resource[:email]) || !resource.confirmed?) %>
+      <%= f.label :email, '电子邮箱', :class=>"title" %>
+      <%= f.text_field :email, :class=>"textvalue" %>
+      <%#= f.label :email, "电子邮箱", :class=>"title" %>
+      <%#= f.text_field :email, :class=>"textvalue" %>
+    </div>
 
     <%= f.fields_for :user_extra do |extra| %>
       <div class="field">
