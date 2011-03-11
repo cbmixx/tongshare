@@ -98,7 +98,7 @@ include AuthHelper
     authorize! :update, current_user
 
     super
-
+    
     email = resource.email
     email_id = UserIdentifier.find_by(UserIdentifier::TYPE_EMAIL, email)
     if (!nil_email_alias?(email) && (!resource.confirmed? || email_id.nil? || email_id.login_value != email))

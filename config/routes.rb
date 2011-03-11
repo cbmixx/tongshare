@@ -19,7 +19,8 @@ Tongshare::Application.routes.draw do
 
   devise_for :users, :controllers => {
     :registrations => "registrations_extended", 
-    :sessions => "sessions_extended"
+    :sessions => "sessions_extended",
+    :confirmations => "confirmations_extended"
     }
 
 #  resources :oauth_consumers do
