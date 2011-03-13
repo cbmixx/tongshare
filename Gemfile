@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem 'htmlentities'
+
 gem 'ruby-prof'
 
 # !!! Agile book says, "You may need to locate and install the MySQL database development files for your operating system first. On Ubuntu, for example, you will need to install libmysqlclient-dev" !!!

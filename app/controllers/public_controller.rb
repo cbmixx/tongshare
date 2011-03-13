@@ -1,3 +1,5 @@
+require 'htmlentities'
+
 class PublicController < ApplicationController
   # JSON has some problem with UTF8 Chinese character...
   # Use XML (it's verified to work well with UTF8 Chinese character if you encounter that problem
@@ -59,7 +61,16 @@ class PublicController < ApplicationController
     respond_to do |format|
       format.html { render :text => result.to_json }
       format.json { render :json => result }
-      format.xml { render :xml => result }
+      if (params[:disable_escape] && params[:disable_escape] == 'true')
+        format.xml do
+          coder = coder = HTMLEntities.new
+          xml_result = result.to_xml
+          xml_result.gsub!(/&#\d+;/) { |m| coder.decode(m)}
+          render :text => xml_result
+        end
+      else
+        format.xml { render :xml => result }
+      end
     end
   end
 

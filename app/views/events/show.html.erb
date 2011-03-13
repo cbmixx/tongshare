@@ -3,7 +3,7 @@
   <%= div_for @event, :class => "show" do %>
     <div class="event name">
     <%= @event.name %> &nbsp;
-    <% if @current_score > 0 %>
+    <% if @instance && @current_score > 0 %>
     <% for i in 1..@current_score.round %>
       ★
     <% end %>

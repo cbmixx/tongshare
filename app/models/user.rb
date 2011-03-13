@@ -9,6 +9,7 @@
 
 class User < ActiveRecord::Base
   include UsersHelper
+  include RegistrationsExtendedHelper
 
   #NIL_EMAIL_ALIAS_DOMAIN = 'null.tongshare.com' #see registration_extended_controller
 
@@ -105,8 +106,9 @@ class User < ActiveRecord::Base
     true
   end
   
-  def active?
-    true
+  def has_valid_email(email=nil)
+    return false if (!self.confirmed || nil_email_alias(self.email))
+    return (email.nil? || email == self.email)
   end
   
 end
