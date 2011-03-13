@@ -145,6 +145,16 @@ root {
     color: red;
 }
 
+.event.show .instance.score {
+/*    margin-left: 1em;
+    margin-bottom: 10px;*/
+}
+
+.event.show .instance.score a {
+    color: black;
+    text-decoration: none;
+}
+
 .event.show .event.buttons {
 }
 

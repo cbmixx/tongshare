@@ -5,6 +5,7 @@ class EventsController < ApplicationController
   include CurriculumHelper
   include SiteConnectHelper
   include SharingsHelper
+  include RegistrationsExtendedHelper
 
   before_filter :authenticate_user!
 
@@ -96,8 +97,10 @@ class EventsController < ApplicationController
 
         if (original_count == 0)
           for user in get_attendees(@event)
-            mail = SysMailer.warning_email(user, @instance)
-            mail.deliver unless mail.nil?
+            if (user.confirmed? && !nil_email_alias?(user.email) && user.id != current_user.id)
+              mail = SysMailer.warning_email(user, @instance)
+              mail.deliver unless mail.nil?
+            end
           end
         end
       elsif (feedback == Feedback::DISABLE_WARNING && @warninged)
@@ -109,8 +112,10 @@ class EventsController < ApplicationController
         
         if (@instance.warning_count == 0)
           for user in get_attendees(@event)
-            mail = SysMailer.warning_email(user, @instance)
-            mail.deliver unless mail.nil?
+            if (user.confirmed? && !nil_email_alias?(user.email) && user.id != current_user.id)
+              mail = SysMailer.warning_email(user, @instance)
+              mail.deliver unless mail.nil?
+            end
           end
         end
       end
@@ -120,6 +125,26 @@ class EventsController < ApplicationController
       @total_count = attendee_ids.size
       @can_warn = attendee_ids.include? current_user.id
       @warning_reliability = @warning_count.to_f / [@total_count, 1].max
+
+      if (feedback && feedback.match(Feedback::SCORE_REGEX))
+        Feedback.where("user_id=? AND instance_id=? AND value like ?",
+            current_user.id, @instance.id, Feedback::SCORE + ".%").to_a.each do |f|
+          f.destroy
+        end
+        Feedback.create!(:user_id => current_user.id,
+          :instance_id => @instance.id, :value => feedback)
+      end
+
+      my_score_feedbacks = Feedback.where("user_id=? AND instance_id=? AND value like ?",
+            current_user.id, @instance.id, Feedback::SCORE + ".%").to_a
+      if (!my_score_feedbacks.nil? && my_score_feedbacks.size > 0)
+        m = my_score_feedbacks[0].value.match Feedback::SCORE_REGEX
+        @my_score = m[1].to_i
+      else
+        @my_score = 0
+      end
+      @current_score, @score_reliability = @instance.average_score_with_reliability
+      @scored = @my_score > 0
     end
 
     respond_to do |format|

@@ -1,4 +1,14 @@
-<h2><%= @event.name %></h2>
+<h2>
+    <%= @event.name %> &nbsp;
+    <% if @current_score > 0 %>
+    <% for i in 1..@current_score.round %>
+      ★
+    <% end %>
+    <% for i in @current_score.round+1..5 %>
+      ☆
+    <% end %>
+    <% end %>
+</h2>
 
 <% if @warning_count && @warning_count > 0 %>
 <p>
@@ -30,6 +40,19 @@
 
 
 <p><%= @event.extra_info %></p>
+
+<% if @instance %>
+<p>
+    给本次活动评分：
+    <% for i in 1..@my_score %>
+      <%= link_to '★', event_path(@event, :inst => @instance.id, :feedback => Feedback::SCORE+"."+i.to_s) %>
+    <% end %>
+    <% for i in @my_score+1..5 %>
+      <%= link_to '☆', event_path(@event, :inst => @instance.id, :feedback => Feedback::SCORE+"."+i.to_s) %>
+    <% end %>
+    <%= sprintf("（本次活动共有%.1f%%的用户打分；你%s打分）", @score_reliability * 100, @scored ? "已经" : "尚未") %>
+</p>
+<% end %>
 
 <%= link_to "报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::WARNING) if @instance && !@warninged %>
 <%= link_to "取消报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::DISABLE_WARNING) if @instance && @warninged %>

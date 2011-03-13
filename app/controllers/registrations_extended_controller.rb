@@ -97,6 +97,11 @@ include AuthHelper
   def update
     authorize! :update, current_user
 
+    if (params[:user][:email].nil? || params[:user][:email].empty?)
+      username = UUIDTools::UUID.random_create
+      params[:user][:email] = "#{username}@null.#{company_domain(resource)}"
+    end
+
     super
     
     email = resource.email
