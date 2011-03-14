@@ -147,6 +147,10 @@ class EventsController < ApplicationController
       @scored = @my_score > 0
     end
 
+    @current_user = current_user
+    @friendly_time_range  = friendly_time_range(@event.begin, @event.end)
+    @sharing = Sharing.find_last_by_shared_from_and_event_id(current_user.id, @event.id)
+
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @event }

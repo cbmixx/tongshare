@@ -1,5 +1,11 @@
 class AcceptanceController < ApplicationController
   before_filter :authenticate_user!
+
+  def right_email?
+    email = params[:email]
+    return true if email.nil?
+    return current_user.email == email
+  end
   
   def create
     authorize! :create, Acceptance
@@ -12,8 +18,20 @@ class AcceptanceController < ApplicationController
   def accept
     sharing = Sharing.find(params[:id], :include => [:event])
     event = sharing.event
-    acc = Acceptance.new(:user_id => current_user.id, :event_id => event.id, :decision => true)
+
+    if (!right_email?)
+      flash[:alert] = I18n.t 'tongshare.sharing.wrong_email'
+      if can? :read, event
+        redirect_to event
+      else
+        redirect_to :root
+      end
+      return
+    end
+
+    acc = Acceptance.find_or_create_by_user_id_and_event_id(:user_id => current_user.id, :event_id => event.id)
     authorize! :accept, acc
+    acc.decision = true
     acc.save!
 
     mail = SysMailer.accept_or_deny_sharing_email(sharing, acc)
@@ -25,8 +43,20 @@ class AcceptanceController < ApplicationController
   def deny
     sharing = Sharing.find(params[:id], :include => [:event])
     event = sharing.event
-    acc = Acceptance.new(:user_id => current_user.id, :event_id => event.id, :decision => false)
+
+    if (!right_email?)
+      flash[:alert] = I18n.t 'tongshare.sharing.wrong_email'
+      if can? :read, event
+        redirect_to event
+      else
+        redirect_to :root
+      end
+      return
+    end
+
+    acc = Acceptance.find_or_create_by_user_id_and_event_id(:user_id => current_user.id, :event_id => event.id)
     authorize! :deny, acc
+    acc.decision = false
     acc.save!
 
     mail = SysMailer.accept_or_deny_sharing_email(sharing, acc)

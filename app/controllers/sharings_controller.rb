@@ -20,7 +20,7 @@ class SharingsController < ApplicationController
 
   def add_members
     event = Event.find(params[:event_id])
-    result = {:valid => [], :dummy => [], :duplicated => [], :invalid => [], :parse_errored => [],
+    result = {:valid => [], :dummy => [], :new_email => [], :duplicated => [], :invalid => [], :parse_errored => [],
       :edit_event_path => edit_event_path(event),
       :recurring => event.recurring?
       }
@@ -45,6 +45,8 @@ class SharingsController < ApplicationController
         result[:valid] << data_entry
       elsif item[:type] == UserIdentifier::TYPE_EMPLOYEE_NO
         result[:dummy] << item[:login_value]
+      elsif item[:type] == UserIdentifier::TYPE_EMAIL
+        result[:new_email] << item[:login_value]
       else
         result[:invalid] << item[:login_value]
       end
@@ -106,8 +108,17 @@ class SharingsController < ApplicationController
     if ret
       sharing = @event.sharings.last
       sharing.user_sharings.each do |us|
-        mail = SysMailer.user_sharing_request_email(us)
-        mail.deliver if !mail.nil?
+        if (us.user.has_valid_email)
+          mail = SysMailer.user_sharing_request_email(us)
+          mail.deliver if !mail.nil?
+        end
+      end
+
+      #new email
+      if (params[:new_email])
+        for new_email in params[:new_email]
+          SysMailer.user_sharing_request_new_email(sharing, new_email).deliver
+        end
       end
     end
     #ret = @sharing.save

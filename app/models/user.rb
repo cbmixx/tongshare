@@ -107,7 +107,7 @@ class User < ActiveRecord::Base
   end
   
   def has_valid_email(email=nil)
-    return false if (!self.confirmed || nil_email_alias(self.email))
+    return false if (!self.confirmed? || nil_email_alias?(self.email))
     return (email.nil? || email == self.email)
   end
   

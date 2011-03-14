@@ -105,8 +105,8 @@ class Event < ActiveRecord::Base
     #ids = user_ids.split(%r{[,;]\s*}
     nodup_user_ids = user_ids - find_duplicated_sharing(current_user_id, self.id, user_ids)
     uids = User.where(:id => nodup_user_ids)
-    #FIXME true or false?
-    return false if uids.empty?
+    #FIXME true or false? # SpaceFlyer: true, because maybe all invited members are new emails
+    #return false if uids.empty?
     uids.each do |id|
       s.add_user_sharing(id.id, user_priority)
     end

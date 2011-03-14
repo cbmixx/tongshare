@@ -76,6 +76,30 @@ function add_members(data)
         }
     }
 
+    if(data.new_email != null && data.new_email.size() > 0)
+    {
+        $('new_email_container').show();
+        list = $('new_email');
+        for(i = 0; i < data.new_email.size(); i++)
+        {
+            item = data.new_email[i];
+
+            if($('new_email_' + item) != null)
+            {
+                continue;
+            }
+
+            li = new Element("li", {
+                "id": "new_email_" + item
+                });
+
+            li.insert("<a href=\"javascript: del_new_email('" + item + "')\" class=\"del\">\u2717</a>");
+            li.insert("&nbsp;&nbsp;<span class=\"name\">" + item + "</span>");
+            li.insert("<input type=\"hidden\" name=\"new_email[]\" value=\"" + item + "\">");
+            list.insert(li);
+        }
+    }
+
     show_errors("invalid", data.invalid);
     show_errors("duplicated", data.duplicated);
     show_errors("parse_errored", data.parse_errored);
@@ -124,6 +148,17 @@ function del_dummy(name)
     toggle_nil_prompt();
 }
 
+function del_new_email(email)
+{
+    item = $('new_email_' + email);
+    item.remove();
+    if($('new_email').empty())
+    {
+        $('new_email_container').hide();
+    }
+    toggle_nil_prompt();
+}
+
 function toggle_nil_prompt()
 {
     if($('new_dummy').empty() && $('new_members').empty())
@@ -138,7 +173,7 @@ function toggle_nil_prompt()
 
 function checkFormValid(form)
 {
-    if (form.getInputs('hidden','members[]').size() == 0 && form.getInputs('hidden', 'dummy[]').size() == 0)
+    if (form.getInputs('hidden','members[]').size() == 0 && form.getInputs('hidden', 'dummy[]').size() == 0 && form.getInputs('hidden', 'new_email[]').size() == 0)
     {
         alert(I18n.t('tongshare.sharing.empty'));
         return false;

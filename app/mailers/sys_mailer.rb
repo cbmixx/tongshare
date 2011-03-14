@@ -37,6 +37,7 @@ class SysMailer < ActionMailer::Base
     @user_sharing = user_sharing
     @event = user_sharing.sharing.event #add by Wander
     @friendly_time_range = friendly_time_range(@event.begin, @event.end)  #add by Wander
+    @friendly_rrule = show_friendly_rrule(@event) #added by SpaceFlyer
 
     if !nil_email_alias?(@user.email)
       headers = {:to => @user.email,
@@ -46,6 +47,20 @@ class SysMailer < ActionMailer::Base
     else
       nil
     end
+  end
+
+  def user_sharing_request_new_email(sharing, new_email)
+    @email = new_email
+    @sharing = sharing
+    @shared_from = User.find(sharing.shared_from)
+    @event = sharing.event #add by Wander
+    @friendly_time_range = friendly_time_range(@event.begin, @event.end)  #add by Wander
+    @friendly_rrule = show_friendly_rrule(@event) #added by SpaceFlyer
+
+    headers = {:to => new_email,
+               :subject => I18n.t("tongshare.sharing.email.subject", :user_name => @shared_from.friendly_name)}
+    headers[:reply_to] = @shared_from.email if !nil_email_alias?(@shared_from.email)
+    mail(headers)
   end
 
   def accept_or_deny_sharing_email(sharing, acceptance)

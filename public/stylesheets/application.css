@@ -155,6 +155,14 @@ root {
     text-decoration: none;
 }
 
+.invitation_message {
+    border: groove;
+    margin-left: 1em;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
 .event.show .event.buttons {
 }
 
