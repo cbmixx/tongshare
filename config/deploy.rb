@@ -15,7 +15,7 @@ set :scm, :subversion
 set :scm_user, "paullzn"
 set :scm_password, "Zv9Kw9sF2kJ9"
 
-server "t.tongshare.com", :app, :web, :db, :primary => true
+server "166.111.68.70", :app, :web, :db, :primary => true
 
 default_run_options[:pty] = true
 
