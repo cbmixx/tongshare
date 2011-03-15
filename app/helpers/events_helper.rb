@@ -314,7 +314,7 @@ module EventsHelper
     time_day_time = time.beginning_of_day
     now_day_time = Time.now.beginning_of_day
     diff_day = (time_day_time.to_i - now_day_time.to_i)/3600/24
-    return "" if diff_day == 0
+    #return "" if diff_day == 0 #SpaceFlyer 我觉得还是显示“今天”好，否则在查询时间冲突的时候会很迷茫（哪一天的12:00到13:00?）
     names = I18n.t('date.num_day_names')
     if (diff_day >= 0 && diff_day < names.size)
       return names[diff_day] + " "

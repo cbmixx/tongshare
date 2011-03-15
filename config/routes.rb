@@ -1,5 +1,9 @@
 Tongshare::Application.routes.draw do
 
+  get "search/index"
+  get "search/add_members"
+  post "search/add_members"
+
   get "public/get_diff"
 
   get "curriculum/upload"

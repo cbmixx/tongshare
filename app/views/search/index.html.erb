@@ -1,0 +1,74 @@
+<% content_for :js_ext do %>
+  <%= javascript_include_tag "sharing.js" %>
+<% end %>
+
+<%= content_box "查询", "可能的空余时间" do %>
+    <%= form_tag url_for(:action => "add_members"), :remote => true do %>
+      <fieldset>
+        <div class="field">
+          <label for="begin" class="title">查询开始时间</label>
+          <%= calendar_date_select_tag :begin, Time.now, :minute_interval => 1, :time => true %>
+        </div>
+        <div class="field">
+          <label for="begin" class="title">查询结束时间</label>
+          <%= calendar_date_select_tag :end, Time.now+1.days, :minute_interval => 1, :time => true %>
+        </div>
+        <div class="field">
+          <label for="raw_string" class="title">添加查询对象</label>
+          <%= text_area_tag "raw_string", nil%>
+        </div>
+        <div class="field">
+          <label class="title">&nbsp;</label>
+          <div class="field_help">粘贴或填写学号或电子邮件地址，使用逗号、分号、空格、制表符或换行符分隔</div>
+        </div>
+        <div class="field">
+          <label class="title">&nbsp;</label>
+    <%#= submit_button nil, "add_members_form", "添加"%>
+          <%= submit_tag "添加/刷新" %>
+        </div>
+      </fieldset>
+    <% end %>
+
+  <%= form_tag url_for(:action => "add_members"), :remote => true do %>
+    <fieldset>
+      <div class="field">
+        <label class="title">查询结果</label>
+        <div id="new_member_nil" class="field_div">（请在上面的文本框中添加邀请对象，完成后单击“添加”按钮）</div>
+        <div id="new_members_container" class="field_div">
+          <ul id="new_members">
+          </ul>
+          <br/>
+        </div>
+        <div id="new_dummy_container" class="field_div" style="display:none">
+          以下用户没有注册或者没有通过身份验证，因此我们无法获得查询结果：
+          <ul id="new_dummy"></ul>
+           <br/>
+        </div>
+        <div id="new_email_container" class="field_div" style="display:none">
+          以下邮箱没有被绑定到已注册用户，因此我们无法获得查询结果：
+          <ul id="new_email"></ul>
+           <br/>
+        </div>
+
+        <div id="errors_container">
+          <div id="errors_invalid_container" class="field_div" style="display:none">
+            以下用户没有注册且无法获取其学号或电子邮件，因此我们无法获得查询结果：
+            <ul id="errors_invalid"></ul>
+             <br/>
+          </div>
+          <div id="errors_duplicated_container" class="field_div" style="display:none">
+            以下用户已经被分享过此活动，将不会再次发送分享：
+            <ul id="errors_duplicated"></ul>
+             <br/>
+          </div>
+          <div id="errors_parse_errored_container" class="field_div" style="display:none">
+            无法解析以下字串：
+            <ul id="errors_parse_errored"></ul>
+             <br/>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  <% end %>
+
+<% end %>

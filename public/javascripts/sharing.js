@@ -41,10 +41,11 @@ function add_members(data)
             {
                 conflict_div.insert(I18n.t('tongshare.sharing.conflict.about_repeat') + "<br/>");
             }
-            
-            conflict_div.insert('<a href="' + data.edit_event_path + '" target="_blank">' +
-                    I18n.t('tongshare.sharing.conflict.edit_event') +
-                    '</a>');
+
+//          SpaceFlyer: 我觉得在这里编辑事件显得画蛇添足，本来用户觉得这个系统挺好用的，但是一有了这个功能，立刻抓狂……
+//            conflict_div.insert('<a href="' + data.edit_event_path + '" target="_blank">' +
+//                    I18n.t('tongshare.sharing.conflict.edit_event') +
+//                    '</a>');
 
             li.insert(conflict_div);
         }
