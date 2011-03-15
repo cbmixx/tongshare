@@ -11,7 +11,7 @@
   <br/>时间：<%= @friendly_time_range %>
 
   <% if @event.recurring? %>
-  <br/>重复：<%=  show_friendly_rrule(@event) %>
+  <br/>重复：<%=  @friendly_rrule %>
   <% end %>
 
   <%if !@event.location.blank?%>

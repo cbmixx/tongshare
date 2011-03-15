@@ -70,6 +70,7 @@ class SysMailer < ActionMailer::Base
     @shared_to = acceptance.user
     @event = sharing.event
     @friendly_time_range = friendly_time_range(@event.begin, @event.end)
+    @friendly_rrule = show_friendly_rrule(@event)
 
     if !nil_email_alias?(@shared_from.email)
       headers = {:to => @shared_from.email}
