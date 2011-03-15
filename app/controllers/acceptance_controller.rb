@@ -24,7 +24,7 @@ class AcceptanceController < ApplicationController
       if can? :read, event
         redirect_to event
       else
-        redirect_to :root
+        redirect_to :events
       end
       return
     end
@@ -49,7 +49,7 @@ class AcceptanceController < ApplicationController
       if can? :read, event
         redirect_to event
       else
-        redirect_to :root
+        redirect_to :events
       end
       return
     end
@@ -65,7 +65,7 @@ class AcceptanceController < ApplicationController
     if can? :read, event
       redirect_to event
     else
-      redirect_to :root
+        redirect_to :events
     end
   end
 
@@ -81,7 +81,7 @@ class AcceptanceController < ApplicationController
     if can? :read, acc.event
       redirect_to acc.event
     else
-      redirect_to :root
+        redirect_to :events
     end
   end
 end

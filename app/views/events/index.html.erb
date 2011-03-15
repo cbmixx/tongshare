@@ -11,6 +11,11 @@
 %>
 <div id="current_time">现在是<%= l Time.now, :format => :long %><%=week_str%>。</div>
 
+<% if @invited_user_sharings && @invited_user_sharings.count > 0 %>
+<%= link_to sprintf("有%d个邀请正等待你的回复", @invited_user_sharings.count), '#invited_events' %><br/>
+<% end %>
+
+
 <%#*<div id="share_notice">%>
   <%#*<span>个被邀请的活动</span>%>
   <%#*<span><个被推荐的活动</span>%>
