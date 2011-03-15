@@ -7,7 +7,7 @@
 </p>
 
 <p>活动详情：
-  <br/><%= link_to @event.name, event_url(@event)%>
+  <br/><%= link_to @event.name, "http://" + SITE + event_path(@event)%>
   <br/>时间：<%= @friendly_time_range %>
 
   <% if @event.recurring? %>

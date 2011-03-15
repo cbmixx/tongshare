@@ -12,5 +12,8 @@ class ApplicationController < ActionController::Base
     #export i18n for js
   end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
 end
 
