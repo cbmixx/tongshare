@@ -63,6 +63,6 @@ zh-CN:
 
       sharing:
         shared_from: "来自"
-        extra_info: "活动评论或说明"
+        extra_info: "邀请说明"
       user_extra:
         renren_url: "人人网个人主页"

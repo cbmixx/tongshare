@@ -16,7 +16,7 @@ module SharingsHelper
     mobile_pattern = /^1[0-9]{10}$/
     email_pattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/
 
-    elements = str.split(/\s|,|;|\n/)
+    elements = str.split(/(\s|,|;|\n)+/)
     for elem in elements
       next if elem.empty?
       if elem.match(employee_no_pattern) != nil
