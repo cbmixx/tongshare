@@ -26,8 +26,8 @@
 </p>
 
 <p>
-<%= link_to "接受邀请", url_for(:host => SITE, :controller => 'acceptance', :action => 'accept', :id => @user_sharing.sharing.id, :email => @email, :authentication_token => @user.authentication_token) %>
-<%= link_to "拒绝邀请", url_for(:host => SITE, :controller => 'acceptance', :action => 'deny', :id => @user_sharing.sharing.id, :email => @email, :authentication_token => @user.authentication_token) %>
+<%= link_to "接受邀请", url_for(:host => SITE, :controller => 'acceptance', :action => 'accept', :id => @user_sharing.sharing.id, :email => @email, :auth_token => @user.authentication_token) %>
+<%= link_to "拒绝邀请", url_for(:host => SITE, :controller => 'acceptance', :action => 'deny', :id => @user_sharing.sharing.id, :email => @email, :auth_token => @user.authentication_token) %>
 </p>
 
 <p>注意：请勿转发此邮件，因为邮件内容中包含了您的“同享日程”账户信息。</p>
