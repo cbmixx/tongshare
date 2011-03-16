@@ -9,6 +9,7 @@ class UserIdentifier < ActiveRecord::Base
   TYPE_MOBILE = 'mobile'
   TYPE_EMAIL = 'email'
   TYPE_EMPLOYEE_NO_DUMMY = 'employee_no_dummy'  #automatic created user when sharing
+  TYPE_EMAIL_DUMMY = 'email_dummy'
   
   belongs_to :user
   

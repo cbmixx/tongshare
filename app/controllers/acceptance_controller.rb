@@ -1,4 +1,5 @@
 class AcceptanceController < ApplicationController
+  include RegistrationsExtendedHelper
   before_filter :authenticate_user!
 
   def right_email?
@@ -19,7 +20,7 @@ class AcceptanceController < ApplicationController
     sharing = Sharing.find(params[:id], :include => [:event])
     event = sharing.event
 
-    if (!right_email?)
+    if (!right_email? && current_user.has_valid_email)
       flash[:alert] = I18n.t 'tongshare.sharing.wrong_email'
       if can? :read, event
         redirect_to event
@@ -28,6 +29,8 @@ class AcceptanceController < ApplicationController
       end
       return
     end
+
+    try_set_email(params[:email])
 
     acc = Acceptance.find_or_create_by_user_id_and_event_id(:user_id => current_user.id, :event_id => event.id)
     authorize! :accept, acc
@@ -44,7 +47,7 @@ class AcceptanceController < ApplicationController
     sharing = Sharing.find(params[:id], :include => [:event])
     event = sharing.event
 
-    if (!right_email?)
+    if (!right_email? && current_user.has_valid_email)
       flash[:alert] = I18n.t 'tongshare.sharing.wrong_email'
       if can? :read, event
         redirect_to event
@@ -54,6 +57,8 @@ class AcceptanceController < ApplicationController
       return
     end
 
+    try_set_email(params[:email])
+    
     acc = Acceptance.find_or_create_by_user_id_and_event_id(:user_id => current_user.id, :event_id => event.id)
     authorize! :deny, acc
     acc.decision = false

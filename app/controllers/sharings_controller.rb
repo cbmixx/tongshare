@@ -95,6 +95,13 @@ class SharingsController < ApplicationController
         members << dummy.id
       end
     end
+    if !params[:new_email].nil?
+      params[:new_email].each do |new_email|
+        dummy = check_or_create_general_dummy_user(UserIdentifier::TYPE_EMAIL, UserIdentifier::TYPE_EMAIL_DUMMY, new_email)
+        #if an illegal employee_no is submitted in params[:dummy], check_or_create_dummy_user will raise exceptions since it calls User.save! and the value won't pass validation.
+        members << dummy.id
+      end
+    end
 
     #add normal users
     if !params[:members].nil?
@@ -125,7 +132,7 @@ class SharingsController < ApplicationController
     respond_to do |format|
       if ret
         format.html { redirect_to(@event, :notice => I18n.t('tongshare.sharing.created', :name => @event.name, 
-              :count => members.count + (params[:new_email] ? params[:new_email].count : 0))) }
+              :count => members.count)) }
       else
         #format.html { render :action => "new" } #TODO: is it necessary to restore previous data? I guess there won't be validation errors unless attackers XXOO
         format.html do
