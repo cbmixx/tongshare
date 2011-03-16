@@ -21,6 +21,8 @@ function on_change_begin(begin_id, end_id){
     currentBegin = get_date($(begin_id).getValue())
     newEndInt = Date.parse(currentBegin) + period;
     newEnd = new Date(newEndInt);
+    newValue = newEnd.toFormattedString('%Y-%m-%d %T')
+    if (newValue != "NaN-NaN-NaN NaN:NaN")
     $(end_id).setValue(newEnd.toFormattedString('%Y-%m-%d %T'))
 }
 
