@@ -10,6 +10,12 @@
     <% end %>
 </h2>
 
+<% if @instance && @total_count && @check_in_count %>
+<p>
+  <%= sprintf("共有%.1f%%的参与者报到", @check_in_count.to_f * 100 / @total_count) %>
+</p>
+<%end%>
+
 <% if @warning_count && @warning_count > 0 %>
 <p>
 <font color="red">
@@ -54,9 +60,14 @@
 </p>
 <% end %>
 
+<%= link_to "报到", event_path(@event, :inst => @instance.id, :feedback => Feedback::CHECK_IN) if @instance && !@checked_in %>
+<%= link_to "取消报到", event_path(@event, :inst => @instance.id, :feedback => Feedback::CHECK_OUT) if @instance && @checked_in %>
 <%= link_to "报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::WARNING) if @instance && !@warninged %>
 <%= link_to "取消报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::DISABLE_WARNING) if @instance && @warninged %>
-<%= "(报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)" if @event.creator_id == 1%>
+  <ul>
+    <li>(报到指你到场参加了该活动，已经报到的人将不会收到报警邮件；同享日程只统计百分比，保证不会将具体的报到信息透露给任何人)</li>
+    <li><%= "(报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)" if @event.creator_id == 1 %></li>
+  </ul>
 
 <hr/>
 

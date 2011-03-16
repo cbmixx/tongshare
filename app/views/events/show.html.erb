@@ -14,6 +14,11 @@
     <% end %>
     </div>
     <div class="event creator">由<%= @event.creator.friendly_name %>创建</div>
+    <% if @instance && @total_count && @check_in_count %>
+    <div class="instance check_in_percentage">
+      <%= sprintf("共有%.1f%%的参与者报到", @check_in_count.to_f * 100 / @total_count) %>
+    </div>
+    <%end%>
     <% if @warning_count && @warning_count > 0 %>
     <div class="instance warning">
       <%=  sprintf("共有%.1f%%的参与者报警", @warning_reliability * 100) %>
@@ -59,12 +64,19 @@
     <br/>
     <% end %>
 
-    <p><%= "(报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)" if @event.creator_id == 1 %></p>
+    <% if @instance %>
+      <ul>
+        <li>(报到指你到场参加了该活动，已经报到的人将不会收到报警邮件；同享日程只统计百分比，保证不会将具体的报到信息透露给任何人)</li>
+        <li><%= "(报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)" if @event.creator_id == 1 %></li>
+      </ul>
+    <% end %>
     <div class="event buttons">
       <%= styled_button "编辑", edit_event_path(@event) if can? :edit, @event %>
       <%= styled_button "删除", @event, :method => "delete",
         :confirm => ("你确实要删除\"#{@event.name}\"吗？" + (@event.recurring? ? "这是一个重复的事件，所有重复项都会被删除！" : "")) \
          if can? :destroy, @event %>
+      <%=  styled_button "报到", event_path(@event, :inst => @instance.id, :feedback => Feedback::CHECK_IN) if @instance && !@checked_in %>
+      <%=  styled_button "取消报到", event_path(@event, :inst => @instance.id, :feedback => Feedback::CHECK_OUT) if @instance && @checked_in %>
       <% if @can_warn %>
       <%= styled_button "报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::WARNING) if @instance && !@warninged %>
       <%= styled_button "取消报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::DISABLE_WARNING) if @instance && @warninged %>

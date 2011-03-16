@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110309091105) do
+ActiveRecord::Schema.define(:version => 20110313113958) do
 
   create_table "acceptances", :force => true do |t|
     t.integer  "event_id"
@@ -74,6 +74,9 @@ ActiveRecord::Schema.define(:version => 20110309091105) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "feedbacks", ["instance_id"], :name => "index_feedbacks_on_instance_id"
+  add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"
 
   create_table "group_sharings", :force => true do |t|
     t.integer  "sharing_id"
@@ -157,6 +160,7 @@ ActiveRecord::Schema.define(:version => 20110309091105) do
     t.boolean  "public",              :default => false
     t.string   "renren_id"
     t.boolean  "reject_warning_flag"
+    t.boolean  "public",              :default => false
   end
 
   add_index "user_extras", ["name"], :name => "index_user_extras_on_name"

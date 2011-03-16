@@ -145,6 +145,11 @@ root {
     color: red;
 }
 
+.event.show .instance.check_in_percentage {
+    margin-left: 1em;
+    margin-bottom: 10px;
+}
+
 .event.show .instance.score {
 /*    margin-left: 1em;
     margin-bottom: 10px;*/

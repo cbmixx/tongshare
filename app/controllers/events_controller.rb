@@ -97,7 +97,7 @@ class EventsController < ApplicationController
 
         if (original_count == 0)
           for user in get_attendees(@event)
-            if (user.confirmed? && !nil_email_alias?(user.email) && user.id != current_user.id)
+            if (user.confirmed? && !nil_email_alias?(user.email) && user.id != current_user.id && !checked_in?(user.id, @instance.id))
               mail = SysMailer.warning_email(user, @instance)
               mail.deliver unless mail.nil?
             end
@@ -112,7 +112,7 @@ class EventsController < ApplicationController
         
         if (@instance.warning_count == 0)
           for user in get_attendees(@event)
-            if (user.confirmed? && !nil_email_alias?(user.email) && user.id != current_user.id)
+            if (user.confirmed? && !nil_email_alias?(user.email) && user.id != current_user.id && !checked_in?(user.id, @instance.id))
               mail = SysMailer.warning_email(user, @instance)
               mail.deliver unless mail.nil?
             end
@@ -145,6 +145,14 @@ class EventsController < ApplicationController
       end
       @current_score, @score_reliability = @instance.average_score_with_reliability
       @scored = @my_score > 0
+
+      if (params[:feedback] == Feedback::CHECK_IN)
+        check_in(current_user.id, @instance.id)
+      elsif (params[:feedback] == Feedback::CHECK_OUT)
+        check_out(current_user.id, @instance.id)
+      end
+      @checked_in = checked_in?(current_user.id, @instance.id)
+      @check_in_count = check_in_count(@instance.id)
     end
 
     @current_user = current_user

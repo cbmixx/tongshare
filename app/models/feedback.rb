@@ -2,6 +2,8 @@ class Feedback < ActiveRecord::Base
   WARNING = "warning"
   SCORE = "score"
   DISABLE_WARNING = "disable warning"
+  CHECK_IN = "check_in"
+  CHECK_OUT = "check_out"
 
   SCORE_REGEX = /score.(\d)/
 

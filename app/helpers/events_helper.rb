@@ -400,4 +400,22 @@ module EventsHelper
     return ""
   end
 
+  def checked_in?(user_id, instance_id)
+    return (Feedback.where("user_id=? AND instance_id=? AND value=?", user_id, instance_id, Feedback::CHECK_IN).count > 0)
+  end
+
+  def check_out(user_id, instance_id)
+    Feedback.where("user_id=? AND instance_id=? AND value=?", user_id, instance_id, Feedback::CHECK_IN).to_a.each do |f|
+      f.destroy
+    end
+  end
+
+  def check_in(user_id, instance_id)
+    check_out(user_id, instance_id)
+    Feedback.create!(:user_id => user_id, :instance_id => instance_id, :value => Feedback::CHECK_IN)
+  end
+
+  def check_in_count(instance_id)
+    Feedback.where("instance_id=? AND value=?", instance_id, Feedback::CHECK_IN).count
+  end
 end
