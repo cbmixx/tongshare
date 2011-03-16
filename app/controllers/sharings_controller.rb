@@ -124,7 +124,8 @@ class SharingsController < ApplicationController
     #ret = @sharing.save
     respond_to do |format|
       if ret
-        format.html { redirect_to(@event, :notice => I18n.t('tongshare.sharing.created', :name => @event.name, :count => members.count)) }
+        format.html { redirect_to(@event, :notice => I18n.t('tongshare.sharing.created', :name => @event.name, 
+              :count => members.count + (params[:new_email] ? params[:new_email].count : 0))) }
       else
         #format.html { render :action => "new" } #TODO: is it necessary to restore previous data? I guess there won't be validation errors unless attackers XXOO
         format.html do
