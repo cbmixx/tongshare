@@ -131,8 +131,8 @@ HTML
   end
 
   def try_set_email(email)
-    email = decode_email(email)
     return false if (email.nil? || nil_email_alias?(email) || email.blank?)
+    email = decode_email(email)
     transfer_general_dummy_user(UserIdentifier::TYPE_EMAIL_DUMMY, email, current_user.id)
     current_user.email = email
     current_user.skip_confirmation!
