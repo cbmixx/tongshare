@@ -7,11 +7,11 @@
       <fieldset>
         <div class="field">
           <label for="begin" class="title">查询开始时间</label>
-          <%= calendar_date_select_tag :begin, Time.now, :minute_interval => 1, :time => true %>
+          <%= calendar_date_select_tag :begin, Time.now, :minute_interval => 1, :time => true, :onchange => 'on_change_begin("begin", "end")' %>
         </div>
         <div class="field">
           <label for="begin" class="title">查询结束时间</label>
-          <%= calendar_date_select_tag :end, Time.now+1.days, :minute_interval => 1, :time => true %>
+          <%= calendar_date_select_tag :end, Time.now+1.hours, :minute_interval => 1, :time => true, :onchange => 'on_change_end("begin", "end")' %>
         </div>
         <div class="field">
           <label for="raw_string" class="title">添加查询对象</label>

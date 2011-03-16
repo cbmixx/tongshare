@@ -19,11 +19,11 @@
         </div>
         <div class="field">
           <%= f.label :begin, :class=>"title"  %>
-          <%= f.calendar_date_select :begin, :class=>"textvalue", :minute_interval => 1%>
+          <%= f.calendar_date_select :begin, :class=>"textvalue", :minute_interval => 1, :onchange => 'on_change_begin("event_begin", "event_end")'%>
         </div>
         <div class="field">
           <%= f.label :end, :class=>"title"%>
-          <%= f.calendar_date_select :end, :class=>"textvalue", :minute_interval => 1%>
+          <%= f.calendar_date_select :end, :class=>"textvalue", :minute_interval => 1, :onchange => 'on_change_end("event_begin", "event_end")'%>
         </div>
         <div class="field">
           <label class="title">重复</label>

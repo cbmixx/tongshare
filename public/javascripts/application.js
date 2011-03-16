@@ -5,6 +5,31 @@ I18n.defaultLocale = "zh-CN";
 I18n.locale = "zh-CN";
 I18n.currentLocale();
 
+var period = 3600*1000 //Default 1 hour period
+
+function get_date(value){
+    firstParts = value.split(" ")
+    secondParts = firstParts[1].split(":")
+    hour = parseInt(secondParts[0])
+    min = parseInt(secondParts[1])
+    result = new Date(firstParts[0])
+    result.setHours(hour, min, 0, 0)
+    return result
+}
+
+function on_change_begin(begin_id, end_id){
+    currentBegin = get_date($(begin_id).getValue())
+    newEndInt = Date.parse(currentBegin) + period;
+    newEnd = new Date(newEndInt);
+    $(end_id).setValue(newEnd.toFormattedString('%Y-%m-%d %T'))
+}
+
+function on_change_end(begin_id, end_id){
+    currentBegin = get_date($(begin_id).getValue())
+    currentEnd= get_date($(end_id).getValue())
+    period = Date.parse(currentEnd)-Date.parse(currentBegin)
+}
+
 function show_repeat_options(type, div_id)
 {
     if (div_id == null)
