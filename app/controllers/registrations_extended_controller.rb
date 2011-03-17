@@ -56,8 +56,11 @@ include AuthHelper
       transfer_dummy_user(params[:employee_no], company_domain, resource.id)
 
       #backup the current redirect_to (according to stored_location_for)
-      #original_redirect = session[:user_return_to] || root_url
-      original_redirect = root_url
+      original_redirect = session[:user_return_to] || root_url
+      puts "TEST REDIRECT: " + original_redirect
+      original_redirect = '/'+original_redirect unless original_redirect.start_with? '/'
+      original_redirect = "http://" + SITE + original_redirect unless (original_redirect.include? SITE)
+      #original_redirect = root_url
 
       #devise will do the redirect to session[:user_return_to]
       if !params[:infopass].blank?

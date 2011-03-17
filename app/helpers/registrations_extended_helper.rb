@@ -89,15 +89,18 @@ HTML
         ])
     return dummy_identifier.user if !dummy_identifier.nil?
 
-    if (login_type != UserIdentifier::TYPE_EMAIL)
-      user = User.new :email => "#{UUIDTools::UUID.random_create}@null.#{company_domain}",
-                      :password => random_password
-    else
-      user = User.new :email => login_value, :password => random_password
-    end
-
+    user = User.new :email => "#{UUIDTools::UUID.random_create}@null.#{company_domain}",
+                    :password => random_password
     user.user_identifier.build :login_type => dummy_type, :login_value => login_value
     user.save!
+
+    # In order to skip confirmation email sent to real email address,
+    # we must change email after its first save(which will send out a confirmation email)
+    if (login_type == UserIdentifier::TYPE_EMAIL)
+      user.email = login_value
+      user.save!
+    end
+    
     user
   end
 
