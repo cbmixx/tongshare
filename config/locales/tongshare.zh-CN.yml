@@ -19,6 +19,7 @@ zh-CN:
         denied_subject: "%{name}已拒绝您的活动邀请"
         accepted_subject: "%{name}已接受您的活动邀请"
     sharing:
+      sharing_not_found: "该邀请不存在或者已经被删除或者失效"
       wrong_email: "该邀请针对的邮箱并没有被绑定到当前登录的账户上，请以正确的账户登录或者修改个人资料将邮箱绑定到该账户，然后再次点击拒绝或接受的链接"
       created: "已将活动\"%{name}\"分享给%{count}位用户"
       failed: "分享活动\"%{name}\"时出现未知错误" #occured only when hacked or js disabled

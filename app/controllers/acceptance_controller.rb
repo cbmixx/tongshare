@@ -17,8 +17,13 @@ class AcceptanceController < ApplicationController
   end
 
   def accept
-    sharing = Sharing.find(params[:id], :include => [:event])
-    event = sharing.event
+    begin
+      sharing = Sharing.find(params[:id], :include => [:event])
+      event = sharing.event
+    rescue ActiveRecord::RecordNotFound
+      redirect_to :events, :alert => I18n.t('tongshare.sharing.sharing_not_found')
+      return
+    end
 
     if (!right_email? && current_user.has_valid_email)
       flash[:alert] = I18n.t 'tongshare.sharing.wrong_email'
@@ -44,8 +49,13 @@ class AcceptanceController < ApplicationController
   end
 
   def deny
-    sharing = Sharing.find(params[:id], :include => [:event])
-    event = sharing.event
+    begin
+      sharing = Sharing.find(params[:id], :include => [:event])
+      event = sharing.event
+    rescue ActiveRecord::RecordNotFound
+      redirect_to :events, :alert => I18n.t('tongshare.sharing.sharing_not_found')
+      return
+    end
 
     if (!right_email? && current_user.has_valid_email)
       flash[:alert] = I18n.t 'tongshare.sharing.wrong_email'

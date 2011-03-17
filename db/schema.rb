@@ -160,7 +160,6 @@ ActiveRecord::Schema.define(:version => 20110313113958) do
     t.boolean  "public",              :default => false
     t.string   "renren_id"
     t.boolean  "reject_warning_flag"
-    t.boolean  "public",              :default => false
   end
 
   add_index "user_extras", ["name"], :name => "index_user_extras_on_name"
