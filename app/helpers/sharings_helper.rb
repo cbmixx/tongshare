@@ -1,9 +1,11 @@
 module SharingsHelper
   def find_duplicated_sharing(current_user_id, event_id, user_ids)
+    responsed_ids = Acceptance.where('user_id in (?) AND event_id=?', user_ids, event_id).to_a.map{ |acc| acc.user_id }
+    responsed_ids << Event.find(event_id).creator_id
     query = UserSharing.joins(:sharing).where('sharings.shared_from' => current_user_id, 'sharings.event_id' => event_id, :user_id => user_ids).to_a
     query.map! {|q| q.user_id}
     query << current_user_id if (!query.include?(current_user_id) && user_ids.include?(current_user_id))
-    query
+    return (query | responsed_ids)
   end
   
   #parse the raw string the user has input
