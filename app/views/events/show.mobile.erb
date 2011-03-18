@@ -71,6 +71,55 @@
 
 <hr/>
 
+<% unless @invited_feedbacks.nil? %>
+  <p>受邀者反馈: <br/>
+    &nbsp;&nbsp;您发出的邀请共有<%= @invited_feedbacks[:counter][:accepted] %>人接受，
+        <%= @invited_feedbacks[:counter][:rejected] %>人拒绝，
+        <%= @invited_feedbacks[:counter][:undecided] %>人尚未回复。
+      <ul>
+        <% for feedback in @invited_feedbacks[:data] %>
+        <li>
+           <%= feedback[:user].friendly_name %>：
+             <% if feedback[:decision].nil? %>
+                未定
+             <% elsif feedback[:decision] == true %>
+                接受
+             <% else %>
+                拒绝
+             <% end %>
+        </li>
+        <% end %>
+      </ul>
+  </p>
+  <hr/>
+<% end %>
+
+<% unless @sharings.empty? %>
+  <br/>
+      以下用户邀请你参加此活动：
+      <ul>
+        <% for sharing in @sharings %>
+          <li>
+            <%=sharing.user.friendly_name%>
+            <% unless sharing.extra_info.blank?  %>
+              “<%= sharing.extra_info %>“
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+      <% if @acceptance.nil? %>
+        <%= link_to "接受邀请", {:controller => "acceptance", :action => "accept", :id => sharing.id} %>
+        <%= link_to "拒绝邀请", {:controller => "acceptance", :action => "deny", :id => sharing.id} %>
+      <% elsif @acceptance.decision == true %>
+        （你已经接受了这些邀请）
+      <% else %>
+        （你已经拒绝了这些邀请）
+      <% end %>
+   <hr/>
+<%end%>
+
+
+
 <% if !(attendees = get_attendees(@event)).empty? %>
 <p>活动参与者：<br/>
   <ul>
