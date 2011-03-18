@@ -56,13 +56,25 @@
 
                 
           <span>
-            <%= link_to "编辑", edit_event_path(@event) if can? :edit, @event %>
-            <%= link_to "删除", instance.event, :method => "delete",
-                  :confirm => ("你确实要删除\"#{instance.name}\"吗？" + (instance.event.recurring? ? "这是一个重复的事件，所有重复项都会被删除！" : "")) \
-                  if can? :destroy, instance.event
+            <% event = instance.event %>
+            <%= link_to "编辑", edit_event_path(instance.event) if can? :edit, event %>
+            <%= link_to "删除", event, :method => "delete",
+                  :confirm => ("你确实要删除\"#{instance.name}\"吗？" + (event.recurring? ? "这是一个重复的事件，所有重复项都会被删除！" : "")) \
+                  if can? :destroy, event
             %>
-            <% acc = find_acceptance(instance.event) %>
+            <% acc = find_acceptance(event) %>
              <%= link_to "退出活动", {:controller => "acceptance", :action => "exit", :id => acc.id}, :confirm => "确实要退出该活动吗？" if can? :exit, acc%>
+            <% if instance.user_checked_in?(current_user.id) %>
+              <%=  link_to "取消报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_OUT) %>
+            <% else %>
+              <%=  link_to "报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_IN) %>
+            <% end %>
+            <% if instance.warninged?(current_user.id) %>
+              <%= link_to "取消报警", event_path(event, :inst => instance.id, :feedback => Feedback::DISABLE_WARNING) %>
+            <% else %>
+              <%= link_to "报警", event_path(event, :inst => instance.id, :feedback => Feedback::WARNING) %>
+            <% end %>
+            <%= link_to "分享", {:controller => "sharings", :action => "new", :event_id => event.id} if can? :share, event %>
           </span>
         </div>
       <% end %>

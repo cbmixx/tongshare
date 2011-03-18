@@ -9,6 +9,11 @@ class Instance < ActiveRecord::Base
 
   #validates :event_id, :creator_id, :presence => true
 
+  def warninged?(user_id)
+    (Feedback.where("user_id=? AND instance_id=? AND value=?",
+        user_id, self.id, Feedback::WARNING).count > 0)
+  end
+
   def warning_count
     Feedback.where("instance_id=? AND value=?",
         self.id, Feedback::WARNING).count
@@ -28,5 +33,9 @@ class Instance < ActiveRecord::Base
     end
     reliability = cnt.to_f / get_attendees(self.event).count
     return [sum.to_f / [cnt, 1].max, reliability]
+  end
+
+  def user_checked_in?(user_id)
+    return checked_in?(user_id, self.id)
   end
 end

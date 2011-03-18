@@ -22,6 +22,19 @@
   <%= instance.location.blank? ? "" : (instance.location + "<br/>").html_safe%>
   <%= friendly_time_range instance.begin, instance.end %>
   <%#= link_to "删除", instance.event, :method => "delete" %>
+  <br/>
+  <% event = instance.event %>
+  <% if instance.user_checked_in?(current_user.id) %>
+    <%=  link_to "取消报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_OUT) %>
+  <% else %>
+    <%=  link_to "报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_IN) %>
+  <% end %>
+  <% if instance.warninged?(current_user.id) %>
+    <%= link_to "取消报警", event_path(event, :inst => instance.id, :feedback => Feedback::DISABLE_WARNING) %>
+  <% else %>
+    <%= link_to "报警", event_path(event, :inst => instance.id, :feedback => Feedback::WARNING) %>
+  <% end %>
+
   <hr/>
 <% end %>
 
