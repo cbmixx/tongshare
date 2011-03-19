@@ -1,5 +1,5 @@
 worker_processes 8
-working_directory "/var/www/tongshare_branch/current/"
+working_directory "/var/www/tongshare/current/"
 
 # This loads the application in the master process before forking
 # # worker processes
@@ -12,11 +12,11 @@ timeout 1200
 # # This is where we specify the socket.
 listen "127.0.0.1:3002", :backlog => 64
 #
-pid "/var/www/tongshare_branch/current/tmp/pids/unicorn.pid"
+pid "/var/www/tongshare/current/tmp/pids/unicorn.pid"
 #
 # # Set the path of the log files inside the log folder of the testapp
-stderr_path "/var/www/tongshare_branch/current/log/unicorn.stderr.log"
-stdout_path "/var/www/tongshare_branch/current/log/unicorn.stdout.log"
+stderr_path "/var/www/tongshare/current/log/unicorn.stderr.log"
+stdout_path "/var/www/tongshare/current/log/unicorn.stdout.log"
 #
 before_fork do |server, worker|
   # # This option works in together with preload_app true setting
@@ -24,7 +24,7 @@ before_fork do |server, worker|
   # # the database connection
   defined?(ActiveRecord::Base) and
     ActiveRecord::Base.connection.disconnect!
-  old_pid = '/var/www/tongshare_branch/current/tmp/pids/unicorn.pid.oldbin'
+  old_pid = '/var/www/tongshare/current/tmp/pids/unicorn.pid.oldbin'
   if File.exists?(old_pid) && server.pid != old_pid
     begin
       Process.kill("QUIT", File.read(old_pid).to_i)
