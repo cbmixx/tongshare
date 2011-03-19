@@ -47,9 +47,8 @@ OPTIONS
  </div>
   <div class="field">
     <label class="title">&nbsp;</label>
-    <%= submit_button f, "login_form", "登录"%>
+    <%= f.submit :submit, :value => '登录', :class => 'link1', :id => 'login_button'%>
     <%= styled_button "立即注册", new_user_registration_path %>
-  <%#= f.submit "登录" %>
   </div>
 </fieldset>
 <% end %>

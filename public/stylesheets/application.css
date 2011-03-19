@@ -93,6 +93,11 @@ root {
     float: left;
 }
 
+#login_button {
+    display: block;
+    border: none;
+    padding: 1px 13px 3px 13px;
+}
 .noticebar {
     margin-left: 50px;
 }
