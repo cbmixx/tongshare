@@ -1,6 +1,8 @@
 zh-CN:
   tongshare:
     warning: "警报"
+    feedback:
+      invalid: "您的操作输入不合法"
     event:
       created: "活动\"%{name}\"创建成功"
       updated: "活动\"%{name}\"修改成功"

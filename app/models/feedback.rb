@@ -11,4 +11,16 @@ class Feedback < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :instance
+
+  validate :value_validate
+
+  def value_validate
+    if (m = value.match(SCORE_REGEX))
+      score = m[1].to_i
+      result = (score >=1 && score <= 5)
+    else
+      result = (value == WARNING || value == CHECK_IN)
+    end
+    errors.add(:value, :invalid) unless result
+  end
 end

@@ -131,8 +131,13 @@ class EventsController < ApplicationController
             current_user.id, @instance.id, Feedback::SCORE + ".%").to_a.each do |f|
           f.destroy
         end
-        Feedback.create!(:user_id => current_user.id,
-          :instance_id => @instance.id, :value => feedback)
+
+        begin
+          Feedback.create!(:user_id => current_user.id,
+            :instance_id => @instance.id, :value => feedback)
+        rescue ActiveRecord::RecordInvalid
+          flash[:alert] = I18n.t 'tongshare.feedback.invalid'
+        end
       end
 
       my_score_feedbacks = Feedback.where("user_id=? AND instance_id=? AND value like ?",
