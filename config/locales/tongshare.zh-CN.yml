@@ -25,8 +25,9 @@ zh-CN:
       wrong_email: "该邀请针对的邮箱并没有被绑定到当前登录的账户上，请以正确的账户登录或者修改个人资料将邮箱绑定到该账户，然后再次点击拒绝或接受的链接"
       created: "已将活动\"%{name}\"分享给%{count}位用户"
       failed: "分享活动\"%{name}\"时出现未知错误" #occured only when hacked or js disabled
-      empty: "没有有效的邀请对象。您是不是忘了点击页面中间的“添加”按钮？"
+      empty: "没有有效的邀请对象。您真的要添加一个空的分享吗？（空的分享用于生成短信和电子邮件模板）"
       add_empty: "请在“添加邀请对象”一栏中填写受邀者的学号或电子邮件地址"
+      add_forgot: "请先点击页面中间的“添加”按钮以检查分享有效性，然后再点击“提交”"
       email:
         subject: "来自%{user_name}的分享邀请"
       conflict:

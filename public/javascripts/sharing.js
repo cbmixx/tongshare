@@ -1,9 +1,9 @@
 function add_members(data)
 {
-    if(data.empty)
+    /*if(data.empty)
     {
         alert(I18n.t('tongshare.sharing.add_empty'));
-    }
+    }*/ //this alert is too stupid
 
     clear_errors();
 
@@ -111,6 +111,8 @@ function add_members(data)
     show_errors("parse_errored", data.parse_errored);
 
     toggle_nil_prompt();
+
+    clear_raw_string();
 }
 
 function show_errors(type, data)
@@ -179,15 +181,45 @@ function toggle_nil_prompt()
 
 function checkFormValid(form)
 {
+
+    if ($('raw_string').getValue().length > 0)
+    {
+        /*alert(I18n.t('tongshare.sharing.add_forgot'));
+        $('add_members_submit').focus();*/
+
+        //try automatic
+        $('add_members_submit').click();
+
+        return false;
+    }
+
     if (form.getInputs('hidden','members[]').size() == 0 && form.getInputs('hidden', 'dummy[]').size() == 0 && form.getInputs('hidden', 'new_email[]').size() == 0)
     {
-        alert(I18n.t('tongshare.sharing.empty'));
-        return false;
+        return confirm(I18n.t('tongshare.sharing.empty'));
     }
     else
     {
+        ('add_members_submit').focus();
         return true;
     }
+}
+
+function clear_raw_string()
+{
+    $('raw_string').setValue("");
+}
+
+function raw_string_onkeyup(e)
+{
+    if (e.keyCode === 13 && e.ctrlKey)
+    {
+        $('add_members_submit').click();
+    }
+}
+
+function raw_string_onblur()    //invoke when raw_string lose focus
+{
+    $('add_members_submit').click();
 }
 
 function toggle_conflict(id)

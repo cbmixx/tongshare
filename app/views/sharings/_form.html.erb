@@ -10,7 +10,7 @@
         <%= hidden_field_tag "event_id", @event.id %>
         <div class="field">
           <label for="raw_string" class="title">添加邀请对象</label>
-          <%= text_area_tag "raw_string", nil%>
+          <%= text_area_tag "raw_string", nil, :onkeyup=>"raw_string_onkeyup(typeof(e)=='undefined'?event:(e || event));", :onblur=>"raw_string_onblur();"%>
         </div>
         <div class="field">
           <label class="title">&nbsp;</label>
@@ -19,7 +19,7 @@
         <div class="field">
           <label class="title">&nbsp;</label>
     <%#= submit_button nil, "add_members_form", "添加"%>
-          <%= submit_tag "添加" %>
+          <%= submit_tag "添加", :id => "add_members_submit" %>
         </div>
       </fieldset>
     <% end %>
