@@ -189,17 +189,18 @@ function checkFormValid(form)
 
         //try automatic
         $('add_members_submit').click();
+        alert(I18n.t('tongshare.sharing.add_forgot'));
 
         return false;
     }
 
     if (form.getInputs('hidden','members[]').size() == 0 && form.getInputs('hidden', 'dummy[]').size() == 0 && form.getInputs('hidden', 'new_email[]').size() == 0)
     {
+        $('add_members_submit').focus();
         return confirm(I18n.t('tongshare.sharing.empty'));
     }
     else
     {
-        ('add_members_submit').focus();
         return true;
     }
 }
