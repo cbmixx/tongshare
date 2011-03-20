@@ -22,7 +22,8 @@ class SharingsController < ApplicationController
     event = Event.find(params[:event_id])
     result = {:valid => [], :dummy => [], :new_email => [], :duplicated => [], :invalid => [], :parse_errored => [],
       :edit_event_path => edit_event_path(event),
-      :recurring => event.recurring?
+      :recurring => event.recurring?,
+      :empty => params[:raw_string].blank?  #I don't know how to validate a remote form on client, so I check it here. by Wander
       }
 
     items = parse_sharings_raw(params[:raw_string])

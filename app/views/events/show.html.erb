@@ -67,7 +67,7 @@
     <% if @instance %>
       <ul>
         <li>(报到指你到场参加了该活动，已经报到的人将不会收到报警邮件；同享日程只统计百分比，保证不会将具体的报到信息透露给任何人)</li>
-        <li><%= "(报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)" if @event.creator_id == 1 %></li>
+        <li><%= "(报警指这节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)" if @event.creator_id == 1 %></li>
       </ul>
     <% end %>
     <div class="event buttons">
@@ -75,15 +75,23 @@
       <%= styled_button "删除", @event, :method => "delete",
         :confirm => ("你确实要删除\"#{@event.name}\"吗？" + (@event.recurring? ? "这是一个重复的事件，所有重复项都会被删除！" : "")) \
          if can? :destroy, @event %>
-      <%=  styled_button "报到", event_path(@event, :inst => @instance.id, :feedback => Feedback::CHECK_IN) if @instance && !@checked_in %>
+      <%=  styled_button "报到", event_path(@event, :inst => @instance.id, :feedback => Feedback::CHECK_IN), 
+                          :title=>"报到指你到场参加了该活动，已经报到的人将不会收到报警邮件；同享日程只统计百分比，保证不会将具体的报到信息透露给任何人" \
+                          if @instance && !@checked_in %>
       <%=  styled_button "取消报到", event_path(@event, :inst => @instance.id, :feedback => Feedback::CHECK_OUT) if @instance && @checked_in %>
       <% if @can_warn %>
-      <%= styled_button "报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::WARNING) if @instance && !@warninged %>
+      <%= styled_button "报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::WARNING),
+                          :title => "报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课" \
+                          if @instance && !@warninged %>
       <%= styled_button "取消报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::DISABLE_WARNING) if @instance && @warninged %>
       <% end %>
       <% acc = find_acceptance(@event) %>
-      <%= styled_button "退出活动", {:controller => "acceptance", :action => "exit", :id => acc.id}, :confirm => "确实要退出该活动吗？" if can? :exit, acc%>
-      <%= styled_button "分享", {:controller => "sharings", :action => "new", :event_id => @event.id} if can? :share, @event %>
+      <%= styled_button "退出活动", {:controller => "acceptance", :action => "exit", :id => acc.id}, :confirm => "确实要退出该活动吗？",
+                          :title => "从此活动中退出。如果此活动是你的课程，则“退出活动”适用于你计划中期退课等情况" \
+                          if can? :exit, acc%>
+      <%= styled_button "分享", {:controller => "sharings", :action => "new", :event_id => @event.id}, 
+                          :title => "邀请其他人来参加此活动" \
+                          if can? :share, @event %>
     </div>
 
   <%end%>
@@ -117,7 +125,7 @@
 
     <% if @sharing %>
     <br/>
-    <p>您可以将下面的文字直接通过短信、邮件等形式通知受邀请的同学，让他们方便、及时地进行反馈<p/>
+    <p>您可以将下面的文字直接通过短信、邮件等形式通知受邀请的同学，让他们方便、及时地进行反馈。您可以群发邀请，因为发给每个同学的消息内容都是一样的。</p>
     <%= link_to "展开/关闭邀请模板", "javascript: hide_or_show('invitation_message')" %>
     <div id ="invitation_message" class="invitation_message">
       <p><%= @current_user.friendly_name %>邀请你参加活动“<%= @event.name %>”
@@ -182,6 +190,7 @@
 <% if !(attendees = get_attendees(@event)).empty? %>
   <%= content_box "活动", "参与者", true do %>
     <div class="event attendee">
+      来看看谁在和你一起参加活动，并通过人人主页等方式联系Ta：
       <ul>
         <% attendees.each do |att| %>
           <li>

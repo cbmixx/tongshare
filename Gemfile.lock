@@ -50,7 +50,7 @@ GEM
       activemodel (= 3.0.3)
       activesupport (= 3.0.3)
     activesupport (3.0.3)
-    arel (2.0.9)
+    arel (2.0.8)
     bcrypt-ruby (2.1.4)
     builder (2.1.2)
     cancan (1.5.1)

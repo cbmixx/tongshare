@@ -1,5 +1,10 @@
 function add_members(data)
 {
+    if(data.empty)
+    {
+        alert(I18n.t('tongshare.sharing.add_empty'));
+    }
+
     clear_errors();
 
     list = $('new_members');
