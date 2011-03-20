@@ -5,35 +5,35 @@ function add_members(data)
     list = $('new_members');
     for(var i = 0; i < data.valid.size(); i++)
     {       
-        item = data.valid[i];
+        var_item = data.valid[i];
 
-        if($('new_member_' + item.id) != null)
+        if($('new_member_' + var_item.id) != null)
         {
-            $('new_member_' + item.id).remove();
+            $('new_member_' + var_item.id).remove();
         }
 
         li = new Element("li", {
-            "id": "new_member_" + item.id
+            "id": "new_member_" + var_item.id
             });
 
-        li.insert("<a href=\"javascript: del_member(" + item.id + ")\" class=\"del\">\u2717</a>");
-        li.insert("&nbsp;&nbsp;<span class=\"name\">" + item.name + "</span>");
-        li.insert("<input type=\"hidden\" name=\"members[]\" value=\"" + item.id + "\">");
+        li.insert("<a href=\"javascript: del_member(" + var_item.id + ")\" class=\"del\">\u2717</a>");
+        li.insert("&nbsp;&nbsp;<span class=\"name\">" + var_item.name + "</span>");
+        li.insert("<input type=\"hidden\" name=\"members[]\" value=\"" + var_item.id + "\">");
 
         //conflict
-        if(item.conflict.size() > 0)
+        if(var_item.conflict.size() > 0)
         {
-            li.insert("&nbsp;&nbsp;<a href=\"javascript: toggle_conflict(" + item.id + ")\" class=\"conflict_link\">" +
+            li.insert("&nbsp;&nbsp;<a href=\"javascript: toggle_conflict(" + var_item.id + ")\" class=\"conflict_link\">" +
                 I18n.t('tongshare.sharing.conflict.link') +
                 "</a>");
 
-            conflict_div = new Element("div", {"id": "conflict_" + item.id, "class": "conflict", "style": "display:none"});
+            conflict_div = new Element("div", {"id": "conflict_" + var_item.id, "class": "conflict", "style": "display:none"});
             conflict_div.insert(I18n.t('tongshare.sharing.conflict.prompt'));
 
             conflict_list = new Element("ul");
-            for(var ci = 0; ci < item.conflict.size(); ci++)
+            for(var ci = 0; ci < var_item.conflict.size(); ci++)
             {
-                conflict_list.insert('<li>' + item.conflict[ci] + '</li>');
+                conflict_list.insert('<li>' + var_item.conflict[ci] + '</li>');
             }
             conflict_div.insert(conflict_list);
 
@@ -59,20 +59,20 @@ function add_members(data)
         list = $('new_dummy');
         for(i = 0; i < data.dummy.size(); i++)
         {
-            item = data.dummy[i];
+            var_item = data.dummy[i];
 
-            if($('new_dummy_' + item) != null)
+            if($('new_dummy_' + var_item) != null)
             {
                 continue;
             }
 
             li = new Element("li", {
-                "id": "new_dummy_" + item
+                "id": "new_dummy_" + var_item
                 });
 
-            li.insert("<a href=\"javascript: del_dummy(" + item + ")\" class=\"del\">\u2717</a>");
-            li.insert("&nbsp;&nbsp;<span class=\"name\">" + item + "</span>");
-            li.insert("<input type=\"hidden\" name=\"dummy[]\" value=\"" + item + "\">");
+            li.insert("<a href=\"javascript: del_dummy(" + var_item + ")\" class=\"del\">\u2717</a>");
+            li.insert("&nbsp;&nbsp;<span class=\"name\">" + var_item + "</span>");
+            li.insert("<input type=\"hidden\" name=\"dummy[]\" value=\"" + var_item + "\">");
             list.insert(li);
         }
     }
@@ -83,20 +83,20 @@ function add_members(data)
         list = $('new_email');
         for(i = 0; i < data.new_email.size(); i++)
         {
-            item = data.new_email[i];
+            var_item = data.new_email[i];
 
-            if($('new_email_' + item) != null)
+            if($('new_email_' + var_item) != null)
             {
                 continue;
             }
 
             li = new Element("li", {
-                "id": "new_email_" + item
+                "id": "new_email_" + var_item
                 });
 
-            li.insert("<a href=\"javascript: del_new_email('" + item + "')\" class=\"del\">\u2717</a>");
-            li.insert("&nbsp;&nbsp;<span class=\"name\">" + item + "</span>");
-            li.insert("<input type=\"hidden\" name=\"new_email[]\" value=\"" + item + "\">");
+            li.insert("<a href=\"javascript: del_new_email('" + var_item + "')\" class=\"del\">\u2717</a>");
+            li.insert("&nbsp;&nbsp;<span class=\"name\">" + var_item + "</span>");
+            li.insert("<input type=\"hidden\" name=\"new_email[]\" value=\"" + var_item + "\">");
             list.insert(li);
         }
     }
@@ -133,15 +133,15 @@ function clear_errors()
 
 function del_member(id)
 {
-    item = $('new_member_' + id);
-    item.remove();
+    var_item = $('new_member_' + id);
+    var_item.remove();
     toggle_nil_prompt();
 }
 
 function del_dummy(name)
 {
-    item = $('new_dummy_' + name);
-    item.remove();
+    var_item = $('new_dummy_' + name);
+    var_item.remove();
     if($('new_dummy').empty())
     {
         $('new_dummy_container').hide();
@@ -151,8 +151,8 @@ function del_dummy(name)
 
 function del_new_email(email)
 {
-    item = $('new_email_' + email);
-    item.remove();
+    var_item = $('new_email_' + email);
+    var_item.remove();
     if($('new_email').empty())
     {
         $('new_email_container').hide();
