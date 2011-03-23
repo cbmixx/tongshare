@@ -26,7 +26,7 @@ zh-CN:
       created: "已将活动\"%{name}\"分享给%{count}位用户"
       failed: "分享活动\"%{name}\"时出现未知错误" #occured only when hacked or js disabled
       empty: "没有有效的邀请对象。您真的要添加一个空的分享吗？（空的分享用于生成短信和电子邮件模板）"
-      add_empty: "请在“添加邀请对象”一栏中填写受邀者的学号或电子邮件地址"
+      add_empty: "现在没有有效的邀请对象，因此无法提交邀请"
       add_forgot: "请检查“邀请对象”中新增的受邀者是否正确，然后再次点击“提交”按钮"
       email:
         subject: "来自%{user_name}的分享邀请"
