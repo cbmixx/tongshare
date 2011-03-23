@@ -40,7 +40,7 @@
       <fieldset>
         <%= hidden_field_tag "event_id", @event.id %>
         <div class="field">
-          <label for="raw_string" class="title">学号,邮箱</label>
+          <label for="raw_string" class="title">学号或邮箱</label>
           <%= text_area_tag "raw_string", nil, :class=>"textfield_narrow", :onkeyup=>"raw_string_onkeyup(typeof(e)=='undefined'?event:(e || event));", :onblur=>"raw_string_onblur();"%>
         </div>
         <div class="field">

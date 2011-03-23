@@ -74,6 +74,7 @@ class SharingsController < ApplicationController
     @sharing = Sharing.new
     @sharing.shared_from = current_user.id
     @sharing.event_id = params[:event_id]
+    @friendly_time_range = friendly_time_range(@event.begin, @event.end)
     authorize! :new, @sharing
 
     respond_to do |format|

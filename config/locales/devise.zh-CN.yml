@@ -6,7 +6,7 @@ zh-CN:
       not_locked: "没有锁定"
   devise:
     failure:
-      unauthenticated: '继续操作前请注册或者登录.'
+      unauthenticated: '继续操作前请注册（如果您未在同享日程注册过）或者登录（如果您已在同享日程注册过）.'
       unconfirmed: '请先激活您的帐号'
       locked: '您的帐号已被锁定.'
       invalid: '登录名或密码错误'

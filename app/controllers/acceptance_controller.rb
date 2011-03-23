@@ -47,7 +47,7 @@ class AcceptanceController < ApplicationController
     try_set_email(params[:email])
 
     acc = Acceptance.find_or_create_by_user_id_and_event_id(:user_id => current_user.id, :event_id => event.id)
-    authorize! :accept, acc unless right_token
+    authorize! :accept, acc unless (right_token && current_user.id != event.creator_id)
     acc.decision = true
     acc.save!
 
@@ -90,7 +90,7 @@ class AcceptanceController < ApplicationController
     try_set_email(params[:email])
     
     acc = Acceptance.find_or_create_by_user_id_and_event_id(:user_id => current_user.id, :event_id => event.id)
-    authorize! :deny, acc unless right_token
+    authorize! :deny, acc unless (right_token && current_user.id != event.creator_id)
     acc.decision = false
     acc.save!
 
