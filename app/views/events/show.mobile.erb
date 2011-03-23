@@ -60,7 +60,7 @@
 </p>
 <% end %>
 
-<% if @acceptance.nil? && @token %>
+<% if @token %>
   <%= link_to "参加该活动", {:controller => "acceptance", :action => "accept", :event => @event.id, :share_token => @token} %>
   <%= link_to "拒绝该活动", {:controller => "acceptance", :action => "deny", :event => @event.id, :share_token => @token} %>
 <% end %>
