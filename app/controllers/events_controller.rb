@@ -77,8 +77,9 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.xml
   def show
-    @event = Event.find(params[:id])   
-    authorize! :show, @event
+    @event = Event.find(params[:id])
+    @token = params[:share_token]
+    authorize! :show, @event unless (@event.public? || @token && @event.share_token == @token)
 
     @instance = params[:inst].blank? ? nil : Instance.find(params[:inst])
     @acceptance = find_acceptance(@event)

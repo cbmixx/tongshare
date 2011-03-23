@@ -1,16 +1,47 @@
 <% content_for :js_ext do %>
   <%= javascript_include_tag "sharing.js" %>
+  <%= javascript_include_tag "event.js" %>
 <% end %>
 
-<%= content_box "分享", "活动" do %>
   <div class="sharing title"><%= @event.name %></div>
-  
-    <%= form_tag url_for(:action => "add_members"), :remote => true do %>
+
+<%= content_box "通过短信分享", "活动", true do %>
+    <p>您可以将下面的文字直接通过短信、飞信等形式群发给受邀请者，同享日程将在他们接受该邀请后在共同参与者中显示他们的名字。
+    如果您还想进一步知道哪些人拒绝了该活动，哪些人没有回复邀请，请在“通过短信分享活动”邀请他们的同时，也通过“通过学号、邮箱分享活动”来邀请他们。</p>
+    <%= link_to "展开/关闭邀请模板", "javascript: hide_or_show('invitation_message')" %>
+    <div id ="invitation_message" class="invitation_message">
+      <p><%= @current_user.friendly_name %>邀请你参加活动“<%= @event.name %>”
+      </p>
+
+      <p>
+      时间：<%= @friendly_time_range %>
+
+      <% if @event.recurring? %>
+      <br/>重复：<%=  show_friendly_rrule(@event) %>
+      <% end %>
+
+      <%if !@event.location.blank?%>
+      <br/>地点：<%= @event.location %>
+      <%end%>
+
+      <%if !@event.extra_info.blank? %>
+      <br/><%=  @event.extra_info%>
+      <%end%>
+      </p>
+
+      <p>查看更多活动信息并对该邀请进行回复，请进入链接：<br/><%= "http://" + SITE + event_path(@event) + "?share_token=" + @event.get_or_create_share_token %></p>
+    </div>
+<% end %>
+<br/>
+
+<%= content_box "通过学号、邮箱分享", "活动", true do %>
+
+  <%= form_tag url_for(:action => "add_members"), :remote => true do %>
       <fieldset>
         <%= hidden_field_tag "event_id", @event.id %>
         <div class="field">
-          <label for="raw_string" class="title">添加邀请对象</label>
-          <%= text_area_tag "raw_string", nil, :onkeyup=>"raw_string_onkeyup(typeof(e)=='undefined'?event:(e || event));", :onblur=>"raw_string_onblur();"%>
+          <label for="raw_string" class="title">学号,邮箱</label>
+          <%= text_area_tag "raw_string", nil, :class=>"textfield_narrow", :onkeyup=>"raw_string_onkeyup(typeof(e)=='undefined'?event:(e || event));", :onblur=>"raw_string_onblur();"%>
         </div>
         <div class="field">
           <label class="title">&nbsp;</label>
@@ -80,10 +111,7 @@
 
       <div class="field">
         <%= f.label :extra_info, :class=>"title" %>
-        <%= f.text_area :extra_info%>
-        <div class="field_help">
-          如果您只想获得手工发送邀请的文字模板，而不打算（或无法）用“同享日程”发送邀请，请直接点击“提交”按钮。
-        </div>
+        <%= f.text_area :extra_info, :class=>"textfield_narrow"%>
       </div>
 
 

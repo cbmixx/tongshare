@@ -17,12 +17,20 @@ class AcceptanceController < ApplicationController
   end
 
   def accept
-    begin
-      sharing = Sharing.find(params[:id], :include => [:event])
-      event = sharing.event
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :events, :alert => I18n.t('tongshare.sharing.sharing_not_found')
-      return
+    if (params[:id])
+      begin
+        sharing = Sharing.find(params[:id], :include => [:event])
+        event = sharing.event
+      rescue ActiveRecord::RecordNotFound
+        redirect_to :events, :alert => I18n.t('tongshare.sharing.sharing_not_found')
+        return
+      end
+    else
+      event = Event.find(params[:event])
+      token = params[:share_token]
+      unless (event.public? || token && event.share_token == token)
+        redirect_to :events, alert => I18n.t('tongshare.sharing.sharing_not_found')
+      end
     end
 
     if (!right_email? && current_user.has_valid_email)
@@ -42,8 +50,10 @@ class AcceptanceController < ApplicationController
     acc.decision = true
     acc.save!
 
-    mail = SysMailer.accept_or_deny_sharing_email(sharing, acc)
-    mail.deliver if !mail.nil?
+    if (sharing)
+      mail = SysMailer.accept_or_deny_sharing_email(sharing, acc)
+      mail.deliver if !mail.nil?
+    end
     flash[:notice] = I18n.t 'tongshare.acceptance.accepted', :name => event.name
     redirect_to event
   end

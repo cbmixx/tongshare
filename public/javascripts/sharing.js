@@ -197,7 +197,9 @@ function checkFormValid(form)
     if (form.getInputs('hidden','members[]').size() == 0 && form.getInputs('hidden', 'dummy[]').size() == 0 && form.getInputs('hidden', 'new_email[]').size() == 0)
     {
         $('add_members_submit').focus();
-        return confirm(I18n.t('tongshare.sharing.empty'));
+        //return confirm(I18n.t('tongshare.sharing.empty'));
+        alert(I18n.t('tongshare.sharing.add_empty'));
+        return false;
     }
     else
     {

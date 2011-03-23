@@ -60,13 +60,21 @@
 </p>
 <% end %>
 
+<% if @acceptance.nil? && @token %>
+  <%= link_to "参加该活动", {:controller => "acceptance", :action => "accept", :event => @event.id, :share_token => @token} %>
+  <%= link_to "拒绝该活动", {:controller => "acceptance", :action => "deny", :event => @event.id, :share_token => @token} %>
+<% end %>
 <%= link_to "报到", event_path(@event, :inst => @instance.id, :feedback => Feedback::CHECK_IN) if @instance && !@checked_in %>
 <%= link_to "取消报到", event_path(@event, :inst => @instance.id, :feedback => Feedback::CHECK_OUT) if @instance && @checked_in %>
 <%= link_to "报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::WARNING) if @instance && !@warninged %>
 <%= link_to "取消报警", event_path(@event, :inst => @instance.id, :feedback => Feedback::DISABLE_WARNING) if @instance && @warninged %>
   <ul>
+    <% if @instance %>
     <li>(报到指你到场参加了该活动，已经报到的人将不会收到报警邮件；同享日程只统计百分比，保证不会将具体的报到信息透露给任何人)</li>
-    <%= "<li>(报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)</li>" if @event.creator_id == 1 %>
+    <% end %>
+    <% if @event.creator_id == 1 %>
+    <li>(报警指该节课有点名、小测。同享日程提醒您，请按时上课，不要迟到、早退或旷课)</li>
+    <% end %>
   </ul>
 
 <hr/>
@@ -121,7 +129,7 @@
 
 
 <% if !(attendees = get_attendees(@event)).empty? %>
-<p>活动参与者：<br/>
+<p>谁在和你一起参加该活动？我们已知的有<%= attendees.count %>人：<br/>
   <ul>
     <% attendees.each do |att| %>
       <li>

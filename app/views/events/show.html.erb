@@ -71,6 +71,12 @@
       </ul>
     <% end %>
     <div class="event buttons">
+      <% if @acceptance.nil? && @token %>
+      <div class="event buttons">
+        <%= styled_button "参加该活动", {:controller => "acceptance", :action => "accept", :event => @event.id, :share_token => @token} %>
+        <%= styled_button "拒绝该活动", {:controller => "acceptance", :action => "deny", :event => @event.id, :share_token => @token} %>
+      </div>
+      <% end %>
       <%= styled_button "编辑", edit_event_path(@event) if can? :edit, @event %>
       <%= styled_button "删除", @event, :method => "delete",
         :confirm => ("你确实要删除\"#{@event.name}\"吗？" + (@event.recurring? ? "这是一个重复的事件，所有重复项都会被删除！" : "")) \
@@ -123,37 +129,6 @@
       </ul>
     </div>
 
-    <% if @sharing %>
-    <br/>
-    <p>您可以将下面的文字直接通过短信、邮件等形式通知受邀请的同学，让他们方便、及时地进行反馈。您可以群发邀请，因为发给每个同学的消息内容都是一样的。</p>
-    <%= link_to "展开/关闭邀请模板", "javascript: hide_or_show('invitation_message')" %>
-    <div id ="invitation_message" class="invitation_message">
-      <p><%= @current_user.friendly_name %>邀请你参加活动“<%= @event.name %>”
-      </p>
-
-      <p>活动详情：
-      <br/>链接：<%= "http://" + SITE + event_path(@event)%>
-      <br/>时间：<%= @friendly_time_range %>
-
-      <% if @event.recurring? %>
-      <br/>重复：<%=  show_friendly_rrule(@event) %>
-      <% end %>
-
-      <%if !@event.location.blank?%>
-      <br/>地点：<%= @event.location %>
-      <%end%>
-
-      <%if !@event.extra_info.blank? %>
-      <br/><%=  @event.extra_info%>
-      <%end%>
-      </p>
-
-      <p>
-      <%= "接受邀请：" + url_for(:host => SITE, :controller => 'acceptance', :action => 'accept', :id => @sharing.id) %><br/>
-      <%= "拒绝邀请：" + url_for(:host => SITE, :controller => 'acceptance', :action => 'deny', :id => @sharing.id) %>
-      </p>
-    </div>
-    <% end %>
   <% end %>
 <% end %>
 
@@ -186,11 +161,11 @@
     </div>
   <% end %>
 <%end%>
-<br/>
+    <br/>
 <% if !(attendees = get_attendees(@event)).empty? %>
   <%= content_box "活动", "参与者", true do %>
     <div class="event attendee">
-      来看看谁在和你一起参加活动，并通过人人主页等方式联系Ta：
+      谁在和你一起参加该活动？我们已知的有<%= attendees.count %>人：
       <ul>
         <% attendees.each do |att| %>
           <li>

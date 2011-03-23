@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110313113958) do
+ActiveRecord::Schema.define(:version => 20110322123552) do
 
   create_table "acceptances", :force => true do |t|
     t.integer  "event_id"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(:version => 20110313113958) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "rrule"
+    t.string   "share_token"
   end
 
   add_index "events", ["begin"], :name => "index_events_on_begin"

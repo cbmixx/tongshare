@@ -9,11 +9,12 @@ class Event < ActiveRecord::Base
   RRULE_END_BY_COUNT = 1  #won't store into database
   RRULE_END_BY_DATE = 2   #won't store into database
 
-  
+  PUBLIC_TOKEN = "public"
 
+  
   # In order to make Event.new(:creator_id => creator_id) work, attr_accessible :creator_id
   # seems to be necessary!
-  attr_accessible :name, :begin, :end, :location, :extra_info, :rrule, :creator_id
+  attr_accessible :name, :begin, :end, :location, :extra_info, :rrule, :creator_id, :share_token
   attr_accessible :rrule_interval, :rrule_frequency, :rrule_days, :rrule_count, :rrule_repeat_until, :rrule_end_condition
 
   belongs_to :creator, :class_name => "User"
@@ -237,6 +238,23 @@ class Event < ActiveRecord::Base
     !self.rrule.blank?
   end
 
+  def get_or_create_share_token
+    if (self.share_token.nil?)
+      self.share_token = rand(36**8).to_s(36) # ref http://blog.logeek.fr/2009/7/2/creating-small-unique-tokens-in-ruby
+      self.save!
+    end
+    self.share_token
+  end
+
+  def public?
+    return get_or_create_share_token == PUBLIC_TOKEN
+  end
+
+  def set_public
+    self.share_token = PUBLIC_TOKEN
+    self.save!
+  end
+  
   protected
  
   def drop_instance
@@ -348,5 +366,5 @@ class Event < ActiveRecord::Base
     end
     return false
   end
-  
+
 end

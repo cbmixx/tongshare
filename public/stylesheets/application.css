@@ -262,3 +262,7 @@ a.del {
 .instruction_list {
     list-style-type: decimal;   
 }
+
+.textfield_narrow {
+    width: 450px;
+}
