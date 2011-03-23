@@ -31,6 +31,7 @@ class AcceptanceController < ApplicationController
       unless (event.public? || token && event.share_token == token)
         redirect_to :events, alert => I18n.t('tongshare.sharing.sharing_not_found')
       end
+      right_token = true
     end
 
     if (!right_email? && current_user.has_valid_email)
@@ -46,7 +47,7 @@ class AcceptanceController < ApplicationController
     try_set_email(params[:email])
 
     acc = Acceptance.find_or_create_by_user_id_and_event_id(:user_id => current_user.id, :event_id => event.id)
-    authorize! :accept, acc
+    authorize! :accept, acc unless right_token
     acc.decision = true
     acc.save!
 
@@ -73,6 +74,7 @@ class AcceptanceController < ApplicationController
       unless (event.public? || token && event.share_token == token)
         redirect_to :events, alert => I18n.t('tongshare.sharing.sharing_not_found')
       end
+      right_token = true
     end
 
     if (!right_email? && current_user.has_valid_email)
@@ -88,7 +90,7 @@ class AcceptanceController < ApplicationController
     try_set_email(params[:email])
     
     acc = Acceptance.find_or_create_by_user_id_and_event_id(:user_id => current_user.id, :event_id => event.id)
-    authorize! :deny, acc
+    authorize! :deny, acc unless right_token
     acc.decision = false
     acc.save!
 

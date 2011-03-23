@@ -82,13 +82,12 @@ class Ability
     cannot :update_sys, Sharing
 
     #SpaceFlyer: user should be able to re-accept or re-reject, so I just comment last condition.
-    #  Sorry, can :show shall be skipped since the SMS doesn't have new email address.
     #user can edit acceptance they owns
     can :accept, Acceptance do |a|
-      (a.event.creator_id != @user.id) && (true || can?(:show, a.event)) && (a.user_id == @user.id) # && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
+      (a.event.creator_id != @user.id) && (false || can?(:show, a.event)) && (a.user_id == @user.id) # && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
     end
     can :deny, Acceptance do |a|
-      (a.event.creator_id != @user.id) && (true || can?(:show, a.event)) && (a.user_id == @user.id) # && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
+      (a.event.creator_id != @user.id) && (false || can?(:show, a.event)) && (a.user_id == @user.id) # && (Acceptance.find_by_user_id_and_event_id(a.user_id, a.event_id).nil?)
     end
     can :exit, Acceptance, :user_id => @user.id
     can :restore, Acceptance, :user_id => @user.id
