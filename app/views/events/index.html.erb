@@ -30,10 +30,8 @@
     <div class="agenda_pannel">
       <ul>
         <li><%= link_to_unless (@range == :next && @offset == 0), "接下来", {:range => :next} %></li>
-        <li><%= link_to_unless_current "今天", {:range => :day, :offset => 0} %></li>
-        <li><%= link_to_unless_current "明天", {:range => :day, :offset => 1} %></li>
-        <li> <%= link_to_unless_current "本周", {:range => :week, :offset => 0} %></li>
-        <li><%= link_to_unless_current "下周", {:range => :week, :offset => 1} %></li>
+        <li><%= link_to_unless_current "按天", {:range => :day, :offset => 0} %></li>
+        <li> <%= link_to_unless_current "按周", {:range => :week, :offset => 0} %></li>
       </ul>
     </div>
     <div id="agenda_list_content">
@@ -90,6 +88,15 @@
         <%= link_to "之前的活动", {:offset => [0, @offset - @limit].max} if @offset > 0 %>
         <%= link_to "之后的活动", {:offset => @offset + @limit} if !@is_last_page %>
       </div>
+    <% end %>
+    <% unit = params[:range] == "day" ? '天' : params[:range] == "week" ? '周' : nil %>
+    <% if unit %>
+    <div class="agenda_pannel">
+      <ul>
+        <li><%= link_to "前一"+unit, {:range => params[:range], :offset => params[:offset].to_i-1} %></li>
+        <li> <%= link_to "下一"+unit, {:range => params[:range], :offset => params[:offset].to_i+1} %></li>
+      </ul>
+    </div>
     <% end %>
     <br/>
     <%= styled_button '新建活动', new_event_path(:offset => params[:offset], :range => params[:range])%>
