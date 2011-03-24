@@ -115,12 +115,12 @@
           </li>
         <% end %>
       </ul>
-      <% if @acceptance.nil? %>
+      <% if @acceptance.nil? && @token.nil? %>
         <%= link_to "接受邀请", {:controller => "acceptance", :action => "accept", :id => sharing.id} %>
         <%= link_to "拒绝邀请", {:controller => "acceptance", :action => "deny", :id => sharing.id} %>
-      <% elsif @acceptance.decision == true %>
+      <% elsif @acceptance && @acceptance.decision == true %>
         （你已经接受了这些邀请）
-      <% else %>
+      <% elsif @acceptance && @acceptance.decision == false %>
         （你已经拒绝了这些邀请）
       <% end %>
    <hr/>

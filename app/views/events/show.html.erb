@@ -174,14 +174,14 @@
         <% end %>
       </ul>
       <br/>
-      <% if @acceptance.nil? %>
+      <% if @acceptance.nil? && @token.nil? %>
       <div class="event buttons">
         <%= styled_button "接受邀请", {:controller => "acceptance", :action => "accept", :id => sharing.id} %>
         <%= styled_button "拒绝邀请", {:controller => "acceptance", :action => "deny", :id => sharing.id} %>
       </div>
-      <% elsif @acceptance.decision == true %>
+      <% elsif @acceptance && @acceptance.decision == true %>
         （你已经接受了这些邀请）
-      <% else %>
+      <% elsif @acceptance && @acceptance.decision == false %>
         （你已经拒绝了这些邀请）
       <% end %>
     </div>
