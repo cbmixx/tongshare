@@ -4,7 +4,7 @@
 class HomeController < ApplicationController
   def index
 
-    logger.debug "UserAgent: " + request.env["HTTP_USER_AGENT"]
+    logger.info "UserAgent: " + request.env["HTTP_USER_AGENT"]
 
     added_params = {}
 
