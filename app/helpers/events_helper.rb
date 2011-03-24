@@ -205,7 +205,7 @@ module EventsHelper
       results = new_results[0...limit_count+offset]
     end
 #    pp results.size
-    return results[offset...offset+limit_count]
+    return (results[offset...offset+limit_count] || [])
 #    Instance.
 #      includes(:event).
 #      joins(:event => :acceptances).
