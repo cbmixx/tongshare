@@ -129,6 +129,32 @@
       </ul>
     </div>
 
+    <br/>
+    <p>您可以将下面的文字直接通过短信、飞信等形式群发给受邀请者<br/>
+    <%= link_to "展开/关闭邀请模板", "javascript: hide_or_show('invitation_message')" %></p>
+    <div id ="invitation_message" class="invitation_message">
+      <p><%= @current_user.friendly_name %>邀请你参加活动“<%= @event.name %>”
+      </p>
+
+      <p>
+      时间：<%= @friendly_time_range %>
+
+      <% if @event.recurring? %>
+      <br/>重复：<%=  show_friendly_rrule(@event) %>
+      <% end %>
+
+      <%if !@event.location.blank?%>
+      <br/>地点：<%= @event.location %>
+      <%end%>
+
+      <%if !@event.extra_info.blank? %>
+      <br/><%=  @event.extra_info%>
+      <%end%>
+      </p>
+
+      <p>查看更多活动信息并对该邀请进行回复，请进入链接：<br/><%= "http://" + SITE + event_path(@event) + "?share_token=" + @event.get_or_create_share_token %></p>
+    </div>
+
   <% end %>
 <% end %>
 
