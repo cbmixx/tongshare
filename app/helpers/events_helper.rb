@@ -167,8 +167,9 @@ module EventsHelper
   end
 
   def query_next_accepted_instance_includes_event(current_time, limit_count, user_id = current_user.id, offset = 0)
-    (query_next_sharing_accepted_instance_includes_event(current_time, limit_count, user_id, offset) +
-        query_next_own_instance_includes_event(current_time, limit_count, user_id, offset)).sort{|a, b| a.begin <=> b.begin}
+    result = (query_next_sharing_accepted_instance_includes_event(current_time, offset + limit_count, user_id, 0) +
+        query_next_own_instance_includes_event(current_time, offset + limit_count, user_id, 0)).sort{|a, b| a.begin <=> b.begin}
+    return result[offset...offset+limit_count] || []
   end
 
 #  def query_sharing_accepted_instance_includes_event(time_begin, time_end, user_id = current_user.id)
