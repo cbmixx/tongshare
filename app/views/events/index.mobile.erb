@@ -44,8 +44,8 @@
     <% else %>
       以上是即将发生的第<%=@offset + 1%>个到<%=@offset + @limit + 1%>个活动。
     <% end %><br/>
-    <%= link_to "之前的活动", {:offset => [0, @offset - @limit].max} if @offset > 0 %>
-    <%= link_to "之后的活动", {:offset => @offset + @limit} if !@is_last_page %>
+    <%= link_to "之前的活动", {:offset => [0, @offset - 10].max} if @offset > 0 %>
+    <%= link_to "之后的活动", {:offset => @offset + 10} if !@is_last_page %>
 <% end %>
 
 <br/><br/>

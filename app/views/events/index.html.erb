@@ -85,8 +85,8 @@
         <% else %>
           以上是即将发生的第<%=@offset + 1%>个到<%=@offset + @limit%>个活动。
         <% end %>
-        <%= link_to "之前的活动", {:offset => [0, @offset - @limit].max} if @offset > 0 %>
-        <%= link_to "之后的活动", {:offset => @offset + @limit} if !@is_last_page %>
+        <%= link_to "之前的活动", {:offset => [0, @offset - 10].max} if @offset > 0 %>
+        <%= link_to "之后的活动", {:offset => @offset + 10} if !@is_last_page %>
       </div>
     <% end %>
     <% unit = params[:range] == "day" ? '天' : params[:range] == "week" ? '周' : nil %>
