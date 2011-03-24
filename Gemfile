@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'exception_notification'
+gem 'exception_notification', :require => 'exception_notifier'
 
 gem 'htmlentities'
 
