@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem 'exception_notification'
+
 gem 'htmlentities'
 
 gem 'ruby-prof'
