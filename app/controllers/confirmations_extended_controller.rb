@@ -4,7 +4,7 @@ class ConfirmationsExtendedController < Devise::ConfirmationsController
   def show
     super
 
-    if (current_user.confirmed?)
+    if (current_user && current_user.confirmed?)
       try_set_email(current_user.email)
     end
   end
