@@ -10,7 +10,7 @@ preload_app false # LYQ to LZN: why this is false?
 timeout 1200
 #
 # # This is where we specify the socket.
-listen "127.0.0.1:3002", :backlog => 64
+listen "127.0.0.1:3000", :backlog => 64
 #
 pid "/var/www/tongshare/current/tmp/pids/unicorn.pid"
 #
