@@ -24,7 +24,7 @@ production:
   pool: 5
   username: tongshare_prod
   password: production
-  host: localhost
+  host: 166.111.68.70
   # can password be stored elsewhere out of svn?
 
 #  adapter: sqlite3
