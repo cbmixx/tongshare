@@ -356,9 +356,9 @@ module EventsHelper
     users << event.creator unless event.creator.id == 1
 
     if (limit > 0)
-      acceptances = Acceptance.find(:all, :include => :user, :conditions => ['event_id=? AND decision=?', self.id, true], :offset => offset, :limit => limit)
+      acceptances = Acceptance.find(:all, :include => :user, :conditions => ['event_id=? AND decision=?', event.id, true], :offset => offset, :limit => limit)
     else
-      acceptances = Acceptance.find(:all, :include => :user, :conditions => ['event_id=? AND decision=?', self.id, true], :offset => offset)
+      acceptances = Acceptance.find(:all, :include => :user, :conditions => ['event_id=? AND decision=?', event.id, true], :offset => offset)
     end
 
     for acceptance in acceptances
