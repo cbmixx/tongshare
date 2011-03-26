@@ -1,0 +1,11 @@
+<%= content_box @name, "，请问这是你的人人链接吗？" do %>
+<div class="event attendee">
+<table>
+  <% for i in 0...@num_selection %>
+    <%=  user_profile(@user, @renren_urls[i], @photo_urls[i], @department) %>
+  <% end %>
+</table>
+</div>
+<p><%=  link_to '以上都不是我', url_for(:controller => :profile, :action => :select) %></p>
+<p><%=  link_to '我不想告诉同享我的人人链接', url_for(:controller => :profile, :action => :select, :hide_profile => true) %></p>
+<% end %>

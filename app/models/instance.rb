@@ -31,7 +31,7 @@ class Instance < ActiveRecord::Base
         cnt += 1
       end
     end
-    reliability = cnt.to_f / get_attendees(self.event).count
+    reliability = cnt.to_f / get_attendee_count(self.event)
     return [sum.to_f / [cnt, 1].max, reliability]
   end
 

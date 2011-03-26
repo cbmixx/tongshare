@@ -184,6 +184,15 @@ root {
     margin-right: 20px;
 }
 
+.event.attendee td {
+    padding: 10px;
+}
+
+.event.attendee dt {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
 .event.attendee li {
     margin-top: 2px;
     margin-bottom: 2px;

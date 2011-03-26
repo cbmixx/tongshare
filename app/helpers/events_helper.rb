@@ -343,30 +343,29 @@ module EventsHelper
     ret
   end
 
+  def get_attendee_count(event)
+    return Acceptance.where('event_id=? AND decision=?', self.id, true).count+(event.creator.id == 1 ? 0 : 1)
+  end
+
   # Returns attendees friendly names. If only self, empty array will be returned.
-  def get_attendees(event)
+  # limit = -1 means no limit
+  # Note that limit and offset does not influence creator, therefore
+  # maybe limit+1 users may be returned
+  def get_attendees(event, offset = 0, limit = -1)
     users = []
     users << event.creator unless event.creator.id == 1
-    
-    for acceptance in event.acceptances
-      users << acceptance.user if acceptance.decision == true
+
+    if (limit > 0)
+      acceptances = Acceptance.find(:all, :include => :user, :conditions => ['event_id=? AND decision=?', self.id, true], :offset => offset, :limit => limit)
+    else
+      acceptances = Acceptance.find(:all, :include => :user, :conditions => ['event_id=? AND decision=?', self.id, true], :offset => offset)
     end
 
-#    return [] if (users.size == 1 && users[0].id == current_user.id)
-#
-#    pp users
-
-    result = []
-    for user in users
-      ui = user.user_identifier.find_by_login_type(UserIdentifier::TYPE_EMPLOYEE_NO)
-      result << user if (ui && ui.confirmed)
+    for acceptance in acceptances
+      users << acceptance.user
     end
-#    for user in users
-#      result << user.friendly_name.html_safe
-#    end
 
-#    return result
-     return result
+    return users
   end
 
   def find_acceptance(event, user = current_user)

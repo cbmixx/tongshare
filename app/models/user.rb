@@ -10,6 +10,7 @@
 class User < ActiveRecord::Base
   include UsersHelper
   include RegistrationsExtendedHelper
+  include ProfileHelper
 
   #NIL_EMAIL_ALIAS_DOMAIN = 'null.tongshare.com' #see registration_extended_controller
 
@@ -115,5 +116,37 @@ class User < ActiveRecord::Base
     return false if (!self.confirmed? || nil_email_alias?(self.email))
     return (email.nil? || email == self.email)
   end
-  
+
+  def get_employee_no
+    identifier = UserIdentifier.find_by_user_id_and_login_type(self.id, UserIdentifier::TYPE_EMPLOYEE_NO)
+    return identifier.login_value if identifier
+    return nil
+  end
+
+  def get_thu_no
+    value = get_employee_no
+    if (value && (m = value.match /tsinghua.edu.cn.(\d+)/))
+      return m[1].to_i
+    end
+    return nil
+  end
+
+  PROFILE_CHECKED = 'checked'
+  PROFILE_CONFIRMED = 'confirmed'
+
+  def auto_check_profile
+    user_extra = self.user_extra
+    return unless (user_extra && !user_extra.hide_profile &&
+        (user_extra.profile_status.nil? || user_extra.profile_status.blank?))
+
+    user_extra.profile_status = PROFILE_CHECKED
+    num_selection, renren_urls, photo_urls, department = find_profiles(self)
+    if (num_selection && num_selection == 1)
+      user_extra.renren_url = renren_urls[0]
+      user_extra.photo_url = photo_urls[0]
+      user_extra.department = department
+    end
+    user_extra.save!
+  end
+
 end

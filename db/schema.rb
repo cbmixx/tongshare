@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110322123552) do
+ActiveRecord::Schema.define(:version => 20110326004337) do
 
   create_table "acceptances", :force => true do |t|
     t.integer  "event_id"
@@ -161,6 +161,10 @@ ActiveRecord::Schema.define(:version => 20110322123552) do
     t.boolean  "public",              :default => false
     t.string   "renren_id"
     t.boolean  "reject_warning_flag"
+    t.string   "photo_url"
+    t.string   "department"
+    t.boolean  "hide_profile"
+    t.string   "profile_status"
   end
 
   add_index "user_extras", ["name"], :name => "index_user_extras_on_name"

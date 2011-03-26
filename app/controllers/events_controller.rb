@@ -12,6 +12,15 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
+    user_extra = current_user.user_extra
+    if (user_extra && !user_extra.hide_profile && user_extra.profile_status != User::PROFILE_CONFIRMED)
+      last_check_time = session[:check_profile_time]
+      if (last_check_time.nil? || last_check_time + 1.day < DateTime.now)
+        redirect_to '/profile/index'
+        return
+      end
+    end
+
     @note = NOTES[rand(NOTES.size)]
 
     #@events = Event.find_all_by_creator_id current_user.id
@@ -164,6 +173,8 @@ class EventsController < ApplicationController
     @current_user = current_user
     @friendly_time_range  = friendly_time_range(@event.begin, @event.end)
     @sharing = Sharing.find_last_by_shared_from_and_event_id(current_user.id, @event.id)
+
+    @attendee_offset = params[:offset] || 0
 
     respond_to do |format|
       format.html # show.html.erb

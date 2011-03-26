@@ -132,6 +132,7 @@
 <p>谁在和你一起参加该活动？我们已知的有<%= attendees.count %>人：<br/>
   <ul>
     <% attendees.each do |att| %>
+      <% att.auto_check_profile %>
       <li>
         <%=att.friendly_name%>
         <% if (!att.user_extra.nil? && !att.user_extra.renren_url.blank?) %>

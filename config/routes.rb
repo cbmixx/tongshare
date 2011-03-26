@@ -1,5 +1,9 @@
 Tongshare::Application.routes.draw do
 
+  get "profile/index"
+
+  get "profile/select"
+
   get "search/index"
   get "search/add_members"
   post "search/add_members"

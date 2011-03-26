@@ -113,4 +113,20 @@ HTML
     render :partial=>"shared/sidebar_announcement"
   end
 
+  def user_profile(user, renren_url = nil, photo_url = nil, department = nil)
+    @name = user.friendly_name
+    if (renren_url && photo_url && department)
+      @renren_url = renren_url
+      @photo_url = photo_url
+      @department = department
+      @can_be_selected = true
+    else
+      @renren_url = user.user_extra.renren_url if (user.user_extra && !user.user_extra.hide_profile)
+      @photo_url = user.user_extra.photo_url if (user.user_extra && !user.user_extra.hide_profile)
+      @department = user.user_extra.department if (user.user_extra && !user.user_extra.hide_profile)
+      @unconfirmed = (@renren_url && @photo_url && user.user_extra.profile_status != User::PROFILE_CONFIRMED)
+    end
+
+    render :partial => 'shared/user_profile'
+  end
 end
