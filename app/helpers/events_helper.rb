@@ -344,7 +344,7 @@ module EventsHelper
   end
 
   def get_attendee_count(event)
-    return Acceptance.where('event_id=? AND decision=?', self.id, true).count+(event.creator.id == 1 ? 0 : 1)
+    return Acceptance.where('event_id=? AND decision=?', event.id, true).count+(event.creator.id == 1 ? 0 : 1)
   end
 
   # Returns attendees friendly names. If only self, empty array will be returned.

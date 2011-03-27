@@ -199,9 +199,9 @@
         <% end %>
       </table>
     </div>
-    <%=  link_to('上一页', {:offset => @attendee_offset - 10}) if @attendee_offset >= 10%>
+    <%=  link_to('上一页', params.merge({:offset => @attendee_offset - 10})) if @attendee_offset >= 10%>
     <% if @attendee_offset >= 10 && attendees.count > 11%>  &nbsp;&nbsp; <% end %>
-    <%=  link_to('下一页', {:offset => @attendee_offset + 10}) if attendees.count > 11%>
+    <%=  link_to('下一页', params.merge({:offset => @attendee_offset + 10})) if attendees.count > 11%>
     <div>（仅显示已注册并通过验证的用户）</div>
   <% end %>
 <% end %>
