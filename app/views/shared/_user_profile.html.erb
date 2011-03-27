@@ -14,7 +14,7 @@
             <%= image_tag 'renren.png'%>
           <% end %>
           <% if @unconfirmed %>
-            <% notice = '人人链接旁边的（？）表示同享日程显示的人人链接并没有得到其本人的确认，但是同享日程觉得这很有可能就是该其本人的人人链接' %>
+            <% notice = '人人链接旁边的（？）表示同享日程显示的人人链接并没有得到其本人的确认，但是同享日程觉得这很有可能就是其本人的人人链接' %>
             <%= link_to '（?）', request.request_uri + (request.request_uri.include?('?') ? '&' : '?') + 'notice=' + notice, :title => notice %>
           <% end %>
         <% else %>
