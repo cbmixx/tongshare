@@ -174,7 +174,7 @@ class EventsController < ApplicationController
     @friendly_time_range  = friendly_time_range(@event.begin, @event.end)
     @sharing = Sharing.find_last_by_shared_from_and_event_id(current_user.id, @event.id)
 
-    @attendee_offset = params[:offset] || 0
+    @attendee_offset = (params[:offset] || 0).to_i
 
     respond_to do |format|
       format.html # show.html.erb
