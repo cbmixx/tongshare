@@ -33,6 +33,12 @@ class ProfileController < ApplicationController
     end
 
     @num_selection = lines[6].to_i
+
+    if (@num_selection == 0)
+      redirect_to :events
+      return
+    end
+
     @renren_urls = []
     @photo_urls = []
     for i in 0...@num_selection
