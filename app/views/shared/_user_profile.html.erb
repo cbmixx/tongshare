@@ -4,7 +4,7 @@
 %>
 
 <tr>
-  <td><%= image_tag @photo_url unless (@photo_url.nil? || @photo_url.blank?) %></td>
+  <td><%= image_tag( (@photo_url.nil? || @photo_url.blank?) ? 'default.jpg' : @photo_url ) %></td>
   <td>
     <dl>
       <dt>
