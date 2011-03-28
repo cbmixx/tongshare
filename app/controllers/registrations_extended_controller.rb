@@ -116,7 +116,8 @@ include AuthHelper
       params[:user][:email] = encode_email(email)
     end
 
-    super
+    s = super
+    return s if (s.class != String) # Something is wrong, so we returned.
     
     email = decode_email(resource.email)
     email_id = UserIdentifier.find_by(UserIdentifier::TYPE_EMAIL, email)
@@ -132,6 +133,11 @@ include AuthHelper
       dummy.email = email
       dummy.save!
       flash[:notice] = I18n.t 'devise.confirmations_extended.send_instructions'
+    end
+
+    if (params[:user][:user_extra_attributes][:avatar])
+      resource.user_extra.photo_url = resource.user_extra.avatar.url(:thumb)
+      resource.user_extra.save!
     end
   end
 

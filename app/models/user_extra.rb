@@ -1,7 +1,9 @@
 class UserExtra < ActiveRecord::Base
+  has_attached_file :avatar, :styles => { :medium => "300x300", :thumb => "100x100"}
 
   include SiteConnectHelper
-  attr_accessible :user_id, :name, :mobile, :public, :renren_id, :renren_url, :reject_warning_flag, :photo_url, :department, :hide_profile, :profile_status
+  attr_accessible :user_id, :name, :mobile, :public, :renren_id, :renren_url, :reject_warning_flag,
+    :photo_url, :department, :hide_profile, :profile_status, :avatar
   belongs_to :user
 
   validates_format_of :renren_id, :with => /\A((id:[0-9]+)|(domain:.+))\Z/, :allow_nil => true, :allow_blank => true

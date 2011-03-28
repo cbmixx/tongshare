@@ -18,3 +18,4 @@ CalendarDateSelect::FORMATS[:chinese] = {
 }
 CalendarDateSelect.format = :iso_date
 
+Paperclip.options[:command_path] = '/usr/bin'

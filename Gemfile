@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem 'paperclip', '~> 2.3'
+
 gem 'exception_notification', :require => 'exception_notifier'
 
 gem 'htmlentities'
