@@ -3,6 +3,7 @@ require 'pp'
 module ApplicationHelper
   include AuthHelper
   include CurriculumHelper
+  include EventsHelper
 
   def devise_error_messages_translated!
     return "" if resource.errors.empty?
@@ -129,4 +130,9 @@ HTML
 
     render :partial => 'shared/user_profile'
   end
+
+  def rand_note
+    return NOTES[rand(NOTES.size)]
+  end
+
 end

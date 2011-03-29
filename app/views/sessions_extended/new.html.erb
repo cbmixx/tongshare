@@ -1,5 +1,7 @@
-<%= content_box nil, "登录" do %>
+<%= image_tag "slides_home/poster.jpg" %>
 
-<%= render :partial => "sessions_extended/login_form" %>
-
-<%end%>
+<% content_for :aside do %>
+  <h2>登录</h2>
+  <%= render(:partial => "sessions_extended/login_form", :locals => {:small => true})%>
+  <%= sidebar_announcement %>
+<% end %>

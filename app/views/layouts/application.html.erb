@@ -79,24 +79,28 @@
         </header>
 
         <div class="wrapper indent">
-          <!-- content -->
-          <section id="content">
-            <div class="noticebar">
-              <% if alert %>
-                <div id="alert"><%= alert %></div>
-              <% end %>
-              <% if notice%>
-                <div id="notice"><%= notice %></div>
-              <% end %>
-            </div>
-            <%= yield %>
-          </section>
-          <!-- aside -->
-          <aside>
-            <div class="inside">
-              <%= yield :aside %>
-            </div>
-          </aside>
+          <table>
+            <tr>
+              <td width="700px">
+              <section id="content">
+                <div class="noticebar">
+                <% if alert %>
+                  <div id="alert"><%= alert %></div>
+                <% end %>
+                <% if notice%>
+                  <div id="notice"><%= notice %></div>
+                <% end %>
+                </div>
+                <%= yield %>
+              </section>
+              </td>
+              <td width="300px">
+                <div class="inside">
+                  <%= yield :aside %>
+                </div>
+              </td>
+            </tr>
+          </table>
         </div>
         <!-- footer -->
         <footer>

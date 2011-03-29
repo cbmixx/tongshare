@@ -1,21 +1,22 @@
 <div id="sidebar_ann">
   <div class="subtitle">最近更新：</div>
   <ul>
-    <li>想创建活动找朋友一起来参加，但是不知道Ta什么时间有空？<%= link_to '快去查询一下吧～', :controller => "search"%> (自3月20日起)</li>
+    <li>"想认识同上一节课的Ta？点进课程，即可看到Ta们的头像！同享日程将自动链接您的人人头像，您也可以自己<%= link_to '上传新的头像', '/users/edit' %></li>
+    <li>想创建活动找朋友一起来参加，但是不知道Ta什么时间有空？<%= link_to '快去查询一下吧～', :controller => "search"%> </li>
     <li>
-      分享功能让您更轻松地与朋友、同学们一起参加活动，寻找大家共同空余的时间并且方便掌握大家的反馈～（自3月13日起）
+      分享功能让您更轻松地与朋友、同学们一起参加活动，寻找大家共同空余的时间并且方便掌握大家的反馈～
     </li>
     <li>
       又点名了？不用怕，一有情况立即自动邮件提醒！还不赶快去<%= link_to '填写邮箱', edit_user_registration_path%> ～
     </li>
     <li>
-      快去<%= link_to "填写你的人人网地址", edit_user_registration_path%>，让同上一节课的Ta认识你！(3月3日)
+      快去<%= link_to "填写你的人人网地址", edit_user_registration_path%>，让同上一节课的Ta认识你！
     </li>
     <li>
-      同享日程可以导入研究生课表了！(3月3日)
+      同享日程可以导入研究生课表了！
     </li>
     <li>
-      课表依然导入失败？只好<%= link_to "手动上传课表文件", {:controller => "curriculum", :action => "upload"}%>……(3月3日)
+      课表依然导入失败？只好<%= link_to "手动上传课表文件", {:controller => "curriculum", :action => "upload"}%>……
     </li>
   </ul>
 </div>
