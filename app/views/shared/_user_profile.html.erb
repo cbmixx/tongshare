@@ -4,7 +4,7 @@
 %>
 
 <tr>
-  <td><%= image_tag( (@photo_url.nil? || @photo_url.blank?) ? 'default.jpg' : @photo_url ) %></td>
+  <td><%= image_tag( ((@photo_url.nil? || @photo_url.blank?) ? 'default.jpg' : @photo_url), :onError => "this.src='/images/default.jpg';" ) %></td>
   <td>
     <dl>
       <dt>
