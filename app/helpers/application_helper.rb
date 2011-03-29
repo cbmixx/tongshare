@@ -132,7 +132,20 @@ HTML
   end
 
   def rand_note
-    return NOTES[rand(NOTES.size)]
+    @note = NOTES[rand(NOTES.size)]
+    render :partial => 'shared/note'
+  end
+
+  FUNCTION_DESCRIPTIONS = ['让您随时随地查看课表，并找到同上一节课的Ta',
+    '通过用户的反馈告诉您哪节课有点名，并主动发送报警邮件',
+    '让您更轻松地通过分享功能与朋友、同学们一起参加活动，寻找大家共同空余的时间并且方便掌握大家的反馈']
+
+  def rand_function_description
+    return FUNCTION_DESCRIPTIONS[rand(FUNCTION_DESCRIPTIONS.size)]
+  end
+
+  def function_descriptions
+    return FUNCTION_DESCRIPTIONS
   end
 
 end

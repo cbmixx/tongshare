@@ -1,3 +1,10 @@
 <h2>登录</h2>
 
 <%= render :partial => "sessions_extended/login_form" %>
+
+<p>同享日程可以：
+<ul>
+  <% for desc in function_descriptions %>
+  <li><%= desc %></li>
+  <% end %></ul>
+</p>

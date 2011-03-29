@@ -1,0 +1,10 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<% if @note.is_a? Array %>
+<%= link_to @note[0], 'http://' + SITE + @note[1] %>
+<%else%>
+<%= @note %>
+<%end%>

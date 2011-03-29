@@ -150,6 +150,7 @@
       <%if !@event.extra_info.blank? %>
       <br/><%=  @event.extra_info%>
       <%end%>
+      <br/>[本信息由"同享日程"自动生成，它可以<%= rand_function_description %>]
       </p>
 
       <p>查看更多活动信息并对该邀请进行回复，请进入链接：<br/><%= "http://" + SITE + event_path(@event) + "?share_token=" + @event.get_or_create_share_token %></p>

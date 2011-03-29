@@ -1,4 +1,6 @@
 class SysMailer < ActionMailer::Base
+  helper :application
+  
   include RegistrationsExtendedHelper
   include EventsHelper  #add by Wander
   
