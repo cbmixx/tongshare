@@ -58,6 +58,8 @@ class AuthController < ApplicationController
 
       if !data.blank?
         begin
+          ui.confirmed = true
+          ui.save!
           xls2events data, user.id
           passed = true
         rescue
