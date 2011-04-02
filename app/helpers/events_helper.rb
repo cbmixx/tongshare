@@ -351,13 +351,15 @@ module EventsHelper
 
   # Returns attendees friendly names. If only self, empty array will be returned.
   # limit = -1 means no limit
-  # Note that limit and offset does not influence creator, therefore
-  # maybe limit+1 users may be returned
   def get_attendees(event, offset = 0, limit = -1)
     users = []
-    users << event.creator unless event.creator.id == 1
+    if (offset == 0)
+      users << event.creator unless event.creator.id == 1
+      offset = [0, offset-users.size].max
+      limit -= users.size
+    end
 
-    if (limit > 0)
+    if (limit >= 0)
       acceptances = Acceptance.find(:all, :include => :user, :conditions => ['event_id=? AND decision=?', event.id, true], :offset => offset, :limit => limit)
     else
       acceptances = Acceptance.find(:all, :include => :user, :conditions => ['event_id=? AND decision=?', event.id, true], :offset => offset)

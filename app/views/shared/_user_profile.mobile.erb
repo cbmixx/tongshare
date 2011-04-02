@@ -3,33 +3,21 @@
 # and open the template in the editor.
 %>
 
-<tr>
-  <td><%= image_tag @photo_url unless (@photo_url.nil? || @photo_url.blank?) %></td>
-  <td>
-    <dl>
-      <dt>
-        <%=@name%>
-        <% unless (@renren_url.nil? || @renren_url.blank?) %>
-          <%= link_to @renren_url, :target=>"_blank", :title=>"访问#{@name}的人人网个人主页" do %>
-            <%= image_tag 'renren.png'%>
-          <% end %>
-          <% if @unconfirmed %>
-            <% notice = '人人链接旁边的（？）表示同享日程显示的人人链接并没有得到其本人的确认，但是同享日程觉得这很有可能就是其本人的人人链接' %>
-            <%= link_to '（?）', request.request_uri + (request.request_uri.include?('?') ? '&' : '?') + 'notice=' + notice, :title => notice %>
-          <% end %>
-        <% else %>
-          &nbsp;
-        <% end %>
-      </dt>
-      <% if @department %>
-      <dl><%= @department %></dl>
-      <% end %>
-    <% if @can_be_selected %>
-      <dl>
-      <%=  link_to "这是我的人人链接", url_for(:controller => :profile, :action => :select, :renren_url => @renren_url, :department => @department, :photo_url => @photo_url) %>
-      </dl>
+<li>
+  <%=@name%>
+  <%= link_to "查看头像", @photo_url unless (@photo_url.nil? || @photo_url.blank?) %>
+  <% if @department %>
+    <br/><%= @department %>
+  <% end %>
+  <% unless (@renren_url.nil? || @renren_url.blank?) %>
+    <br/><%= link_to "人人主页", @renren_id ? generate_renren_url(@renren_id, true) : @renren_url, :target=>"_blank" %>
+    <% if @unconfirmed %>
+      <% notice = '人人链接旁边的（？）表示同享日程显示的人人链接并没有得到其本人的确认，但是同享日程觉得这很有可能就是其本人的人人链接' %>
+      <%= link_to '（?）', request.request_uri + (request.request_uri.include?('?') ? '&' : '?') + 'notice=' + notice, :title => notice %>
     <% end %>
-    </dl>
-  </td>
-</tr>
+  <% end %>
+  <% if @can_be_selected %>
+    <br/><%=  link_to "这是我的人人链接", url_for(:controller => :profile, :action => :select, :renren_url => @renren_url, :department => @department, :photo_url => @photo_url) %>
+  <% end %>
+</li>
 

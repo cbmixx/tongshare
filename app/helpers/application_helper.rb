@@ -122,6 +122,7 @@ HTML
       @department = department
       @can_be_selected = true
     else
+      @renren_id = user.user_extra.renren_id if (user.user_extra && !user.user_extra.hide_profile)
       @renren_url = user.user_extra.renren_url if (user.user_extra && !user.user_extra.hide_profile)
       @photo_url = user.user_extra.photo_url if (user.user_extra && !user.user_extra.hide_profile)
       @department = user.user_extra.department if (user.user_extra && !user.user_extra.hide_profile)

@@ -128,22 +128,17 @@
 
 
 
-<% if !(attendees = get_attendees(@event)).empty? %>
+<% if !(attendees = get_attendees(@event, @attendee_offset, 10+1)).empty? %>
 <p>谁在和你一起参加该活动？我们已知的有<%= attendees.count %>人：<br/>
   <ul>
-    <% attendees.each do |att| %>
-      <% att.auto_check_profile %>
-      <li>
-        <%=att.friendly_name%>
-        <%  if (!att.user_extra.nil? && !att.user_extra.photo_url.nil? && !att.user_extra.photo_url.blank?) %>
-        <%= link_to "头像", att.user_extra.photo_url %>
-        <% end %>
-        <% if (!att.user_extra.nil? && !att.user_extra.renren_url.blank?) %>
-          <%= link_to "人人主页", generate_renren_url(att.user_extra.renren_id, true), :target=>"_blank" %>
-        <%end%>
-      </li>
+    <% attendees[0...10].each do |att| %>
+        <% att.auto_check_profile %>
+        <%=  user_profile(att) %>
     <% end %>
   </ul>
-  （仅显示已注册并通过验证的用户）
+    <%=  link_to('上一页', params.merge({:offset => @attendee_offset - 10})) if @attendee_offset >= 10%>
+    <% if @attendee_offset >= 10 && attendees.count > 10%>  &nbsp;&nbsp; <% end %>
+    <%=  link_to('下一页', params.merge({:offset => @attendee_offset + 10})) if attendees.count > 10%>
+    <br/>（仅显示已注册并通过验证的用户）
 </p>
 <% end %>

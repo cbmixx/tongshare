@@ -189,20 +189,20 @@
   <% end %>
 <%end%>
     <br/>
-<% if !(attendees = get_attendees(@event, @attendee_offset, 10+2)).empty? %>
+<% if !(attendees = get_attendees(@event, @attendee_offset, 10+1)).empty? %>
   <%= content_box "活动", "参与者", true do %>
     <div class="event attendee">
       谁在和你一起参加该活动？我们已知的有<%= get_attendee_count(@event) %>人：
       <table>
-        <% attendees.each do |att| %>
+        <% attendees[0...10].each do |att| %>
             <% att.auto_check_profile %>
             <%=  user_profile(att) %>
         <% end %>
       </table>
     </div>
     <%=  link_to('上一页', params.merge({:offset => @attendee_offset - 10})) if @attendee_offset >= 10%>
-    <% if @attendee_offset >= 10 && attendees.count > 11%>  &nbsp;&nbsp; <% end %>
-    <%=  link_to('下一页', params.merge({:offset => @attendee_offset + 10})) if attendees.count > 11%>
+    <% if @attendee_offset >= 10 && attendees.count > 10%>  &nbsp;&nbsp; <% end %>
+    <%=  link_to('下一页', params.merge({:offset => @attendee_offset + 10})) if attendees.count > 10%>
     <div>（仅显示已注册并通过验证的用户）</div>
   <% end %>
 <% end %>
