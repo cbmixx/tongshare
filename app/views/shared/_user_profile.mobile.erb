@@ -18,6 +18,18 @@
   <% end %>
   <% if @can_be_selected %>
     <br/><%=  link_to "这是我的人人链接", url_for(:controller => :profile, :action => :select, :renren_url => @renren_url, :department => @department, :photo_url => @photo_url) %>
-  <% end %>
+    <% elsif (@user.id != current_user.id) %>
+      <% if @friendship_to || @friendship_from %>
+      <br/>
+        <%= '✩' if @friendship_to %>
+        <%= link_to '✩(查看Ta的更多信息)', url_for(:controller => :profile, :action => :show, :target_user => @user.id) if @friendship_from %>
+      <% end %>
+      <br/>
+        <% if !@friendship_to %>
+          <%=  link_to "我认识或想认识Ta", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) %>
+        <% else %>
+          <%=  link_to "我不(想)认识Ta", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) %>
+        <% end %>
+    <% end %>
 </li>
 

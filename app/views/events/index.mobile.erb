@@ -3,6 +3,14 @@
 <% if @invited_user_sharings && @invited_user_sharings.count > 0 %>
 <%= link_to sprintf("有%d个邀请正等待你的回复", @invited_user_sharings.count), '#invited_events' %><br/>
 <% end %>
+<% if @num_friendship_from > 0 %>
+已经有<%= link_to @num_friendship_from.to_s, url_for(:controller => :friendship, :action => :show, :type => :from) %>名用户表示Ta们认识或想认识你，
+其中你们互相认识的有<%= link_to @num_friendship_bidirectional.to_s, url_for(:controller => :friendship, :action => :show, :type => :bidirectional) %>人。
+  <% if @num_friendship_from-@num_friendship_bidirectional > 0 %>
+  你认识其余的<%= link_to (@num_friendship_from-@num_friendship_bidirectional).to_s, url_for(:controller => :friendship, :action => :show, :type => :only_from) %>人吗？
+  <% end %>
+<br/>
+<% end %>
 
 <%= header_announcement %>
 

@@ -1,0 +1,17 @@
+<h2><%= @target_user.friendly_name + "的详细信息" %></h2>
+<ul>
+  <li><%= link_to "查看头像", @photo_url unless (@photo_url.nil? || @photo_url.blank?) %></li>
+  <% unless (@renren_url.nil? || @renren_url.blank?) %>
+    <li><%= link_to "人人主页", @renren_id ? generate_renren_url(@renren_id, true) : @renren_url, :target=>"_blank" %>
+    <% if @unconfirmed %>
+      <% notice = '人人链接旁边的（？）表示同享日程显示的人人链接并没有得到其本人的确认，但是同享日程觉得这很有可能就是其本人的人人链接' %>
+      <%= link_to '（?）', request.request_uri + (request.request_uri.include?('?') ? '&' : '?') + 'notice=' + notice, :title => notice %>
+    <% end %>
+    </li>
+  <% end %>
+  <li>电子邮箱：<%= @email %></li>
+  <li>院系部门：<%= @department %></li>
+  <li>住址：<%= @address %></li>
+  <li>电话：<%= @phone %></li>
+</ul>
+<%= link_to '返回', url_for(:back) %>

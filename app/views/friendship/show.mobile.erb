@@ -1,0 +1,6 @@
+<h2><%= @title %></h2>
+<ul>
+  <% for user in @friends %>
+    <%=  user_profile(user) %>
+  <% end %>
+</ul>
