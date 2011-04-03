@@ -26,9 +26,9 @@
       <% end %>
       <br/>
         <% if !@friendship_to %>
-          <%=  link_to "我认识或想认识Ta", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) %>
+          <%=  link_to "Hi,我(想)认识你", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) %>
         <% else %>
-          <%=  link_to "我不(想)认识Ta", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) %>
+          <%=  link_to "我不(想)认识你", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) %>
         <% end %>
     <% end %>
 </li>

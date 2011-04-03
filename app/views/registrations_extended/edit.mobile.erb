@@ -1,9 +1,11 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages_translated! %>
 
+<p><strong>以星号(*)开头的信息（如电子邮件）将只有您认识或想认识的朋友才能看到</strong></p>
+
   <p>
     <% resource[:email] = '' if defined?(resource) && (nil_email_alias?(resource[:email]) || !resource.confirmed?) %>
-    <%= f.label :email, '电子邮箱', :class=>"title" %>
+    <%= f.label :email, '*电子邮箱', :class=>"title" %>
     <%= f.text_field :email, :class=>"textvalue" %>
     <%#= f.label :email, "电子邮箱", :class=>"title" %>
     <%#= f.text_field :email, :class=>"textvalue" %>
@@ -14,6 +16,22 @@
       <%= extra.check_box :reject_warning_flag %>
       <%= extra.label :reject_warning_flag, "不发送活动报警邮件到我的邮箱"%>
     </p>
+
+    <p>
+      <%= extra.label :department, "院系", :class => 'title'%>
+      <%= extra.text_field :department %>
+    </p>
+
+    <p>
+      <%= extra.label :address, "*寝室或住宅地址", :class => 'title'%>
+      <%= extra.text_field :address %>
+    </p>
+
+    <p>
+      <%= extra.label :phone, "*寝室或固定电话", :class => 'title'%>
+      <%= extra.text_field :phone %>
+    </p>
+
     <%= extra.label :renren_url, "人人网个人主页", :class=>"title"%>
     <%= extra.text_field :renren_url, :class=>"textvalue" %>
     <p>想认识上同一节课的Ta吗？填写你的人人个人主页地址，让Ta找到你吧！<br/>
