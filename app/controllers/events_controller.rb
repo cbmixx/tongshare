@@ -77,6 +77,9 @@ class EventsController < ApplicationController
 
     @curriculum_empty = curriculum_empty?(current_user)
 
+    @num_friendship_from = current_user.friendship_from.count
+    @num_friendship_bidirectional = current_user.friendship_from.where('property=?', Friendship::BIDIRECTIONAL).count
+
     respond_to do |format|
       format.html # index.html.erb
       #format.xml  { render :xml => @instances }

@@ -39,7 +39,8 @@ class User < ActiveRecord::Base
   has_many :user_sharing, :dependent => :destroy
   has_many :bookmark, :dependent => :destroy
   has_many :feedback, :dependent => :destroy
-
+  has_many :friendship_to, :class_name => 'Friendship', :foreign_key => 'from_user_id', :dependent => :destroy
+  has_many :friendship_from, :class_name => 'Friendship', :foreign_key => 'to_user_id', :dependent => :destroy
   has_one :user_extra, :dependent => :destroy
   accepts_nested_attributes_for :user_extra
   

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110328091653) do
+ActiveRecord::Schema.define(:version => 20110403062917) do
 
   create_table "acceptances", :force => true do |t|
     t.integer  "event_id"
@@ -79,6 +79,17 @@ ActiveRecord::Schema.define(:version => 20110328091653) do
   add_index "feedbacks", ["instance_id"], :name => "index_feedbacks_on_instance_id"
   add_index "feedbacks", ["user_id"], :name => "index_feedbacks_on_user_id"
 
+  create_table "friendships", :force => true do |t|
+    t.integer  "from_user_id"
+    t.integer  "to_user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "property"
+  end
+
+  add_index "friendships", ["from_user_id"], :name => "index_friendships_on_from_user"
+  add_index "friendships", ["to_user_id"], :name => "index_friendships_on_to_user"
+
   create_table "group_sharings", :force => true do |t|
     t.integer  "sharing_id"
     t.integer  "group_id"
@@ -94,7 +105,11 @@ ActiveRecord::Schema.define(:version => 20110328091653) do
     t.integer  "creator_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "privacy"
   end
+
+  add_index "groups", ["creator_id"], :name => "index_groups_on_creator_id"
+  add_index "groups", ["identifier"], :name => "index_groups_on_identifier"
 
   create_table "instances", :force => true do |t|
     t.string   "name"
@@ -122,6 +137,9 @@ ActiveRecord::Schema.define(:version => 20110328091653) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "memberships", ["group_id"], :name => "index_memberships_on_group_id"
+  add_index "memberships", ["user_id"], :name => "index_memberships_on_user_id"
 
   create_table "reminder_queues", :force => true do |t|
     t.datetime "time"
@@ -169,6 +187,8 @@ ActiveRecord::Schema.define(:version => 20110328091653) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "address"
+    t.string   "phone"
   end
 
   add_index "user_extras", ["name"], :name => "index_user_extras_on_name"

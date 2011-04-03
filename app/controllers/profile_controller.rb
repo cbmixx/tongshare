@@ -71,4 +71,20 @@ class ProfileController < ApplicationController
     return
   end
 
+  def show
+    @target_user = User.find(params[:target_user])
+    authorize! :show, @target_user
+    @email = @target_user.email if @target_user.has_valid_email
+    @photo_url = @target_user.user_extra.photo_url
+    @renren_url = @target_user.user_extra.renren_url
+    @unconfirmed = (@renren_url && @photo_url && @target_user.user_extra.profile_status != User::PROFILE_CONFIRMED)
+    @department = @target_user.user_extra.department
+    @address = @target_user.user_extra.address
+    @phone = @target_user.user_extra.phone
+    @email ||= '未填写'
+    @department ||= '未填写'
+    @address ||= '未填写'
+    @phone ||= '未填写'
+  end
+
 end

@@ -116,6 +116,7 @@ HTML
 
   def user_profile(user, renren_url = nil, photo_url = nil, department = nil)
     @name = user.friendly_name
+    @user = user
     if (renren_url && photo_url && department)
       @renren_url = renren_url
       @photo_url = photo_url
@@ -127,6 +128,8 @@ HTML
       @photo_url = user.user_extra.photo_url if (user.user_extra && !user.user_extra.hide_profile)
       @department = user.user_extra.department if (user.user_extra && !user.user_extra.hide_profile)
       @unconfirmed = (@renren_url && @photo_url && user.user_extra.profile_status != User::PROFILE_CONFIRMED)
+      @friendship_to = current_user.friendship_to.find_by_to_user_id(user.id)
+      @friendship_from = current_user.friendship_from.find_by_from_user_id(user.id)
     end
 
     render :partial => 'shared/user_profile'

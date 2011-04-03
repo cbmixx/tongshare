@@ -1,0 +1,9 @@
+<%= content_box @title, '' do%>
+<div class="event attendee">
+<table>
+  <% for user in @friends %>
+    <%=  user_profile(user) %>
+  <% end %>
+</table>
+</div>
+<% end %>

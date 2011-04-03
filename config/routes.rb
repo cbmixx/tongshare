@@ -1,7 +1,10 @@
 Tongshare::Application.routes.draw do
 
-  get "profile/index"
+  get "friendship/add_or_remove"
+  get "friendship/show"
 
+  get "profile/index"
+  get "profile/show"
   get "profile/select"
 
   get "search/index"

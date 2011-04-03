@@ -7,11 +7,12 @@ class Membership < ActiveRecord::Base
   POWER_MEMBER = 0
   POWER_MANAGER = 1
   POWER_SUPER_MANAGER = 2  #able to invite group (IG)
-  POWER_UPPER_BOUND = 3  
-  
+  POWER_UPPER_BOUND = 3
+
   belongs_to :group
   belongs_to :user
-  
+
   validates :power, :group_id, :user_id, :presence => true
   validates_numericality_of :power, :only_integer => true, :less_than => POWER_UPPER_BOUND, :greater_than => POWER_LOWER_BOUND
+  attr_accessible :group_id, :user_id, :power
 end
