@@ -21,8 +21,8 @@
     <% elsif (@user.id != current_user.id) %>
       <% if @friendship_to || @friendship_from %>
       <br/>
-        <%= '✩' if @friendship_to %>
-        <%= link_to '✩(查看Ta的更多信息)', url_for(:controller => :profile, :action => :show, :target_user => @user.id) if @friendship_from %>
+        <%= '☆' if @friendship_to %>
+        <%= link_to '☆(查看Ta的更多信息)', url_for(:controller => :profile, :action => :show, :target_user => @user.id) if @friendship_from %>
       <% end %>
       <br/>
         <% if !@friendship_to %>
