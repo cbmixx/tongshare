@@ -1,6 +1,14 @@
 <% content_for :js_ext do %>
   <%= javascript_include_tag "sharing.js" %>
+  <%= javascript_include_tag "dhtmlx/dhtmlxcommon.js" %>
+  <%= javascript_include_tag "dhtmlx/dhtmlxcombo.js" %>
+  <%= javascript_include_tag "pinyin.js" %>
 <% end %>
+
+<link rel="STYLESHEET" type="text/css" href="../stylesheets/dhtmlx/dhtmlxcombo.css"/>
+<script>
+  window.dhx_globalImgPath="../images/dhtmlx/";
+</script>
 
 <%= content_box "查询", "他/她(们)可能的空余时间" do %>
     <%= form_tag url_for(:action => "add_members"), :remote => true do %>
@@ -14,18 +22,29 @@
           <%= calendar_date_select_tag :end, Time.now+1.hours, :minute_interval => 1, :time => true, :onchange => 'on_change_end("begin", "end")' %>
         </div>
         <div class="field">
-          <label for="raw_string" class="title">添加查询对象</label>
-          <%= text_area_tag "raw_string", nil%>
+          <label for="friend_id" class="title">添加认识的人</label>
+          <select style='width:200px;'  id="friends_combo" name="friend_id" onChange="raw_string_onblur();">
+            <% for f_to in current_user.friendship_to %>
+              <option value="<%= f_to.to_user_id %>"><%= f_to.to_user.friendly_name %></option>
+            <% end %>
+          </select>
+          <script>
+            var z=dhtmlXComboFromSelect("friends_combo");
+            z.enableFilteringMode(true);
+            z.setComboText('')
+          </script>
+          <div class="field_help">您可以用Ta的名字拼音首字母来快速定位到Ta</div>
         </div>
         <div class="field">
-          <label class="title">&nbsp;</label>
-          <div class="field_help">粘贴或填写学号或电子邮件地址，使用逗号、分号、空格、制表符或换行符分隔</div>
-          <div class="field_help">更改查询时间范围之后，您需要重新添加查询对象以刷新这些查询对象的查询结果</div>
+          <label for="raw_string" class="title">添加普通用户</label>
+          <%= text_area_tag "raw_string", nil%>
+          <div class="field_help">粘贴或填写要查询的用户的学号或电子邮件地址，有多个查询用户时可以使用逗号、分号、空格、制表符或换行符分隔。
+            更改查询时间范围之后，您需要重新添加查询对象以刷新这些查询对象的查询结果</div>
         </div>
         <div class="field">
           <label class="title">&nbsp;</label>
     <%#= submit_button nil, "add_members_form", "添加"%>
-          <%= submit_tag "添加" %>
+          <%= submit_tag "添加", :id => "add_members_submit" %>
         </div>
       </fieldset>
     <% end %>

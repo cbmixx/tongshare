@@ -15,16 +15,26 @@ class SearchController < ApplicationController
     result = {:valid => [], :dummy => [], :new_email => [], :duplicated => [], :invalid => [], :parse_errored => []}
 
     items = parse_sharings_raw(params[:raw_string])
+
+    if (params[:friend_id] && !params[:friend_id].blank?)
+      begin
+        friend = User.find(params[:friend_id].to_i)
+        uid = friend.user_identifier.first
+        items << {:type => :uid, :uid => uid}
+      rescue Exception
+      end
+    end
+
     for item in items
       if item[:type].nil?
         result[:parse_errored] << item[:login_value]
         next
       end
 
-      ui = UserIdentifier.find_by(item[:type], item[:login_value])
+      ui = item[:type] == :uid ? item[:uid] : UserIdentifier.find_by(item[:type], item[:login_value])
       if !ui.nil?
         begin
-          name = (ui.user.user_extra.name) + "(#{item[:login_value]})"
+          name = (ui.user.user_extra.name) + (item[:login_value] ? "(#{item[:login_value]})" : "")
         rescue Exception
           name = item[:login_value]
         end
