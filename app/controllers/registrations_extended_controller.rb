@@ -135,6 +135,11 @@ include AuthHelper
       flash[:notice] = I18n.t 'devise.confirmations_extended.send_instructions'
     end
 
+    if (resource.user_extra.renren_url)
+      resource.user_extra.profile_status = User::PROFILE_CONFIRMED
+      resource.user_extra.save!
+    end
+
     if (params[:user][:user_extra_attributes][:avatar])
       resource.user_extra.photo_url = resource.user_extra.avatar.url(:thumb)
       resource.user_extra.save!
