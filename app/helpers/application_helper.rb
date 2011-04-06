@@ -117,6 +117,9 @@ HTML
   def user_profile(user, renren_url = nil, photo_url = nil, department = nil)
     @name = user.friendly_name
     @user = user
+    @renren_url = nil
+    @photo_url = nil
+    @department = nil
     if (renren_url && photo_url && department)
       @renren_url = renren_url
       @photo_url = photo_url
