@@ -27,15 +27,25 @@ class SharingsController < ApplicationController
       }
 
     items = parse_sharings_raw(params[:raw_string])
+
+    if (params[:friend_id] && !params[:friend_id].blank?)
+      begin
+        friend = User.find(params[:friend_id].to_i)
+        uid = friend.user_identifier.first
+        items << {:type => :uid, :uid => uid}
+      rescue Exception
+      end
+    end
+
     for item in items
       if item[:type].nil?
         result[:parse_errored] << item[:login_value]
         next
       end
 
-      ui = UserIdentifier.find_by(item[:type], item[:login_value])
+      ui = item[:type] == :uid ? item[:uid] : UserIdentifier.find_by(item[:type], item[:login_value])
       if !ui.nil?
-        data_entry = {:id => ui.user_id, :name => item[:login_value], :conflict => []}  #do not expose user_friendly_name or attackers can enumerate 学号/姓名 pair by add sharings.
+        data_entry = {:id => ui.user_id, :name => (item[:login_value] ? item[:login_value] : ui.user.user_extra.name), :conflict => []}  #do not expose user_friendly_name or attackers can enumerate 学号/姓名 pair by add sharings.
 
         #check time conflict
         user_instances = query_all_accepted_instance_includes_event(event.begin, event.end, ui.user_id)
