@@ -1,7 +1,7 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages_translated! %>
 
-<p><strong>以星号(*)开头的信息（如电子邮件）将只有您认识或想认识的朋友才能看到</strong></p>
+<p><strong>以星号(*)开头的信息（如电子邮件）将只有您的好友才能看到</strong></p>
 
   <p>
     <% resource[:email] = '' if defined?(resource) && (nil_email_alias?(resource[:email]) || !resource.confirmed?) %>

@@ -22,7 +22,7 @@
           <%= calendar_date_select_tag :end, Time.now+1.hours, :minute_interval => 1, :time => true, :onchange => 'on_change_end("begin", "end")' %>
         </div>
         <div class="field">
-          <label for="friend_id" class="title">添加认识的人</label>
+          <label for="friend_id" class="title">我的好友</label>
           <select style='width:200px;'  id="friends_combo" name="friend_id" onChange="raw_string_onblur();">
             <% for f_to in current_user.friendship_to %>
               <option value="<%= f_to.to_user_id %>"><%= f_to.to_user.friendly_name %></option>

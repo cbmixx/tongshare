@@ -93,7 +93,7 @@ class Ability
     can :restore, Acceptance, :user_id => @user.id
 
     can :show, User do |u|
-      u.friendship_to.find_by_to_user_id(@user.id)
+      u.friendship_to.find_by_to_user_id(@user.id) && u.friendship_from.find_by_from_user_id(@user.id)
     end
     
     #Recommend to individuals

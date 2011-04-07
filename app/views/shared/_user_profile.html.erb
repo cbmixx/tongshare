@@ -29,19 +29,17 @@
       <%=  link_to "这是我的人人链接", url_for(:controller => :profile, :action => :select, :renren_url => @renren_url, :department => @department, :photo_url => @photo_url) %>
       </dl>
     <% elsif (@user.id != current_user.id) %>
-      <% if @friendship_to || @friendship_from %>
       <dl>
-        <%= '✩' if @friendship_to %>
-        <%= link_to '✩(查看Ta的更多信息)', url_for(:controller => :profile, :action => :show, :target_user => @user.id) if @friendship_from %>
+        <%= '你已申请加Ta为好友' if @friendship_to && !@friendship_from%>
+        <%= link_to '查看该好友的更多信息', url_for(:controller => :profile, :action => :show, :target_user => @user.id) if @friendship_from && @friendship_to %>
+        <%=  link_to "申请加为好友", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) if !@friendship_to && !@friendship_from%>
+        <%=  link_to "同意Ta成为你的好友", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) if !@friendship_to && @friendship_from%>
+      </dl>
+      <% if @friendship_to %>
+      <dl>
+        <%=  link_to "删除好友", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id)%>
       </dl>
       <% end %>
-      <dl>
-        <% if !@friendship_to %>
-          <%=  link_to "Hi,我(想)认识你", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) %>
-        <% else %>
-          <%=  link_to "我不(想)认识你", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) %>
-        <% end %>
-      </dl>
     <% end %>
     </dl>
   </td>

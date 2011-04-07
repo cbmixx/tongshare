@@ -49,7 +49,7 @@
       <fieldset>
         <%= hidden_field_tag "event_id", @event.id %>
         <div class="field">
-          <label for="friend_id" class="title">认识的人</label>
+          <label for="friend_id" class="title">我的好友</label>
           <select style='width:200px;'  id="friends_combo" name="friend_id" onChange="raw_string_onblur();">
             <% for f_to in current_user.friendship_to %>
               <option value="<%= f_to.to_user_id %>"><%= f_to.to_user.friendly_name %></option>

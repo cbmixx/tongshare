@@ -12,10 +12,9 @@
 <div id="current_time">现在是<%= l Time.now, :format => :long %><%=week_str%>。</div>
 <div id="friendships">
   <% if @num_friendship_from > 0 %>
-  已经有<%= link_to @num_friendship_from.to_s, url_for(:controller => :friendship, :action => :show, :type => :from) %>名用户表示Ta们认识或想认识你，
-  其中你们互相认识的有<%= link_to @num_friendship_bidirectional.to_s, url_for(:controller => :friendship, :action => :show, :type => :bidirectional) %>人。
+  你有<%= link_to @num_friendship_bidirectional.to_s, url_for(:controller => :friendship, :action => :show, :type => :bidirectional) %>个好友。
     <% if @num_friendship_from-@num_friendship_bidirectional > 0 %>
-    你认识其余的<%= link_to (@num_friendship_from-@num_friendship_bidirectional).to_s, url_for(:controller => :friendship, :action => :show, :type => :only_from) %>人吗？
+    另有<%= link_to (@num_friendship_from-@num_friendship_bidirectional).to_s, url_for(:controller => :friendship, :action => :show, :type => :only_from) %>个人想加你为好友。
     <% end %>
   <% end %>
 </div>
