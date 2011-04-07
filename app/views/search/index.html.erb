@@ -11,7 +11,7 @@
 </script>
 
 <%= content_box "查询", "他/她(们)可能的空余时间" do %>
-    <%= form_tag url_for(:action => "add_members"), :remote => true do %>
+    <%= form_tag url_for(:action => "add_members"), :remote => true, :onsubmit => 'confirmComboValue();' do %>
       <fieldset>
         <div class="field">
           <label for="begin" class="title">查询开始时间</label>
@@ -29,11 +29,25 @@
             <% end %>
           </select>
           <script>
-            var z=dhtmlXComboFromSelect("friends_combo");
-            z.enableFilteringMode(true);
-            z.setComboText('')
+            var friends_combo=dhtmlXComboFromSelect("friends_combo");
+            friends_combo.enableFilteringMode(true);
+            friends_combo.setComboText('')
           </script>
           <div class="field_help">您可以用Ta的名字拼音首字母来快速定位到Ta</div>
+        </div>
+        <div class="field">
+          <label for="friend_id" class="title">我的群组</label>
+          <select style='width:200px;'  id="groups_combo" name="group_id" onChange="raw_string_onblur();">
+            <% for group in current_user.group %>
+              <option value="<%= group.id %>"><%= group.name %></option>
+            <% end %>
+          </select>
+          <script>
+            var groups_combo=dhtmlXComboFromSelect("groups_combo");
+            groups_combo.enableFilteringMode(true);
+            groups_combo.setComboText('')
+            groups_combo.unSelectOption()
+          </script>
         </div>
         <div class="field">
           <label for="raw_string" class="title">添加普通用户</label>

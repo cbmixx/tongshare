@@ -4,11 +4,11 @@ class Group < ActiveRecord::Base
   MAX_EXTRA_INFO_LENGTH = 4096
   MAX_IDENTIFIER_LENGTH = 16
 
-  FRIEND_GROUP_NAME = 'tongshare.friends' # 打招呼群组的名字
-
   # will there be more privacies?
   PRIVACY_PUBLIC = 0
   PRIVACY_PRIVATE = 1
+
+  attr_accessible :name, :extra_info, :identifier, :creator_id, :privacy
 
   belongs_to :creator, :class_name => "User"
   has_many :membership, :dependent => :destroy

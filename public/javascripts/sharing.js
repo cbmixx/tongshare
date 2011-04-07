@@ -177,6 +177,13 @@ function toggle_nil_prompt()
     {
         $('new_member_nil').hide();
     }
+
+    if ($('setup_group') != null){
+        if ($('new_members').childElementCount +  $('new_dummy').childElementCount + $('new_email').childElementCount > 0)
+            $('setup_group').show()
+        else
+            $('setup_group').hide()
+    }
 }
 
 function checkFormValid(form)
@@ -228,4 +235,10 @@ function raw_string_onblur()    //invoke when raw_string lose focus
 function toggle_conflict(id)
 {
     Effect.toggle('conflict_' + id, 'slide', {duration: 0.5});
+}
+
+function confirmComboValue()
+{
+    friends_combo.confirmValue();
+    groups_combo.confirmValue();
 }

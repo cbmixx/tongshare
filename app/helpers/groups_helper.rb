@@ -10,18 +10,11 @@ module GroupsHelper
 
   def query_or_create_group_via_name_and_creator_id(name, creator_id)
     g = Group.where(:name => name, :creator_id => creator_id).first
-    g = add_group(name, creator_id) if g.nil?
+    if g.nil?
+      add_group(name, creator_id)
+      g = Group.where(:name => name, :creator_id => creator_id).first
+    end
     return g
-  end
-
-  def add_friend(user)
-    g = query_or_create_group_via_name_and_creator_id(Group::FRIEND_GROUP_NAME, current_user.id)
-    g.add_member(user)
-  end
-
-  def remove_friend(user)
-    g = query_or_create_group_via_name_and_creator_id(Group::FRIEND_GROUP_NAME, current_user.id)
-    g.remove_member(user)
   end
 
 end

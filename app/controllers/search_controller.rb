@@ -21,7 +21,27 @@ class SearchController < ApplicationController
         friend = User.find(params[:friend_id].to_i)
         uid = friend.user_identifier.first
         items << {:type => :uid, :uid => uid}
-      rescue Exception
+      rescue ActiveRecord::RecordNotFound
+      end
+    end
+
+    if (params[:group_id] && !params[:group_id].blank?)
+      begin
+        group = Group.find(params[:group_id].to_i)
+        if (group.privacy == Group::PRIVACY_PRIVATE) # Only private groups can be invited(public group recommendation is not supported yet)
+          for membership in group.membership
+            user = membership.user
+            uid = user.user_identifier.first
+            if (uid.login_type == UserIdentifier::TYPE_EMPLOYEE_NO_DUMMY)
+              items << {:type => UserIdentifier::TYPE_EMPLOYEE_NO, :login_value => uid.login_value.match(/\d+$/)[0]}
+            elsif (uid.login_type == UserIdentifier::TYPE_EMAIL_DUMMY)
+              items << {:type => UserIdentifier::TYPE_EMAIL, :login_value => uid.login_value}
+            else
+              items << {:type => :uid, :uid => uid}
+            end
+          end
+        end
+      rescue ActiveRecord::RecordNotFound
       end
     end
 
