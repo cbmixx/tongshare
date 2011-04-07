@@ -113,6 +113,8 @@ HTML
     dummy = dummy_identifier.user
     
     UserSharing.update_all("user_id = #{new_user_id}", "user_id = #{dummy.id}")
+    Membership.update_all("user_id = #{new_user_id}", "user_id = #{dummy.id}")
+
     dummy.destroy
   end
 
@@ -125,6 +127,8 @@ HTML
     dummy = dummy_identifier.user
 
     UserSharing.update_all("user_id = #{new_user_id}", "user_id = #{dummy.id}")
+    Membership.update_all("user_id = #{new_user_id}", "user_id = #{dummy.id}")
+
     dummy.destroy
   end
 
