@@ -129,7 +129,7 @@
 
 
 <% if !(attendees = get_attendees(@event, @attendee_offset, 10+1)).empty? %>
-<p>谁在和你一起参加该活动？我们已知的有<%= attendees.count %>人：<br/>
+<p>谁在和你一起参加该活动？我们已知的有<%= get_attendee_count(@event) %>人：<br/>
   <ul>
     <% attendees[0...10].each do |att| %>
         <% att.auto_check_profile %>
