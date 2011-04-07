@@ -88,6 +88,8 @@ class SharingsController < ApplicationController
     ids = result[:valid].collect {|i| i[:id]}
     duplicated = find_duplicated_sharing(current_user.id, params[:event_id], ids).to_set
 
+    result[:valid].uniq!
+
     duplicated_entries = result[:valid].select {|i| duplicated.include?(i[:id])}
     result[:duplicated].concat(duplicated_entries.collect{|i| i[:name]})
     result[:valid].delete_if {|i| duplicated.include?(i[:id])}
