@@ -22,6 +22,7 @@ class Event < ActiveRecord::Base
   has_many :sharings, :foreign_key => "event_id", :dependent => :destroy
   has_many :instances, :foreign_key => "event_id", :dependent => :destroy
   has_many :reminders, :dependent => :destroy
+  has_many :greetings, :dependent => :destroy
 
   #TODO validates
   validates :name, :begin, :creator_id, :presence => true

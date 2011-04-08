@@ -114,7 +114,8 @@ HTML
     render :partial=>"shared/sidebar_announcement"
   end
 
-  def user_profile(user, renren_url = nil, photo_url = nil, department = nil)
+  def user_profile(user, renren_url = nil, photo_url = nil, department = nil, event = nil)
+    @event = event
     @name = user.friendly_name
     @user = user
     @renren_url = nil

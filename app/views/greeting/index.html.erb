@@ -1,0 +1,17 @@
+<%= content_box 'Hi~Ta们给你打招呼啦', '' do%>
+<div class="event attendee">
+<table>
+  <% for greeting in @greetings[0...10] %>
+    <tr><td colspan="2"><strong>
+      <hr/>
+      Hi~<%= greeting.from_user.friendly_name %>在活动<%= link_to greeting.event.name, "/events/#{greeting.event.id}" %>中给你打招呼啦
+      (时间: <%= I18n.l(greeting.created_at, :format => :long) %>)
+    </strong></td></tr>
+    <%=  user_profile(greeting.from_user, nil, nil, nil, greeting.event) %>
+  <% end %>
+</table>
+</div>
+<%=  link_to('上一页', params.merge({:offset => @offset - 10})) if @has_previous %>
+<% if @has_previous && @has_next %>  &nbsp;&nbsp; <% end %>
+<%=  link_to('下一页', params.merge({:offset => @offset + 10})) if @has_next %>
+<% end %>

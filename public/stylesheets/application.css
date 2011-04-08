@@ -19,6 +19,11 @@ root {
     margin-left: 50px;
 }
 
+#welcome li {
+    list-style-type: disc;
+    margin-bottom: 2px;
+}
+
 #header_ann {
     margin-left: 50px;
     margin-top: 10px;

@@ -1,5 +1,9 @@
 Tongshare::Application.routes.draw do
 
+  get "greeting/create"
+
+  get "greeting/index"
+
   get "friendship/add_or_remove"
   get "friendship/show"
 

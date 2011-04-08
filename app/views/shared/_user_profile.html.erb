@@ -29,6 +29,11 @@
       <%=  link_to "这是我的人人链接", url_for(:controller => :profile, :action => :select, :renren_url => @renren_url, :department => @department, :photo_url => @photo_url) %>
       </dl>
     <% elsif (@user.id != current_user.id) %>
+      <% if @event %>
+      <dl>
+        <%= link_to '打个招呼，Hi~', url_for(:controller => :greeting, :action => :create, :target_user => @user.id, :event_id => @event.id) %>
+      </dl>
+      <% end %>
       <dl>
         <%= '你已申请加Ta为好友' if @friendship_to && !@friendship_from%>
         <%= link_to '查看该好友的更多信息', url_for(:controller => :profile, :action => :show, :target_user => @user.id) if @friendship_from && @friendship_to %>

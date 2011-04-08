@@ -6,29 +6,31 @@
 <li>
   <%=@name%>
   <%= link_to "查看头像", @photo_url unless (@photo_url.nil? || @photo_url.blank?) %>
-  <% if @department %>
-    <br/><%= @department %>
-  <% end %>
   <% unless (@renren_url.nil? || @renren_url.blank?) %>
-    <br/><%= link_to "人人主页", @renren_id ? generate_renren_url(@renren_id, true) : @renren_url, :target=>"_blank" %>
+    <%= link_to "人人主页", @renren_id ? generate_renren_url(@renren_id, true) : @renren_url, :target=>"_blank" %>
     <% if @unconfirmed %>
       <% notice = '人人链接旁边的（？）表示同享日程显示的人人链接并没有得到其本人的确认，但是同享日程觉得这很有可能就是其本人的人人链接' %>
       <%= link_to '（?）', request.request_uri + (request.request_uri.include?('?') ? '&' : '?') + 'notice=' + notice, :title => notice %>
     <% end %>
   <% end %>
+  <% if @department %>
+    <br/><%= @department %>
+  <% end %>
   <% if @can_be_selected %>
     <br/><%=  link_to "这是我的人人链接", url_for(:controller => :profile, :action => :select, :renren_url => @renren_url, :department => @department, :photo_url => @photo_url) %>
     <% elsif (@user.id != current_user.id) %>
-      <dl>
+      <% if @event %>
+      <br/>
+        <%= link_to '打个招呼，Hi~', url_for(:controller => :greeting, :action => :create, :target_user => @user.id, :event_id => @event.id) %>
+      <% end %>
+      <br/>
         <%= '你已申请加Ta为好友' if @friendship_to && !@friendship_from%>
         <%= link_to '查看该好友的更多信息', url_for(:controller => :profile, :action => :show, :target_user => @user.id) if @friendship_from && @friendship_to %>
         <%=  link_to "申请加为好友", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) if !@friendship_to && !@friendship_from%>
         <%=  link_to "同意Ta成为你的好友", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id) if !@friendship_to && @friendship_from%>
-      </dl>
       <% if @friendship_to %>
-        <dl>
+      <br/>
           <%=  link_to "删除好友", url_for(:controller => :friendship, :action => :add_or_remove, :target_user => @user.id)%>
-        </dl>
       <% end %>
     <% end %>
 </li>

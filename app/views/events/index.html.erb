@@ -5,24 +5,26 @@
 <div id="welcome">
 <strong>你好，<%= current_user.friendly_name %>！</strong>
 
-<%
-  week_str = number_of_week_in_thu
-  week_str = "，#{week_str}" unless week_str.blank?
-%>
-<div id="current_time">现在是<%= l Time.now, :format => :long %><%=week_str%>。</div>
-<div id="friendships">
-  <% if @num_friendship_from > 0 %>
+<ul>
+<% if current_user.greeting_from.count > 0 %>
+<li>
+  Hi~你收到了<%= link_to current_user.greeting_from.count.to_s, '/greeting/index' %> 个活动共同参与者的招呼，
+  其中最近的一个是在<%= I18n.l(current_user.greeting_from.last.created_at, :format => :long) %>
+</li>
+<% end %>
+<% if @num_friendship_from > 0 %>
+<li>
   你有<%= link_to @num_friendship_bidirectional.to_s, url_for(:controller => :friendship, :action => :show, :type => :bidirectional) %>个好友。
     <% if @num_friendship_from-@num_friendship_bidirectional > 0 %>
     另有<%= link_to (@num_friendship_from-@num_friendship_bidirectional).to_s, url_for(:controller => :friendship, :action => :show, :type => :only_from) %>个人想加你为好友。
     <% end %>
+</li>
   <% end %>
-</div>
 
 <% if @invited_user_sharings && @invited_user_sharings.count > 0 %>
-<%= link_to sprintf("有%d个邀请正等待你的回复", @invited_user_sharings.count), '#invited_events' %><br/>
+<li><%= link_to sprintf("有%d个邀请正等待你的回复", @invited_user_sharings.count), '#invited_events' %></li>
 <% end %>
-
+</ul>
 
 <%#*<div id="share_notice">%>
   <%#*<span>个被邀请的活动</span>%>
@@ -35,6 +37,12 @@
 <div class="agenda_list" id="my_events">
   <%= content_box "我的", "日程", false do %>
     
+<%
+  week_str = number_of_week_in_thu
+  week_str = "，#{week_str}" unless week_str.blank?
+%>
+<div id="current_time">现在是<%= l Time.now, :format => :long %><%=week_str%>。</div>
+
     <div class="agenda_pannel">
       <ul>
         <li><%= link_to_unless (@range == :next && @offset == 0), "接下来", {:range => :next} %></li>
