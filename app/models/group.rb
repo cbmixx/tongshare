@@ -74,7 +74,7 @@ class Group < ActiveRecord::Base
   # members is an array constructed with hashes of {:user_id or (:login_type and :login_value) and :power}
   #
   def set_members (members)
-    self.membership.destroy
+    self.membership.delete_all
     self.membership(true)
     members.each do |member|
       user_id = member[:user_id] if User.where(:id => member[:user_id]).exists?

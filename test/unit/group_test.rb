@@ -27,5 +27,15 @@ class GroupTest < ActiveSupport::TestCase
     assert_equal Membership::POWER_MEMBER, group.member_power(member)
     group.set_member_power member, Membership::POWER_MANAGER
     assert_equal Membership::POWER_MANAGER, group.member_power(member)
+    # SpaceFlyer: test reset members
+    group.set_members [
+      {:user_id => 3, :power => Membership::POWER_MEMBER},
+    ]
+    assert_equal 1, group.members.count, 'test for set_members failed'
+    # SpaceFlyer: test reset members
+    group.set_members [
+      {:user_id => 4, :power => Membership::POWER_MEMBER},
+    ]
+    assert_equal 1, group.members.count, 'test for set_members failed'
   end
 end

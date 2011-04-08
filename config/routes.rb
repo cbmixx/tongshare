@@ -1,7 +1,6 @@
 Tongshare::Application.routes.draw do
 
   get "greeting/create"
-
   get "greeting/index"
 
   get "friendship/add_or_remove"
@@ -49,6 +48,11 @@ Tongshare::Application.routes.draw do
 
   get "sharings/add_members"
   post "sharings/add_members"
+
+  get "groups/add_members"
+  post "groups/add_members"
+  get "groups/add_members"
+  post "groups/set_members"
 
   resources :groups
   resources :events
