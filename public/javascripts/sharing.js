@@ -21,7 +21,7 @@ function add_members(data)
             "id": "new_member_" + var_item.id
             });
 
-        li.insert("<a href=\"javascript: del_member(" + var_item.id + ")\" class=\"del\">✕</a>");
+        li.insert("<a href=\"javascript: del_member(" + var_item.id + ")\" class=\"del\">x</a>");
         li.insert("&nbsp;&nbsp;<span class=\"name\">" + var_item.name + "</span>");
         li.insert("<input type=\"hidden\" name=\"members[]\" value=\"" + var_item.id + "\">");
 
