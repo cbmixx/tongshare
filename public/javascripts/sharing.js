@@ -179,7 +179,7 @@ function toggle_nil_prompt()
     }
 
     if ($('setup_group') != null){
-        if ($('new_members').childElementCount +  $('new_dummy').childElementCount + $('new_email').childElementCount > 0)
+        if ($('new_members').childElements().size() +  $('new_dummy').childElements().size() + $('new_email').childElements().size() > 0)
             $('setup_group').show()
         else
             $('setup_group').hide()
