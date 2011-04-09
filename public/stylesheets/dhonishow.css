@@ -1,0 +1,85 @@
+.dhonishow {
+	overflow: hidden;
+	float: left;
+	width: 720px;
+	font-family: "MS Trebuchet", "Lucida Grande", "Lucida Sans Unicode", sans-serif;
+}
+
+.dhonishow * {
+	padding:  0;
+	margin: 0;
+	border:  none;
+	list-style: none;
+}
+
+.dhonishow-image {
+	overflow: hidden;
+	width: 720px;
+	height: 404px;
+	text-align: left;
+/*	background: #00AAEF;*//* SpaceFlyer: White background is better */
+	position: relative;
+}
+
+.dhonishow-image li {
+	position: absolute;
+	left: 0;
+	top: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.dhonishow-navi {
+	margin-bottom: 2px;
+	color: #000;
+	overflow: hidden;
+	width: 720px;
+	padding: 5px 0 5px 5px;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
+}
+
+.dhonishow-picture-alt {
+	font-weight: bold;
+	text-align: left;
+	float: left;
+	font-size: 11px;
+	line-height: 16px;
+}
+
+.dhonishow-navi .dhonishow-next-picture,
+.dhonishow-navi .dhonishow-previous-picture {
+	text-indent: -999px;
+	width: 16px;
+	height: 18px;
+	float: right;
+	margin: 0;
+	cursor:  pointer;
+	-moz-outline: none;
+}
+
+
+.dhonishow-navi .dhonishow-next-picture {
+	margin-right: 15px;
+	background: url(images/dhonishow/next.gif) no-repeat;
+}
+
+.dhonishow-previous-picture {
+	background: url(images/dhonishow/previous.gif) no-repeat;
+}
+
+.dhonishow-next-picture:hover {
+	background: url(images/dhonishow/next_hover.gif) no-repeat;
+}
+
+.dhonishow-previous-picture:hover {
+	background: url(images/dhonishow/previous_hover.gif) no-repeat;
+}
+
+
+.dhonishow-navi .paging {
+	float: right;
+	font-size: 12px;
+	margin: 0 50px;
+	line-height:  20px;
+}

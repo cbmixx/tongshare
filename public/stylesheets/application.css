@@ -35,7 +35,7 @@ root {
 }
 
 #sidebar_ann {
-    background-color: #eeeeee;
+/*    background-color: #eeeeee;*/
 }
 
 #sidebar_ann .subtitle {
@@ -165,8 +165,8 @@ root {
 }
 
 .event.show .instance.score {
-/*    margin-left: 1em;
-    margin-bottom: 10px;*/
+    /*    margin-left: 1em;
+        margin-bottom: 10px;*/
 }
 
 .event.show .instance.score a {
@@ -284,3 +284,22 @@ a.del {
 .textfield_narrow {
     width: 450px;
 }
+
+.fade-box {
+/*    width: 330px;*/
+    position: absolute;
+    text-align:center;
+}
+
+#image-container {
+/*    width: 330px;
+    height: 150px;*/
+    background: url(images/fade-image-bg.gif);
+    background-position:center;
+    background-repeat:no-repeat;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+
