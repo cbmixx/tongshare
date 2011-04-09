@@ -242,3 +242,8 @@ function confirmComboValue()
     friends_combo.confirmValue();
     groups_combo.confirmValue();
 }
+
+function showGroupName()
+{
+    $('group_name').show();
+}
