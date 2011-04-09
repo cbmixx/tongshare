@@ -15,7 +15,7 @@ section#content {width:700px;float:left}
 /* Sidebar */
 aside {position: absolute; left: 700px; top: 100px; ;width:300px}
 /* Footer */
-footer {text-align:center;height:111px;line-height:1.538em}
+footer {text-align:center; border-top: solid 1px #ffbf16;}
 /* Left & Right alignment */
 .fleft {float:left}
 .fright {float:right}
@@ -25,7 +25,7 @@ footer {text-align:center;height:111px;line-height:1.538em}
 .aligncenter {text-align:center}
 .wrapper {width:100%;overflow:hidden}
 /* tailings */
-.tail-bottom {background:url(../../images/biz/tail-bottom.gif) left bottom repeat-x}
+/*.tail-bottom {background:url(../../images/biz/tail-bottom.gif) left bottom repeat-x}*/
 /* form defaults */
 input,select,textarea {font-family:Arial,Helvetica,sans-serif;font-size:1em;vertical-align:middle;font-weight:normal;color:#5c5c5c;margin:0;padding:0}
 fieldset {border:0}
