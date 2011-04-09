@@ -8,14 +8,14 @@ set :deploy_to, "/var/www/#{application}"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
-set :user, "deployer"
-set :runner, "deployer"
+set :user, "tongshare"
+set :runner, "tongshare"
 
 set :scm, :subversion
 set :scm_user, "paullzn"
 set :scm_password, "Zv9Kw9sF2kJ9"
 
-server "lives3.net", :app, :web, :db, :primary => true
+server "166.111.68.70", :app, :web, :db, :primary => true
 
 default_run_options[:pty] = true
 
