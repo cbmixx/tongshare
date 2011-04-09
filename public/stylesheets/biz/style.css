@@ -103,8 +103,8 @@ h2 span {color:#f85811}
 /* content */
 #content .inside {padding:24px 40px 30px 50px}
 /* Sidebar */
-aside .inside {padding:12px 45px 0 40px}
-.inside {padding:12px 45px 0 40px}
+aside .inside {padding:12px 45px 12px 40px}
+.inside {padding:12px 45px 12px 40px}
 aside h2 {letter-spacing:-1px}
 /* footer */
 footer .inside {padding-top:36px}

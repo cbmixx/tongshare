@@ -34,6 +34,10 @@ root {
     margin-bottom: 2px;
 }
 
+#sidebar_ann {
+    background-color: #eeeeee;
+}
+
 #sidebar_ann .subtitle {
     margin-top: 5px;
     margin-bottom: 2px;
@@ -49,10 +53,10 @@ root {
     display: inline;
     font-weight: bold;
 }
-
+/*
 .agenda_list .agenda_pannel ul li:before {
     content: "\00BB \0020 ";
-}
+}*/
 
 .agenda_list .agenda_pannel ul li a {
     text-decoration: none

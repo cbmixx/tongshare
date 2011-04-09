@@ -46,8 +46,8 @@
     <div class="agenda_pannel">
       <ul>
         <li><%= link_to_unless (@range == :next && @offset == 0), "接下来", {:range => :next} %></li>
-        <li><%= link_to_unless_current "按天", {:range => :day, :offset => 0} %></li>
-        <li> <%= link_to_unless_current "按周", {:range => :week, :offset => 0} %></li>
+        | <li><%= link_to_unless_current "按天", {:range => :day, :offset => 0} %></li>
+        | <li> <%= link_to_unless_current "按周", {:range => :week, :offset => 0} %></li>
       </ul>
     </div>
     <div id="agenda_list_content">
@@ -110,7 +110,7 @@
     <div class="agenda_pannel">
       <ul>
         <li><%= link_to "前一"+unit, {:range => params[:range], :offset => params[:offset].to_i-1} %></li>
-        <li> <%= link_to "下一"+unit, {:range => params[:range], :offset => params[:offset].to_i+1} %></li>
+        | <li> <%= link_to "下一"+unit, {:range => params[:range], :offset => params[:offset].to_i+1} %></li>
       </ul>
     </div>
     <% end %>
