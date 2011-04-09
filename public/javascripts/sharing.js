@@ -75,7 +75,7 @@ function add_members(data)
                 "id": "new_dummy_" + var_item
                 });
 
-            li.insert("<a href=\"javascript: del_dummy(" + var_item + ")\" class=\"del\">\u2717</a>");
+            li.insert("<a href=\"javascript: del_dummy(" + var_item + ")\" class=\"del\">x</a>");
             li.insert("&nbsp;&nbsp;<span class=\"name\">" + var_item + "</span>");
             li.insert("<input type=\"hidden\" name=\"dummy[]\" value=\"" + var_item + "\">");
             list.insert(li);
@@ -99,7 +99,7 @@ function add_members(data)
                 "id": "new_email_" + var_item
                 });
 
-            li.insert("<a href=\"javascript: del_new_email('" + var_item + "')\" class=\"del\">\u2717</a>");
+            li.insert("<a href=\"javascript: del_new_email('" + var_item + "')\" class=\"del\">x</a>");
             li.insert("&nbsp;&nbsp;<span class=\"name\">" + var_item + "</span>");
             li.insert("<input type=\"hidden\" name=\"new_email[]\" value=\"" + var_item + "\">");
             list.insert(li);
