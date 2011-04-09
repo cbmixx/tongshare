@@ -133,7 +133,7 @@
   <ul>
     <% attendees[0...10].each do |att| %>
         <% att.auto_check_profile %>
-        <%=  user_profile(att) %>
+        <%=  user_profile(att, nil, nil, nil, @event) %>
     <% end %>
   </ul>
     <%=  link_to('上一页', params.merge({:offset => @attendee_offset - 10})) if @attendee_offset >= 10%>
