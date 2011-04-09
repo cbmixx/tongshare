@@ -162,10 +162,12 @@
         <%= f.text_area :extra_info, :class=>"textfield_narrow"%>
       </div>
 
-
-        <%= submit_button form, "new_sharing", "提交"%>
+      <div class="field">
+        <label class="title">&nbsp;</label>
+        <%= f.submit :submit, :value => "提交", :class => 'link1 commit_button'%>
         <%#TODO: check if the user clicked "添加" %>
         <%= styled_button "取消", :back %>
+      </div>
       <% end %>
     </fieldset>
 <% end %>
