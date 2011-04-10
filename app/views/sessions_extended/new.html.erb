@@ -19,7 +19,9 @@
 <script lang="javascript">StartSlideShow();</script>
 
 <% content_for :aside do %>
-  <h2>登录</h2>
-  <%= render(:partial => "sessions_extended/login_form", :locals => {:small => true})%>
-  <%= sidebar_announcement %>
+  <div id="login_container" class="inside">
+    <h2>登录</h2>
+    <%= render(:partial => "sessions_extended/login_form", :locals => {:small => true})%>
+    <br/>
+  </div>
 <% end %>
