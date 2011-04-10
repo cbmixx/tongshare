@@ -13,7 +13,7 @@ class HomeController < ApplicationController
         session[:bookmark_free] = true # show bookmark note only once
         if (params[:mark] &&
               (bookmark = Bookmark.find_by_user_id_and_mark(current_user.id, params[:mark])))
-          added_notice = "请将此页面加为书签，以免去不断登录的麻烦(对于那些不能用cookie自动登录的浏览器)"
+          added_notice = "您可以将此页面加为书签，方便以后自动登录此网站"
           bookmark.increase_count
           added_params[:mark] = params[:mark]
           added_params[:auth_token] = params[:auth_token]
