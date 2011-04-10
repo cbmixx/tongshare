@@ -21,6 +21,7 @@ class EventsController < ApplicationController
       end
     end
 
+    @photo_url = user_extra.photo_url
     @note = NOTES[rand(NOTES.size)]
 
     #@events = Event.find_all_by_creator_id current_user.id

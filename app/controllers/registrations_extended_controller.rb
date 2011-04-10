@@ -96,6 +96,7 @@ include AuthHelper
     resource.build_user_extra if current_user.user_extra.nil?
     authorize! :edit, resource
 
+    @photo_url = current_user.user_extra.photo_url
     super
   end
 
