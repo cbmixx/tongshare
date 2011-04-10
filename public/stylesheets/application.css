@@ -363,7 +363,6 @@ a.del {
 #image-container {
 /*    width: 330px;
     height: 150px;*/
-    background: url(images/fade-image-bg.gif);
     background-position:center;
     background-repeat:no-repeat;
     margin-top: 0px;
