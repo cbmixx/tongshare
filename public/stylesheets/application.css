@@ -44,7 +44,8 @@ root {
 }
 
 #sidebar_ann {
-    background-color: #ffffbb;
+    background-color: #ffffdd;
+border: solid 1px #ffee00;
 }
 
 #sidebar_ann .subtitle {
@@ -58,6 +59,14 @@ root {
 #sidebar_ann li {
     list-style-type: disc;
     margin-bottom: 5px;
+}
+
+#mobile_tip {
+  margin-top: 0px;
+  padding: 10px 10px 10px 10px;
+  background-color : #ffffdd;
+  border: solid 1px #ffee00;
+                  
 }
 
 .agenda_list .agenda_pannel ul li {

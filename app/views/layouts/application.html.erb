@@ -98,6 +98,10 @@
               </td>
               <td id="aside_container" width="300px">
                   <%= yield :aside %>
+                  <div id="mobile_tip">
+                    手机访问：<a href="http://tongshare.com">tongshare.com</a> 更省流量<br/>
+                    <div style="text-align:center"><%= image_tag "qrcode.gif", :title=>"用手机扫描二维码获取本站地址" %></div>
+                  </div>
               </td>
             </tr>
           </table>
