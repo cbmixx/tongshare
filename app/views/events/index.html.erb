@@ -137,7 +137,6 @@
 
 <% if !@invited_user_sharings.nil? && !@invited_user_sharings.empty? %>
   <div class="agenda_list" id="invited_events">
-    <a name="invited"/>
     <%= content_box "邀请你", "参加", true do %>
       <% @invited_user_sharings.each do |user_sharing|%>
         <% sharing = user_sharing.sharing %>
