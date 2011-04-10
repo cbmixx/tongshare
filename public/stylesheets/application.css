@@ -34,6 +34,10 @@ root {
     margin-bottom: 2px;
 }
 
+#aside_container {
+    padding-left: 20px;
+}
+
 #sidebar_ann {
 /*    background-color: #eeeeee;*/
 }
