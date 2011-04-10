@@ -39,18 +39,20 @@ root {
 }
 
 #sidebar_ann {
-/*    background-color: #eeeeee;*/
+    background-color: #ffffbb;
 }
 
 #sidebar_ann .subtitle {
+    margin-left: -15px;
     margin-top: 5px;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
+    font-size: 15px;
     font-weight: bold;
 }
 
 #sidebar_ann li {
     list-style-type: disc;
-    margin-bottom: 2px;
+    margin-bottom: 5px;
 }
 
 .agenda_list .agenda_pannel ul li {

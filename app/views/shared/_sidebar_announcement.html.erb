@@ -1,24 +1,20 @@
-<div id="sidebar_ann">
+<div id="sidebar_ann" class="inside">
   <div class="subtitle">最近更新：</div>
   <ul>
-    <li>快给那些和你参加同一个活动，并且你认识或想认识的人打个招呼吧~你还可以加Ta为好友，
-      同时<%= link_to '填写寝室地址、电话等详细信息', edit_user_registration_path %>，方便好友联系你～</li>
-    <li>想认识同上一节课的Ta？点进课程，即可看到Ta们的头像！同享日程将自动链接您的人人头像，您也可以自己<%= link_to '上传新的头像', '/users/edit' %></li>
-    <li>想创建活动找朋友一起来参加，但是不知道Ta什么时间有空？<%= link_to '快去查询一下吧～', :controller => "search"%> </li>
     <li>
-      分享功能让您更轻松地与朋友、同学们一起参加活动，寻找大家共同空余的时间并且方便掌握大家的反馈～
+      <b>分享活动</b> 把你的活动分享给好朋友一起参加，寻找大家共同空余的时间并且即时掌握大家参加意愿的反馈～
     </li>
+    <li><b>添加好友</b> 你可以把你认识的那些和你参加同一个活动的同学添加为好友，方便以后一起利用tongshare同享日程，组织活动～</li>
+    <li><b>打招呼</b> 给你你想认识的同学打个招呼吧~</li>
+    <li><b>丰富个人信息</b> <%= link_to '填写更丰富的个人信息', edit_user_registration_path %>，方便好友联系认识你～</li>
+    <li><b>上传头像</b> 同享日程将自动链接您的人人头像，您也可以自己<%= link_to '上传新的头像', '/users/edit' %></li>
+    <li><b>看谁有空</b> 想创建活动找朋友一起来参加，但是不知道Ta什么时间有空？<%= link_to '快去查询一下吧～', :controller => "search"%> </li>
+    
     <li>
-      又点名了？不用怕，一有情况立即自动邮件提醒！还不赶快去<%= link_to '填写邮箱', edit_user_registration_path%> ～
+      <b>邮件提醒</b> 又点名了？不用怕，一有情况立即自动邮件提醒！还不赶快去<%= link_to '填写邮箱', edit_user_registration_path%> ～
     </li>
-    <li>
-      快去<%= link_to "填写你的人人网地址", edit_user_registration_path%>，让同上一节课的Ta认识你！
-    </li>
-    <li>
-      同享日程可以导入研究生课表了！
-    </li>
-    <li>
-      课表依然导入失败？只好<%= link_to "手动上传课表文件", {:controller => "curriculum", :action => "upload"}%>……
+  <li>
+    <b>手动上传课表</b> 课表依然导入失败？只好<%= link_to "手动上传课表文件", {:controller => "curriculum", :action => "upload"}%>
     </li>
   </ul>
 </div>
