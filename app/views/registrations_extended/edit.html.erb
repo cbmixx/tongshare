@@ -6,7 +6,7 @@
     <%= image_tag( ((@photo_url.nil? || @photo_url.blank?) ? 'default.jpg' : @photo_url), :onError => "this.src='/images/default.jpg';" ) %>
   </td>
   <td class="detail">
-    <strong>你好，<%= current_user.friendly_name %>！</strong><br>
+    <strong><%= current_user.friendly_name %></strong><br>
   </td>
   </tr></table>
   </div>

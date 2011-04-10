@@ -88,7 +88,7 @@ h2 span {color:#f85811}
 .nav-box nav {background:url(../../images/biz/nav-box-right.gif) no-repeat right top}
 .nav-box nav ul {height:77px;background:url(../../images/biz/nav-box-left.gif) no-repeat left top;overflow:hidden}
 .nav-box nav ul li {float:left;padding:0 36px 0 38px;background:url(../../images/biz/divider.gif) no-repeat left top;margin:0 2px 0 -2px}
-.nav-box nav ul li a {color:#434343;font-size:1.231em;line-height:1.2em;text-decoration:none;font-family:"trebuchet MS",Helvetica,sans-serif;text-transform:uppercase;display:block;padding-top:25px}
+.nav-box nav ul li a {color:#666;font-size:1.231em;line-height:1.2em;text-decoration:none;font-weight:bold;font-family:"trebuchet MS",Helvetica,sans-serif;text-transform:uppercase;display:block;padding-top:25px}
 .nav-box nav ul li a:hover,.nav-box nav ul li.current a {color:#f85811}
 .nav-box nav ul.fright {background:none;padding-right:34px}
 .nav-box nav ul.fright li {padding:0 23px 0 25px}
