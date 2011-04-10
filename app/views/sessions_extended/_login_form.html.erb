@@ -48,7 +48,11 @@ OPTIONS
   <div class="field">
     <label class="title">&nbsp;</label>
     <%= f.submit :submit, :value => '登录', :class => 'link1 commit_button'%>
-    <%= styled_button "立即注册", new_user_registration_path %>
   </div>
-</fieldset>
+  <hr>
+  <div class="field register_field">
+    <label class="title">&nbsp;</label>
+    <a href="/users/sign_up" class="link1 register_button" >立即注册</a>
+  </div>
+  </fieldset>
 <% end %>

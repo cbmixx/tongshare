@@ -36,7 +36,7 @@ root {
 
 #index_logo {
     margin-top: -10px;
-    color: #ee4400;
+    color: #ee6600;
     font-size: 28px;
 }
 
@@ -68,7 +68,7 @@ root {
 
 #mobile_tip {
   margin-top: 0px;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 30px 10px 30px;
   background-color : #ffffdd;
 }
 
@@ -162,12 +162,26 @@ root {
     content: "\2714";
 }
 
+.register_field {
+    margin-top: 20px;
+}
+
+.register_button {
+    display: block;
+    text-align: center;
+    border: none;
+    padding: 10px 13px 10px 13px;
+    width: 80px;
+    background: url("../../images/biz/link1-bgd-lardge.gif") repeat-x scroll left top transparent; 
+}
+
 #login_container {padding-top:10px; background-color: #ffffdd }
 .login_small {clear:right;width:100%;overflow:hidden}
-.login_small fieldset {border:none;float:left;}
-.login_small .field {clear:both;min-height:30px;height:auto !important;height:30px}
-.login_small .field .title {font-weight:bold; width:auto;margin-bottom:3px;}
-.login_small .field .textvalue {width:150px;padding:2px 0 2px 3px;border:1px solid #d2d2d2;float:left; margin-bottom: 3px;}
+.login_small fieldset {border:none; width: 100%;}
+.login_small fieldset hr {margin-top: 20px; color: #eee}
+.login_small .field {clear:both;min-height:20px;height:auto !important;height:30px}
+.login_small .field .title {font-weight:bold; width: 40px;margin-bottom:1px;}
+.login_small .field .textvalue {width:120px;padding:2px 5px 0px 3px;border:1px solid #d2d2d2;float:left; margin-bottom: 3px;}
 .login_small .wrapper {display:inline}
 .login_small .wrapper .link1 {float:left; margin-right: 10px;}
 
