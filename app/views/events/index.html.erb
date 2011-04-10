@@ -50,6 +50,7 @@
         | <li> <%= link_to_unless_current "按周", {:range => :week, :offset => 0} %></li>
       </ul>
     </div>
+    <% if @instances.length > 0 %>
     <div id="agenda_list_content">
     <% @instances.each do |instance|%>
       <%= div_for(instance, :class => "item") do %>
@@ -94,10 +95,15 @@
       <% end %>
     <% end %>
     </div>
+    <% else %>
+    <p style="padding-left: 20px; color: #f85811">没有活动了</p>
+    <% end %>
     <% if @range == :next %>
       <div>
         <% if @offset == 0 %>
-          以上是即将发生的前<%=@limit%>个活动
+          <% if @limit != 0 %>
+            以上是即将发生的前<%=@limit%>个活动
+          <% end %>
         <% else %>
           以上是即将发生的第<%=@offset + 1%>个到<%=@offset + @limit%>个活动。
         <% end %>
@@ -114,7 +120,7 @@
       </ul>
     </div>
     <% end %>
-    <br/>
+    <hr style="color:#eee; margin-top: 10px; margin-bottom: 10px;">
     <%= styled_button '新建活动', new_event_path(:offset => params[:offset], :range => params[:range])%>
 
     <br/>

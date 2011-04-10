@@ -76,10 +76,11 @@ root {
     display: inline;
     font-weight: bold;
 }
-/*
-.agenda_list .agenda_pannel ul li:before {
-    content: "\00BB \0020 ";
-}*/
+
+.agenda_list .agenda_pannel ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
 .agenda_list .agenda_pannel ul li a {
     text-decoration: none
@@ -124,10 +125,9 @@ root {
 #agenda_list_content {
   margin-top: 5px;
   margin-bottom: 5px;
-  min-height: 50px;
   padding-left: 10px;
   padding-right: 10px;
-  border: solid 1px #ffee00; 
+  border: solid 1px #eecc00; 
 }
 
 .link1 {
@@ -180,7 +180,7 @@ root {
 .login_small fieldset {border:none; width: 100%;}
 .login_small fieldset hr {margin-top: 20px; color: #eee}
 .login_small .field {clear:both;min-height:20px;height:auto !important;height:30px}
-.login_small .field .title {font-weight:bold; width: 40px;margin-bottom:1px;}
+.login_small .field .title {font-weight:bold; width: 45px;margin-bottom:1px; font-size: 13px;}
 .login_small .field .textvalue {width:120px;padding:2px 5px 0px 3px;border:1px solid #d2d2d2;float:left; margin-bottom: 3px;}
 .login_small .wrapper {display:inline}
 .login_small .wrapper .link1 {float:left; margin-right: 10px;}

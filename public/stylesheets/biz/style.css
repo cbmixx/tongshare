@@ -112,7 +112,7 @@ footer .inside {padding-top:36px}
 form {clear:right;width:100%;overflow:hidden}
 form fieldset {border:none;float:left;}
 form .field {clear:both;min-height:30px;height:auto !important;height:30px}
-form .field .title {float:left;width:104px;font-weight:bold}
+form .field .title {float:left;width:104px;font-weight:bold, font-size: 13px;}
 form .field .textvalue {width:267px;padding:2px 0 2px 3px;border:1px solid #d2d2d2}
 form .field .datevalue {width:80px;padding:2px 0 2px 3px;border:1px solid #d2d2d2}
 form textarea {width:500px;height:100px;padding:2px 0 2px 3px;border:1px solid #d2d2d2;margin-bottom:15px;overflow:auto; /*float:left*/}
