@@ -13,7 +13,7 @@ zh-CN:
           attributes:
             password:
               confirmation: "两次输入的密码不一致"
-              too_short: "密码长度不够"
+              too_short: "密码长度不够(至少需要6位)"
               blank: "密码不能为空"
             email:
               taken: "\"%{value}\"已被占用"
