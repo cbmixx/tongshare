@@ -81,12 +81,12 @@
             <% if instance.user_checked_in?(current_user.id) %>
               <%=  link_to "取消报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_OUT) %>
             <% else %>
-              <%=  link_to "报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_IN) %>
+              <%=  link_to "报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_IN), :title => "报到指你到场参加了该活动，已经报到的人将不会收到报警邮件；同享日程只统计到场百分比，不会将具体报到信息透露给他人。" %>
             <% end %>
             <% if instance.warninged?(current_user.id) %>
               <%= link_to "取消报警", event_path(event, :inst => instance.id, :feedback => Feedback::DISABLE_WARNING) %>
             <% else %>
-              <%= link_to "报警", event_path(event, :inst => instance.id, :feedback => Feedback::WARNING) %>
+              <%= link_to "报警", event_path(event, :inst => instance.id, :feedback => Feedback::WARNING), :title => "点击报警可以提醒他人该节课有点名、小测。"%>
             <% end %>
             <%= link_to "分享", {:controller => "sharings", :action => "new", :event_id => event.id} if can? :share, event %>
           </span>
