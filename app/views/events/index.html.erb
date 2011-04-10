@@ -3,36 +3,36 @@
 <% end %>
 
 <div id="welcome">
-<strong>你好，<%= current_user.friendly_name %>！</strong>
-
-<ul>
-<% if current_user.greeting_from.count > 0 %>
-<li>
-  Hi~你收到了<%= link_to current_user.greeting_from.count.to_s, '/greeting/index' %> 个活动共同参与者的招呼，
-  其中最近的一个是在<%= I18n.l(current_user.greeting_from.last.created_at, :format => :long) %>
-</li>
-<% end %>
-<% if @num_friendship_from > 0 %>
-<li>
-  你有<%= link_to @num_friendship_bidirectional.to_s, url_for(:controller => :friendship, :action => :show, :type => :bidirectional) %>个好友。
-    <% if @num_friendship_from-@num_friendship_bidirectional > 0 %>
-    另有<%= link_to (@num_friendship_from-@num_friendship_bidirectional).to_s, url_for(:controller => :friendship, :action => :show, :type => :only_from) %>个人想加你为好友。
-    <% end %>
-</li>
-  <% end %>
-
-<% if @invited_user_sharings && @invited_user_sharings.count > 0 %>
-<li><%= link_to sprintf("有%d个邀请正等待你的回复", @invited_user_sharings.count), '#invited_events' %></li>
-<% end %>
-</ul>
-
+<div id="profile_header">
+<table><tr>
+  <td>
+    <%= image_tag( ((@photo_url.nil? || @photo_url.blank?) ? 'default.jpg' : @photo_url), :onError => "this.src='/images/default.jpg';" ) %>
+  </td>
+  <td class="detail">
+    <strong>你好，<%= current_user.friendly_name %>！</strong><br>
+    <ul>
+      <% if @num_friendship_bidirectional > 0 %>
+      <li>
+        你有<%= link_to @num_friendship_bidirectional.to_s, url_for(:controller => :friendship, :action => :show, :type => :bidirectional) %>个好友。
+      </li>
+      <% end %>
+      <% if current_user.greeting_from.count > 0 %>
+      <li>
+        一共有<%= link_to current_user.greeting_from.count.to_s, '/greeting/index' %> 个活动共同参与者向你招呼，最近一个是在<%= I18n.l(current_user.greeting_from.last.created_at, :format => :long) %>
+      </li>
+      <% end %>
+    </ul>
+  </td>
+</tr></table>
+</div>
 <%#*<div id="share_notice">%>
   <%#*<span>个被邀请的活动</span>%>
   <%#*<span><个被推荐的活动</span>%>
 <%#*</div>%>
+<%= header_announcement %>
+</div>
 </div>
 
-<%= header_announcement %>
 
 <div class="agenda_list" id="my_events">
   <%= content_box "我的", "日程", false do %>

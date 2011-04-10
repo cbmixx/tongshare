@@ -1,5 +1,15 @@
 <div id="header_ann">
   <ul>
+    <% if @num_friendship_from - @num_friendship_bidirectional > 0 %>
+    <li>
+      另有<%= link_to (@num_friendship_from-@num_friendship_bidirectional).to_s, url_for(:controller => :friendship, :action => :show, :type => :only_from) %>个人想加你为好友。
+    </li>
+    <% end %>
+
+    <% if @invited_user_sharings && @invited_user_sharings.count > 0 %>
+    <li><%= link_to sprintf("有%d个邀请正等待你的回复", @invited_user_sharings.count), '#invited_events' %></li>
+    <% end %>
+
     <% if @not_confirmed %>
       <li>
         <span class="stressed">未通过身份验证！</span>

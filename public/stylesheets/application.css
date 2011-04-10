@@ -25,7 +25,7 @@ root {
 }
 
 #header_ann {
-    margin-left: 50px;
+    margin-left: 20px;
     margin-top: 10px;
 }
 
@@ -69,6 +69,13 @@ root {
   margin-top: 0px;
   padding: 10px 30px 10px 30px;
   background-color : #ffffdd;
+}
+
+#profile_header .detail{
+  padding: 10px 10px 5px 10px;
+}
+#profile_header .detail ul {
+  margin-left: 30px;
 }
 
 .agenda_list .agenda_pannel ul li {
@@ -292,6 +299,7 @@ root {
 .stressed {
     font-weight: bold;
     color: #F85811;
+    padding-top: 10px;
 }
 
 #acknowledge {

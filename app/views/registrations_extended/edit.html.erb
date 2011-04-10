@@ -1,6 +1,17 @@
 <%= content_box "个人", "资料" do %>
   <%= devise_error_messages_translated! %>
+  <div id="profile_header">
+  <table><tr>
+  <td>
+    <%= image_tag( ((@photo_url.nil? || @photo_url.blank?) ? 'default.jpg' : @photo_url), :onError => "this.src='/images/default.jpg';" ) %>
+  </td>
+  <td class="detail">
+    <strong>你好，<%= current_user.friendly_name %>！</strong><br>
+  </td>
+  </tr></table>
+  </div>
   <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :multipart => true }) do |f| %>
+    
     <div class="stressed">以星号(*)开头的信息（如电子邮件）将只有您的好友才能看到</div><br/>
 
     <div class="field">
