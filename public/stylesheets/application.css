@@ -166,6 +166,11 @@ root {
     margin-top: 20px;
 }
 
+.register_field .title {
+    float:left;
+    width: 45px;
+}
+
 .register_button {
     display: block;
     text-align: center;
@@ -180,7 +185,7 @@ root {
 .login_small fieldset {border:none; width: 100%;}
 .login_small fieldset hr {margin-top: 20px; color: #eee}
 .login_small .field {clear:both;min-height:20px;height:auto !important;height:30px}
-.login_small .field .title {font-weight:bold; width: 45px;margin-bottom:1px; font-size: 13px;}
+.login_small .field .title {font-weight:bold; width: 65px;margin-bottom:1px; font-size: 13px;}
 .login_small .field .textvalue {width:120px;padding:2px 5px 0px 3px;border:1px solid #d2d2d2;float:left; margin-bottom: 3px;}
 .login_small .wrapper {display:inline}
 .login_small .wrapper .link1 {float:left; margin-right: 10px;}

@@ -29,13 +29,13 @@ OPTIONS
 
 <div class="field">
   <%# if !small %>
-    <label class="title">学号：</label>
+    <label class="title">学号:</label>
   <%#end%>
   <%= text_field_tag :login_value, params[:login_value], :maxlength => UserIdentifier::MAX_VALUE_LENGTH, :class=>"textvalue" %>
 </div>
 
  <div class="field">
-  <%= f.label :password, '密码：', :class => 'title'%>
+  <%= f.label :password, '同享密码:', :class => 'title'%>
   <%= f.password_field :password, :class=>"textvalue"%>
  </div>
 
@@ -50,7 +50,7 @@ OPTIONS
     <%= f.submit :submit, :value => '登录', :class => 'link1 commit_button'%>
   </div>
   <hr>
-  <div class="field register_field">
+  <div class="register_field">
     <label class="title">&nbsp;</label>
     <a href="/users/sign_up" class="link1 register_button" >立即注册</a>
   </div>
