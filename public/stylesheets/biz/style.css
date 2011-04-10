@@ -8,7 +8,7 @@ html,body {height:100%}
 /* Global Structure */
 #main {position: relative; margin:0 auto;width:1000px;font-size:.814em}
 /* Header */
-header {height:100px;position:relative}
+header {height:80px;position:relative}
 /* Content */
 section#content {width:700px;float:left}
 .inner_copy, .inner_copy a {border:0;float:left;background:#fff;color:#f00;width:50% !important;line-height:10px;font-size:10px;margin:-120% 0 0 0;overflow:hidden;padding:0}

@@ -34,6 +34,11 @@ root {
     margin-bottom: 2px;
 }
 
+#content-body {
+    position: relative;
+    top: -15px;
+}
+
 #aside_container {
     padding-left: 20px;
 }
@@ -128,7 +133,7 @@ root {
 }
 
 .noticebar #notice {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     font-weight: bold;
 }
 
@@ -136,6 +141,7 @@ root {
     content: "\2714";
 }
 
+#login_container {padding-top:10px; background-color: #ffffdd; border: solid 1px #ffee00}
 .login_small {clear:right;width:100%;overflow:hidden}
 .login_small fieldset {border:none;float:left;}
 .login_small .field {clear:both;min-height:30px;height:auto !important;height:30px}
