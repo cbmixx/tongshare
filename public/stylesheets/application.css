@@ -45,7 +45,6 @@ root {
 
 #sidebar_ann {
     background-color: #ffffdd;
-border: solid 1px #ffee00;
 }
 
 #sidebar_ann .subtitle {
@@ -65,8 +64,6 @@ border: solid 1px #ffee00;
   margin-top: 0px;
   padding: 10px 10px 10px 10px;
   background-color : #ffffdd;
-  border: solid 1px #ffee00;
-                  
 }
 
 .agenda_list .agenda_pannel ul li {
@@ -118,6 +115,15 @@ border: solid 1px #ffee00;
     text-align: right;
 }
 
+#agenda_list_content {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  min-height: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: solid 1px #ffee00; 
+}
+
 .link1 {
     float: left;
 }
@@ -150,7 +156,7 @@ border: solid 1px #ffee00;
     content: "\2714";
 }
 
-#login_container {padding-top:10px; background-color: #ffffdd; border: solid 1px #ffee00}
+#login_container {padding-top:10px; background-color: #ffffdd }
 .login_small {clear:right;width:100%;overflow:hidden}
 .login_small fieldset {border:none;float:left;}
 .login_small .field {clear:both;min-height:30px;height:auto !important;height:30px}
