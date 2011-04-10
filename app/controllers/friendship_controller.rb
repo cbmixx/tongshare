@@ -9,7 +9,12 @@ class FriendshipController < ApplicationController
       flash[:notice] = '操作成功'
     else
       Friendship.create!(:from_user_id => current_user.id, :to_user_id => target_user.id)
-      flash[:notice] = '好友申请已发送,请等待对方确认'
+      friendship_from = target_user.friendship_to.find_by_to_user_id(current_user.id)
+      if (friendship_from)
+        flash[:notice] = '操作成功:)'
+      else
+        flash[:notice] = '好友申请已发送,请等待对方确认'
+      end
     end
     url = request.env["HTTP_REFERER"]
     url ||= url_for :controller => "home", :action => "index"
