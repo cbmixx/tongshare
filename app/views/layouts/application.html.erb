@@ -44,8 +44,9 @@
           <div class="nav-box">
             <nav>
               <ul class="fright">
-                <li><%= link_to(image_tag("biz/pic-home.gif"), :root, :title=>"首页")%></li>
-                <li><%= link_to(image_tag("biz/pic-sitemap.gif"), destroy_user_session_path, :title=>"注销")%></li>
+                <% if user_signed_in? %>
+                <li><%= link_to(image_tag("logout-icon.png", :size => "28x28"), destroy_user_session_path, :title=>"注销")%></li>
+                <% end %>
               </ul>
               <ul>
                   <% if user_signed_in? %>
@@ -68,7 +69,7 @@
                   <%#*<li><a href="#">日历同步</a></li>%>
                   <% else %>
                   <li>
-                    <%= link_to "同享日程", :root %>
+                    <%= link_to "同享日程", :root, :id => "index_logo" %>
                   </li>
                   <%  end %>
                   <li>

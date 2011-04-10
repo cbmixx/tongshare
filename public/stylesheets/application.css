@@ -34,6 +34,12 @@ root {
     margin-bottom: 2px;
 }
 
+#index_logo {
+    margin-top: -10px;
+    color: #ee4400;
+    font-size: 28px;
+}
+
 #content-body {
     position: relative;
     top: -15px;
