@@ -127,10 +127,10 @@ HTML
       @department = department
       @can_be_selected = true
     else
-      @renren_id = user.user_extra.renren_id if (user.user_extra && !user.user_extra.hide_profile)
-      @renren_url = user.user_extra.renren_url if (user.user_extra && !user.user_extra.hide_profile)
-      @photo_url = user.user_extra.photo_url if (user.user_extra && !user.user_extra.hide_profile)
-      @department = user.user_extra.department if (user.user_extra && !user.user_extra.hide_profile)
+      @renren_id = user.user_extra.renren_id if (user.user_extra && (!user.user_extra.hide_profile || user.id == current_user.id))
+      @renren_url = user.user_extra.renren_url if (user.user_extra && (!user.user_extra.hide_profile || user.id == current_user.id))
+      @photo_url = user.user_extra.photo_url if (user.user_extra && (!user.user_extra.hide_profile || user.id == current_user.id))
+      @department = user.user_extra.department if (user.user_extra && (!user.user_extra.hide_profile || user.id == current_user.id))
       @unconfirmed = (@renren_url && @photo_url && user.user_extra.profile_status != User::PROFILE_CONFIRMED)
       @friendship_to = current_user.friendship_to.find_by_to_user_id(user.id)
       @friendship_from = current_user.friendship_from.find_by_from_user_id(user.id)
