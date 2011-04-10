@@ -41,8 +41,7 @@ root {
 }
 
 #content-body {
-    position: relative;
-    top: -15px;
+    /*margin-top: -15px;*/
 }
 
 #aside_container {
