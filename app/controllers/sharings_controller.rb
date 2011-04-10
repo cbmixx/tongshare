@@ -154,12 +154,15 @@ class SharingsController < ApplicationController
       group.save!
     end
 
+    mail_count = 0;
+
     @event = Event.find(sharing.event_id)
     ret = @event.add_sharing(current_user.id, sharing.extra_info, members)
     if ret
       sharing = @event.sharings.last
       sharing.user_sharings.each do |us|
         if (us.user.has_valid_email)
+          mail_count += 1;
           mail = SysMailer.user_sharing_request_email(us)
           mail.deliver if !mail.nil?
         end
@@ -168,6 +171,7 @@ class SharingsController < ApplicationController
       #new email
       if (params[:new_email])
         for new_email in params[:new_email]
+          mail_count += 1;
           SysMailer.user_sharing_request_new_email(sharing, new_email).deliver
         end
       end
@@ -176,7 +180,7 @@ class SharingsController < ApplicationController
     respond_to do |format|
       if ret
         format.html { redirect_to(@event, :notice => I18n.t('tongshare.sharing.created', :name => @event.name, 
-              :count => members.count)) }
+              :count => members.count, :mail_count => mail_count)) }
       else
         #format.html { render :action => "new" } #TODO: is it necessary to restore previous data? I guess there won't be validation errors unless attackers XXOO
         format.html do
