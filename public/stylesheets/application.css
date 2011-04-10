@@ -153,8 +153,7 @@ root {
 .commit_button {
     display: block;
     border: none;
-    margin-top: -1px;
-    padding: 2px 13px 5px 13px;
+    padding: 3px 13px 5px 13px;
     font-size: 13px;
     cursor: pointer;
 }
