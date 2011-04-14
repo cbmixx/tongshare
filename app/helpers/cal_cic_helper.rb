@@ -16,6 +16,7 @@ module CalCicHelper
         end_time -= 1
       end
       location = e.get_elements('location').first.text
+      location = '' if location.nil?
       extra_info = e.get_elements('description').first.text
       v = Event.new(
         :creator_id => user_id,
