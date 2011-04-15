@@ -30,6 +30,12 @@ class Event < ActiveRecord::Base
   validates_numericality_of :rrule_count, :allow_nil => true, :only_integer => true, :greater_than_or_equal_to => 1, :less_than_or_equal_to => MAX_INSTANCE_COUNT
   validates_inclusion_of :rrule_frequency, :in => GCal4Ruby::Recurrence::DUMMY_FREQS
 
+  before_destroy :set_removed_event
+
+  def set_removed_event
+    RemovedEvent.create!(:event_id => self.id, :creator_id => self.creator_id)
+  end
+
   include SharingsHelper
   #
   #

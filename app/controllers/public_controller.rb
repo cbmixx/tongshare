@@ -59,7 +59,8 @@ class PublicController < ApplicationController
     end
 
     events = Event.where("creator_id=? AND updated_at>?", user.id, last_update).to_a
-    result = {:time_now => Time.now.localtime, :events => events}
+    removed_events = RemovedEvent.where('creator_id=? AND updated_at>?', user.id, last_update).to_a.map{ |re| re.event_id }
+    result = {:time_now => Time.now.localtime, :events => events, :delete => removed_events}
     respond_to do |format|
       format.html { render :text => result.to_json }
       format.json { render :json => result }

@@ -43,6 +43,7 @@ class User < ActiveRecord::Base
   has_many :friendship_from, :class_name => 'Friendship', :foreign_key => 'to_user_id', :dependent => :destroy
   has_many :greeting_from, :class_name => 'Greeting', :foreign_key => 'to_user_id', :dependent => :destroy
   has_many :greeting_to, :class_name => 'Greeting', :foreign_key => 'from_user_id', :dependent => :destroy
+  has_many :removed_event, :dependent => :destroy
   has_one :user_extra, :dependent => :destroy
   accepts_nested_attributes_for :user_extra
   

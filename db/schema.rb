@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110415070519) do
+ActiveRecord::Schema.define(:version => 20110415100242) do
 
   create_table "acceptances", :force => true do |t|
     t.integer  "event_id"
@@ -177,6 +177,16 @@ ActiveRecord::Schema.define(:version => 20110415070519) do
     t.datetime "updated_at"
     t.integer  "event_id"
   end
+
+  create_table "removed_events", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "creator_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "removed_events", ["creator_id"], :name => "index_removed_events_on_creator_id"
+  add_index "removed_events", ["event_id"], :name => "index_removed_events_on_event_id"
 
   create_table "sharings", :force => true do |t|
     t.integer  "event_id"
