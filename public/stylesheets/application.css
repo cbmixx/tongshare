@@ -87,6 +87,28 @@ root {
   list-style-type: none;
 }
 
+#search_box_home {
+  background-alpha: 0;
+  width: 300px;
+  position: absolute;
+  left: 700px;
+  top: 30px; 
+  margin: 0px auto;
+}
+
+#search_box {
+  background-color: #ffdd2a;
+  width: 100%;
+}
+#search_input {
+  float: left;
+  margin: 10px 10px 5px 20px;
+  width: 160px;
+}
+#search_button {
+  margin: 8px 5px 5px 0px;
+}
+
 .agenda_list .agenda_pannel ul li {
     display: inline;
     font-weight: bold;
