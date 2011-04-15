@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110415061249) do
+ActiveRecord::Schema.define(:version => 20110415070519) do
 
   create_table "acceptances", :force => true do |t|
     t.integer  "event_id"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20110415061249) do
   add_index "events", ["begin"], :name => "index_events_on_begin"
   add_index "events", ["creator_id"], :name => "index_events_on_creator_id"
   add_index "events", ["end"], :name => "index_events_on_end"
+  add_index "events", ["location"], :name => "index_events_on_location"
   add_index "events", ["updated_at"], :name => "index_events_on_updated_at"
 
   create_table "feedbacks", :force => true do |t|
@@ -138,6 +139,7 @@ ActiveRecord::Schema.define(:version => 20110415061249) do
   add_index "instances", ["creator_id"], :name => "index_instances_on_creator_id"
   add_index "instances", ["end"], :name => "index_instances_on_end"
   add_index "instances", ["event_id"], :name => "index_instances_on_event_id"
+  add_index "instances", ["location"], :name => "index_instances_on_location"
 
   create_table "locations", :force => true do |t|
     t.string   "name"
