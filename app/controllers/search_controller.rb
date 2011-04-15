@@ -87,7 +87,7 @@ class SearchController < ApplicationController
 
   def box
     keyword = params[:keyword]
-    @has_user = UserExtra.find(:first, :conditions => ['name=?', keyword]) ? 1 : 0
+    @has_user = UserExtra.find(:first, :conditions => ['name=? AND public=?', keyword, false]) ? 1 : 0
     @has_location = Location.find(:first, :conditions => ['name LIKE ?', "\%#{keyword}\%"]) ? 1 : 0
     @has_public_user = UserExtra.find(:first, :conditions => ['public=? AND name LIKE ?', true, "\%#{keyword}\%"]) ? 1 : 0
     @has_public_group = Group.find(:first, :conditions => ['privacy=? AND name LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"]) ? 1 : 0
