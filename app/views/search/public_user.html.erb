@@ -1,9 +1,7 @@
 <%= content_box '搜索结果', '' do%>
 <ul>
-  <% for location in @locations %>
-  <li>
-    <%= link_to location, '/public/location/'+location %>
-  </li>
+  <% for user in @public_users[0...10] %>
+    <%=  user_profile(user) %>
   <% end %>
 </ul>
 <%= link_to('上一页', :offset => [@offset-10, 0].max) if @offset > 0 %>
