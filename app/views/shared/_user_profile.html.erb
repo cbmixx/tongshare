@@ -8,17 +8,21 @@
   <td>
     <dl>
       <dt>
-        <%=@name%>
-        <% unless (@renren_url.nil? || @renren_url.blank?) %>
-          <%= link_to @renren_url, :target=>"_blank", :title=>"访问#{@name}的人人网个人主页" do %>
-            <%= image_tag 'renren.png'%>
-          <% end %>
-          <% if @unconfirmed %>
-            <% notice = '人人链接旁边的（？）表示同享日程显示的人人链接并没有得到其本人的确认，但是同享日程觉得这很有可能就是其本人的人人链接' %>
-            <%= link_to '（?）', request.request_uri + (request.request_uri.include?('?') ? '&' : '?') + 'notice=' + notice, :title => notice %>
-          <% end %>
+        <% if @user.public? %>
+          <%= link_to @name, '/public/user/'+@user.id.to_s %>
         <% else %>
-          &nbsp;
+          <%=@name%>
+          <% unless (@renren_url.nil? || @renren_url.blank?) %>
+            <%= link_to @renren_url, :target=>"_blank", :title=>"访问#{@name}的人人网个人主页" do %>
+              <%= image_tag 'renren.png'%>
+            <% end %>
+            <% if @unconfirmed %>
+              <% notice = '人人链接旁边的（？）表示同享日程显示的人人链接并没有得到其本人的确认，但是同享日程觉得这很有可能就是其本人的人人链接' %>
+              <%= link_to '（?）', request.request_uri + (request.request_uri.include?('?') ? '&' : '?') + 'notice=' + notice, :title => notice %>
+            <% end %>
+          <% else %>
+            &nbsp;
+          <% end %>
         <% end %>
       </dt>
       <% if @department %>

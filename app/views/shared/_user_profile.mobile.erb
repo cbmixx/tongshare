@@ -4,7 +4,11 @@
 %>
 
 <li>
-  <%=@name%>
+  <% if @user.public? %>
+    <%= link_to @name, '/public/user/'+@user.id.to_s %>
+  <% else %>
+    <%=@name%>
+  <% end %>
   <%= link_to "查看头像", @photo_url unless (@photo_url.nil? || @photo_url.blank?) %>
   <% unless (@renren_url.nil? || @renren_url.blank?) %>
     <%= link_to "人人主页", @renren_id ? generate_renren_url(@renren_id, true) : @renren_url, :target=>"_blank" %>
