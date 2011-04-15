@@ -88,12 +88,12 @@ class SearchController < ApplicationController
   end
 
   def box
-    keyword = params[:keyword]
-    @has_user = UserExtra.find(:first, :conditions => ['name=? AND public=?', keyword, false]) ? 1 : 0
+    keyword = params[:keyword].downcase
+    @has_user = UserExtra.find(:first, :conditions => ['lower(name)=? AND public=?', keyword, false]) ? 1 : 0
     @has_user = 0 if (!current_user)
-    @has_location = Location.find(:first, :conditions => ['name LIKE ?', "\%#{keyword}\%"]) ? 1 : 0
-    @has_public_user = UserExtra.find(:first, :conditions => ['public=? AND name LIKE ?', true, "\%#{keyword}\%"]) ? 1 : 0
-    @has_public_group = Group.find(:first, :conditions => ['privacy=? AND name LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"]) ? 1 : 0
+    @has_location = Location.find(:first, :conditions => ['lower(name) LIKE ?', "\%#{keyword}\%"]) ? 1 : 0
+    @has_public_user = UserExtra.find(:first, :conditions => ['public=? AND lower(name) LIKE ?', true, "\%#{keyword}\%"]) ? 1 : 0
+    @has_public_group = Group.find(:first, :conditions => ['privacy=? AND lower(name) LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"]) ? 1 : 0
     @sum = @has_user + @has_location + @has_public_user + @has_public_group
     if (@sum == 1)
       if (@has_user > 0)
@@ -110,27 +110,27 @@ class SearchController < ApplicationController
 
   def user
     authenticate_user!
-    keyword = params[:keyword]
+    keyword = params[:keyword].downcase
     @offset = params[:offset] ? params[:offset].to_i : 0
-    @users = UserExtra.find(:all, :conditions => ['name=?', keyword], :offset => @offset, :limit => 10+1, :include => :user).map{ |ue| ue.user }
+    @users = UserExtra.find(:all, :conditions => ['lower(name)=?', keyword], :offset => @offset, :limit => 10+1, :include => :user).map{ |ue| ue.user }
   end
 
   def location
-    keyword = params[:keyword]
+    keyword = params[:keyword].downcase
     @offset = params[:offset] ? params[:offset].to_i : 0
-    @locations = Location.find(:all, :conditions => ['name LIKE ?', "\%#{keyword}\%"], :offset => @offset, :limit => 10+1).map{ |loc| loc.name }
+    @locations = Location.find(:all, :conditions => ['lower(name) LIKE ?', "\%#{keyword}\%"], :offset => @offset, :limit => 10+1).map{ |loc| loc.name }
   end
 
   def public_user
-    keyword = params[:keyword]
+    keyword = params[:keyword].downcase
     @offset = params[:offset] ? params[:offset].to_i : 0
-    @public_users = UserExtra.find(:all, :conditions => ['public=? AND name LIKE ?', true, "\%#{keyword}\%"], :offset => @offset, :limit => 10+1, :include => :user).map{ |ue| ue.user }
+    @public_users = UserExtra.find(:all, :conditions => ['public=? AND lower(name) LIKE ?', true, "\%#{keyword}\%"], :offset => @offset, :limit => 10+1, :include => :user).map{ |ue| ue.user }
   end
 
   def public_group
-    keyword = params[:keyword]
+    keyword = params[:keyword].downcase
     @offset = params[:offset] ? params[:offset].to_i : 0
-    @public_groups = Group.find(:all, :conditions => ['privacy=? AND name LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"], :offset => @offset, :limit => 10+1)
+    @public_groups = Group.find(:all, :conditions => ['privacy=? AND lower(name) LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"], :offset => @offset, :limit => 10+1)
   end
 
 end
