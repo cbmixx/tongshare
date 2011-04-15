@@ -28,6 +28,13 @@
         <%= extra.label :reject_warning_flag, "不发送活动报警邮件到我的邮箱"%>
       </div>
 
+    <% if current_user.user_extra && current_user.user_extra.public %>
+      <div class="field">
+        <%= extra.label :name, "名称", :class => 'title'%>
+        <%= extra.text_field :name %>
+      </div>
+    <% end %>
+
       <div class="field">
         <%= extra.label :department, "院系", :class => 'title'%>
         <%= extra.text_field :department %>

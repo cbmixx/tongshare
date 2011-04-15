@@ -75,7 +75,7 @@ class Group < ActiveRecord::Base
   #
   def set_members (members)
     self.membership.delete_all
-    self.membership(true)
+    self.membership(true) #TODO What does this mean?
     members.each do |member|
       user_id = member[:user_id] if User.where(:id => member[:user_id]).exists?
       if user_id.nil?
@@ -90,6 +90,33 @@ class Group < ActiveRecord::Base
       )
     end
     self.save
+  end
+
+  # members is an array constructed with hashes of {:user_id or (:login_type and :login_value)}
+  #
+  def set_managers(managers)
+    self.membership.where(:power => Membership::POWER_MANAGER).delete_all
+    managers.each do |manager|
+      user_id = manager[:user_id] if (manager[:user_id] && User.where(:id => manager[:user_id]).exists?)
+      if (user_id.nil?)
+        user = UserIdentifier.find_user_by(manager[:login_type], manager[:login_value])
+        user_id = user.id if !user.nil?        
+      end
+      next if user_id.nil?
+      membership = self.membership.find_by_user_id(user_id)
+      if (membership)
+        membership.power = Membership::POWER_MANAGER
+        membership.save!
+      else
+        self.membership.build(:user_id => user_id, :power => Membership::POWER_MANAGER)
+      end
+    end
+    self.save!
+  end
+
+  # Note that managers do not include creator!
+  def managers()
+    self.membership.where(:power => Membership::POWER_MANAGER).map{ |x| x.user }
   end
 
   def remove_member (user)

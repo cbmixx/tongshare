@@ -9,3 +9,14 @@ two:
   user_id: 1
   name: MyString
   mobile: MyString
+
+public_five:
+  user_id: 5
+  name: Public5
+  public: true
+
+public_six:
+  user_id: 6
+  name: Public6
+  public: true
+

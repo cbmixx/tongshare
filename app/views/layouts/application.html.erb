@@ -98,11 +98,17 @@
               </section>
               </td>
               <td id="aside_container" width="300px">
-                  <%= yield :aside %>
-                  <div id="mobile_tip">
-                    手机访问：<a href="http://tongshare.com">tongshare.com</a> 更省流量<br/>
-                    <div style="text-align:center"><%= image_tag "qrcode.gif", :title=>"用手机扫描二维码获取本站地址" %></div>
-                  </div>
+                <div id="search_box">
+                  <form name="search_box" action="/search/box">
+                    <input type="text" name="keyword" id="keyword"></input>
+                    <input type="submit" value="搜索" id="search_button" title='输入姓名查找用户；输入地点查找该地点的日程；输入公共用户查看其日程；输入共群群组名查看公共群组的日程'></input>
+                  </form>
+                </div>
+                <%= yield :aside %>
+                <div id="mobile_tip">
+                  手机访问：<a href="http://tongshare.com">tongshare.com</a> 更省流量<br/>
+                  <div style="text-align:center"><%= image_tag "qrcode.gif", :title=>"用手机扫描二维码获取本站地址" %></div>
+                </div>
               </td>
             </tr>
           </table>

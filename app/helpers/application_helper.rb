@@ -156,4 +156,44 @@ HTML
     return FUNCTION_DESCRIPTIONS
   end
 
+  def location_agenda(location)
+    params[:range] = "next" unless ["next", "day", "week"].include?(params[:range])
+    params[:offset] ||= 0
+    params[:limit] ||= 10
+    @range = params[:range].to_sym
+    @offset = params[:offset].to_i
+    @limit = params[:limit].to_i
+    @name = location
+
+    if @range == :next
+      @instances = query_next_location_instance_includes_event(Time.now, @limit + 1, location, @offset)
+      if @instances.count == @limit + 1
+        #not the last page
+        @instances.delete_at(@instances.count - 1)
+        @is_last_page = false
+      else
+        @is_last_page = true
+      end
+      @limit = @instances.count
+    else
+      case @range
+        when :day
+          from = Date.today + @offset.days
+          to = Date.today + @offset.days + 1.days
+        when :week
+          from = Date.today.beginning_of_week + @offset.weeks
+          to = Date.today.beginning_of_week + @offset.weeks + 1.weeks
+      end
+
+      #TODO: this month, all(events)
+
+      #logger.debug from.to_time.to_s
+      #logger.debug to.to_time.to_s
+
+      @instances = query_all_location_instance_includes_event(from.to_time, to.to_time, location)
+    end
+
+    render :partial => 'shared/agenda'
+  end
+
 end

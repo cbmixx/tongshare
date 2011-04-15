@@ -1,0 +1,11 @@
+<%= content_box '搜索结果', '' do%>
+<ul>
+  <% for public_group in @public_groups %>
+  <li>
+    <%= link_to public_group.name, '/public/group/'+public_group.id.to_s %>
+  </li>
+  <% end %>
+</ul>
+<%= link_to('上一页', :offset => [@offset-10, 0].max) if @offset > 0 %>
+<%= link_to('下一页', :offset => @offset+10) if @public_groups.count > 10 %>
+<% end %>

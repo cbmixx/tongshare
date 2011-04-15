@@ -154,6 +154,8 @@ module EventsHelper
     WHERE_DECISION = "acceptances.decision = ?"
     WHERE_DECISION_UNDECIDED = "acceptances.decision IS NULL"
     WHERE_ACCEPTANCE_USER = "acceptances.user_id = ?"
+    WHERE_GROUP_ID = "group_sharings.group_id = ?"
+    WHERE_LOCATION = "location=?"
     WHERE_AND = ' AND '
   end
 
@@ -170,10 +172,55 @@ module EventsHelper
     (query_sharing_accepted_instance_includes_event(time_begin, time_end, user_id) + query_own_instance_includes_event(time_begin, time_end, user_id)).sort{|a, b| a.begin <=> b.begin}
   end
 
+  def query_all_group_instance_includes_event(time_begin, time_end, group_id)
+    Instance.
+      includes(:event).
+      joins(:event => :group_sharings).
+      where(
+        build_where(SQLConstant::WHERE_TIME, SQLConstant::WHERE_GROUP_ID),
+        time_begin.utc, time_end.utc,
+        group_id).
+      order('instances.begin').
+      to_a
+  end
+
+  def query_all_location_instance_includes_event(time_begin, time_end, location)
+    Instance.
+      includes(:event).
+      where(
+        build_where(SQLConstant::WHERE_TIME, SQLConstant::WHERE_LOCATION),
+        time_begin.utc, time_end.utc,
+        location).
+      order('instances.begin').
+      to_a
+  end
+
   def query_next_accepted_instance_includes_event(current_time, limit_count, user_id = current_user.id, offset = 0)
     result = (query_next_sharing_accepted_instance_includes_event(current_time, offset + limit_count, user_id, 0) +
         query_next_own_instance_includes_event(current_time, offset + limit_count, user_id, 0)).sort{|a, b| a.begin <=> b.begin}
     return result[offset...offset+limit_count] || []
+  end
+
+  def query_next_group_instance_includes_event(current_time, limit_count, group_id, offset = 0)
+    Instance.
+      all(:joins => [:event => :group_sharings],
+        :conditions => ["group_sharings.group_id=? AND instances.end >=?", group_id, current_time.utc],
+        :order => 'instances.begin',
+        :offset => offset,
+        :limit => limit_count,
+        :include => :event
+      )
+  end
+
+  def query_next_location_instance_includes_event(current_time, limit_count, location, offset = 0)
+    Instance.
+      all(
+        :conditions => ["location=? AND instances.end >=?", location, current_time.utc],
+        :order => 'instances.begin',
+        :offset => offset,
+        :limit => limit_count,
+        :include => :event
+      )
   end
 
 #  def query_sharing_accepted_instance_includes_event(time_begin, time_end, user_id = current_user.id)

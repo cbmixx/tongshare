@@ -21,13 +21,15 @@ class SharingsController < ApplicationController
 
   def add_members
     event = Event.find(params[:event_id])
-    result = {:valid => [], :dummy => [], :new_email => [], :duplicated => [], :invalid => [], :parse_errored => [],
+    result = {:valid => [], :dummy => [], :new_email => [], :duplicated => [], :invalid => [], :parse_errored => [], :public_groups => [],
       :edit_event_path => edit_event_path(event),
       :recurring => event.recurring?,
       :empty => params[:raw_string].blank?  #I don't know how to validate a remote form on client, so I check it here. by Wander
       }
 
     items = parse_sharings_raw(params[:raw_string])
+
+    public_groups = []
 
     if (params[:friend_id] && !params[:friend_id].blank?)
       begin
@@ -53,9 +55,16 @@ class SharingsController < ApplicationController
               items << {:type => :uid, :uid => uid}
             end
           end
+        elsif (group.privacy == Group::PRIVACY_PUBLIC)
+          public_groups << group
         end
       rescue ActiveRecord::RecordNotFound
       end
+    end
+
+    for public_group in public_groups
+      data_entry = {:id => public_group.id, :name => public_group.name, :conflict => []}
+      result[:public_groups] << data_entry
     end
 
     for item in items
@@ -110,6 +119,8 @@ class SharingsController < ApplicationController
     @friendly_time_range = friendly_time_range(@event.begin, @event.end)
     authorize! :new, @sharing
 
+    @managed_groups = current_user.membership.where(:power => Membership::POWER_MANAGER).map{ |ms| ms.group }
+
     respond_to do |format|
       format.html
     end
@@ -154,10 +165,19 @@ class SharingsController < ApplicationController
       group.save!
     end
 
+    groups = []
+    if (params[:public_groups])
+      for group_id in params[:public_groups] do
+        g = Group.find(group_id)
+        next if g.nil? || g.privacy != Group::PRIVACY_PUBLIC
+        groups << g
+      end
+    end
+
     mail_count = 0;
 
     @event = Event.find(sharing.event_id)
-    ret = @event.add_sharing(current_user.id, sharing.extra_info, members)
+    ret = @event.add_sharing(current_user.id, sharing.extra_info, members, UserSharing::PRIORITY_INVITE, groups)
     if ret
       sharing = @event.sharings.last
       sharing.user_sharings.each do |us|
@@ -179,7 +199,12 @@ class SharingsController < ApplicationController
     #ret = @sharing.save
     respond_to do |format|
       if ret
-        format.html { redirect_to(@event, :notice => I18n.t('tongshare.sharing.created', :name => @event.name, 
+        note = ''
+        if (groups.count > 0)
+          note = I18n.t('tongshare.sharing.public_group_recommended', :name => @event.name, :public_group_count => groups.count)
+          @event.set_public # Events become public whenever they have been recommended to a public group
+        end
+        format.html { redirect_to(@event, :notice => note + I18n.t('tongshare.sharing.created', :name => @event.name,
               :count => members.count, :mail_count => mail_count)) }
       else
         #format.html { render :action => "new" } #TODO: is it necessary to restore previous data? I guess there won't be validation errors unless attackers XXOO

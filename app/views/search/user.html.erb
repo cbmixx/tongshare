@@ -1,0 +1,11 @@
+<%= content_box '搜索结果', '' do%>
+<div class="event attendee">
+<table>
+  <% for user in @users[0...10] %>
+    <%=  user_profile(user) %>
+  <% end %>
+</table>
+</div>
+<%= link_to('上一页', :offset => [@offset-10, 0].max) if @offset > 0 %>
+<%= link_to('下一页', :offset => @offset+10) if @users.count > 10 %>
+<% end %>

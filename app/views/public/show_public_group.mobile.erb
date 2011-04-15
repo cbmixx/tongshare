@@ -1,0 +1,47 @@
+<h2><%= @group.name %>的公共日程</h2>
+
+<%= header_announcement %>
+
+<%= l Time.now, :format => :long %> <%=  number_of_week_in_thu %> <br/>
+
+<%= link_to_unless_current "接下来", {:range => :next} %>&nbsp;&nbsp;
+<%= link_to_unless_current "今天", {:range => :day, :offset => 0} %>&nbsp;&nbsp;
+<%= link_to_unless_current "明天", {:range => :day, :offset => 1} %>&nbsp;&nbsp;
+<%= link_to_unless_current "本周", {:range => :week, :offset => 0} %>&nbsp;&nbsp;
+<%= link_to_unless_current "下周", {:range => :week, :offset => 1} %>&nbsp;&nbsp;
+<br/><br/>
+
+<% @instances.each do |instance|%>
+  <%= link_to instance.name, event_path(instance.event, :inst=>instance.id) %>
+  <% if instance.warning_count > 0 %>
+  <font color="red">（有报警！）</font>
+  <% end %>
+  <br/>
+  <%= instance.location.blank? ? "" : (instance.location + "<br/>").html_safe%>
+  <%= friendly_time_range instance.begin, instance.end %>
+  <%#= link_to "删除", instance.event, :method => "delete" %>
+  <br/>
+  <% event = instance.event %>
+  <% if instance.user_checked_in?(current_user.id) %>
+    <%=  link_to "取消报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_OUT) %>
+  <% else %>
+    <%=  link_to "报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_IN) %>
+  <% end %>
+  <% if instance.warninged?(current_user.id) %>
+    <%= link_to "取消报警", event_path(event, :inst => instance.id, :feedback => Feedback::DISABLE_WARNING) %>
+  <% else %>
+    <%= link_to "报警", event_path(event, :inst => instance.id, :feedback => Feedback::WARNING) %>
+  <% end %>
+
+  <hr/>
+<% end %>
+
+<% if @range == :next %>
+    <% if @offset == 0 %>
+      以上是即将发生的前<%=@limit%>个活动
+    <% else %>
+      以上是即将发生的第<%=@offset + 1%>个到<%=@offset + @limit + 1%>个活动。
+    <% end %><br/>
+    <%= link_to "之前的活动", {:offset => [0, @offset - 10].max} if @offset > 0 %>
+    <%= link_to "之后的活动", {:offset => @offset + 10} if !@is_last_page %>
+<% end %>

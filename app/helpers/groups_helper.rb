@@ -17,4 +17,13 @@ module GroupsHelper
     return g
   end
 
+  def query_or_create_public_group(name, creator)
+    return nil if (!creator.user_extra | !creator.user_extra.public) # only public user can create public group
+    g = Group.where(:name => name, :privacy => Group::PRIVACY_PUBLIC).first
+    return g if g # Note that name might conflict!
+    add_group(name, creator.id, Group::PRIVACY_PUBLIC)
+    g = Group.where(:name => name, :privacy => Group::PRIVACY_PUBLIC).first
+    return g
+  end
+
 end

@@ -1,6 +1,8 @@
 require 'htmlentities'
 
 class PublicController < ApplicationController
+  include EventsHelper
+  
   # JSON has some problem with UTF8 Chinese character...
   # Use XML (it's verified to work well with UTF8 Chinese character if you encounter that problem
   # Sample 1(initial request in json): http://localhost:3000/public/get_diff.json?id=tsinghua.edu.cn.9999100100
@@ -72,6 +74,107 @@ class PublicController < ApplicationController
         format.xml { render :xml => result }
       end
     end
+  end
+
+  def show_public_group
+    group_id = params[:group_id]
+    @group = Group.find(group_id)
+    redirect_to 'events/', :alert => '该公共群组不存在' if (!@group || @group.privacy != Group::PRIVACY_PUBLIC)
+
+    params[:range] = "next" unless ["next", "day", "week"].include?(params[:range])
+    params[:offset] ||= 0
+    params[:limit] ||= 10
+    @range = params[:range].to_sym
+    @offset = params[:offset].to_i
+    @limit = params[:limit].to_i
+
+    if @range == :next
+      @instances = query_next_group_instance_includes_event(Time.now, @limit + 1, @group.id, @offset)
+      if @instances.count == @limit + 1
+        #not the last page
+        @instances.delete_at(@instances.count - 1)
+        @is_last_page = false
+      else
+        @is_last_page = true
+      end
+      @limit = @instances.count
+    else
+      case @range
+        when :day
+          from = Date.today + @offset.days
+          to = Date.today + @offset.days + 1.days
+        when :week
+          from = Date.today.beginning_of_week + @offset.weeks
+          to = Date.today.beginning_of_week + @offset.weeks + 1.weeks
+      end
+
+      #TODO: this month, all(events)
+
+      #logger.debug from.to_time.to_s
+      #logger.debug to.to_time.to_s
+
+      @instances = query_all_group_instance_includes_event(from.to_time, to.to_time, @group.id)
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      #format.xml  { render :xml => @instances }
+    end
+  end
+
+  def show_public_user
+    user_id = params[:user_id]
+    @user = User.find(user_id)
+    redirect_to 'events/', :alert => '该公共用户不存在' if (!@user || !@user.user_extra || !@user.user_extra.public)
+
+    @user_extra = @user.user_extra
+    if @user_extra
+      @photo_url = @user_extra.photo_url
+    end
+
+    params[:range] = "next" unless ["next", "day", "week"].include?(params[:range])
+    params[:offset] ||= 0
+    params[:limit] ||= 10
+    @range = params[:range].to_sym
+    @offset = params[:offset].to_i
+    @limit = params[:limit].to_i
+
+    if @range == :next
+      @instances = query_next_accepted_instance_includes_event(Time.now, @limit + 1, @user.id, @offset)
+      if @instances.count == @limit + 1
+        #not the last page
+        @instances.delete_at(@instances.count - 1)
+        @is_last_page = false
+      else
+        @is_last_page = true
+      end
+      @limit = @instances.count
+    else
+      case @range
+        when :day
+          from = Date.today + @offset.days
+          to = Date.today + @offset.days + 1.days
+        when :week
+          from = Date.today.beginning_of_week + @offset.weeks
+          to = Date.today.beginning_of_week + @offset.weeks + 1.weeks
+      end
+
+      #TODO: this month, all(events)
+
+      #logger.debug from.to_time.to_s
+      #logger.debug to.to_time.to_s
+
+      @instances = query_all_accepted_instance_includes_event(from.to_time, to.to_time, @user.id)
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      #format.xml  { render :xml => @instances }
+    end
+  end
+
+  def show_location
+    @location = params[:location]
   end
 
 end

@@ -1,0 +1,99 @@
+<% content_for :aside do %>
+  <%= sidebar_announcement %>
+<% end %>
+
+<div id="welcome">
+<div id="profile_header">
+<table><tr>
+  <td>
+    <%= image_tag( ((@photo_url.nil? || @photo_url.blank?) ? 'group_icon.png' : @photo_url), :onError => "this.src='/images/group_icon.png';" ) %>
+  </td>
+  <td class="detail">
+  <strong><%= @group.name %></strong><br>
+  </td>
+</tr></table>
+</div>
+<%#*<div id="share_notice">%>
+  <%#*<span>个被邀请的活动</span>%>
+  <%#*<span><个被推荐的活动</span>%>
+<%#*</div>%>
+</div>
+
+
+<div class="agenda_list" id="my_events">
+  <%= content_box "公共", "日程", false do %>
+    
+<%
+  week_str = number_of_week_in_thu
+  week_str = "，#{week_str}" unless week_str.blank?
+%>
+<div id="current_time">现在是<%= l Time.now, :format => :long %><%=week_str%>。</div>
+
+    <div class="agenda_pannel">
+      <ul>
+        <li><%= link_to_unless (@range == :next && @offset == 0), "接下来", {:range => :next} %></li>
+        | <li><%= link_to_unless_current "按天", {:range => :day, :offset => 0} %></li>
+        | <li> <%= link_to_unless_current "按周", {:range => :week, :offset => 0} %></li>
+      </ul>
+    </div>
+    <% if @instances.length > 0 %>
+    <div id="agenda_list_content">
+    <% @instances.each do |instance|%>
+      <%= div_for(instance, :class => "item") do %>
+        <div class="instance name">
+          <%= link_to instance.name, event_path(instance.event, :inst => instance.id), :title => instance.extra_info%>
+          <%= "（有报警！）" if instance.warning_count > 0%>
+        </div>
+        <div class="instance info">
+          <span><%=instance.location%></span>
+          <span>
+            <%= friendly_time_range instance.begin, instance.end %>
+          </span>
+        </div>
+        <div class="instance links">
+          <%#*<span>%>
+            <%#= link_to "分享", :controller => "sharings", :action => "new", :event_id => instance.event.id %>
+          <%#*</span>%>
+
+                
+          <span>
+            <% event = instance.event %>
+            <%= link_to "编辑", edit_event_path(instance.event) if can? :edit, event %>
+            <%= link_to "删除", event, :method => "delete",
+                  :confirm => ("你确实要删除\"#{instance.name}\"吗？" + (event.recurring? ? "这是一个重复的事件，所有重复项都会被删除！" : "")) \
+                  if can? :destroy, event
+            %>
+          </span>
+        </div>
+      <% end %>
+    <% end %>
+    </div>
+    <% else %>
+    <p style="padding-left: 20px; color: #f85811">没有活动了</p>
+    <% end %>
+    <% if @range == :next %>
+      <div>
+        <% if @offset == 0 %>
+          <% if @limit != 0 %>
+            以上是即将发生的前<%=@limit%>个活动
+          <% end %>
+        <% else %>
+          以上是即将发生的第<%=@offset + 1%>个到<%=@offset + @limit%>个活动。
+        <% end %>
+        <%= link_to "之前的活动", {:offset => [0, @offset - 10].max} if @offset > 0 %>
+        <%= link_to "之后的活动", {:offset => @offset + 10} if !@is_last_page %>
+      </div>
+    <% end %>
+    <% unit = params[:range] == "day" ? '天' : params[:range] == "week" ? '周' : nil %>
+    <% if unit %>
+    <div class="agenda_pannel">
+      <ul>
+        <li><%= link_to "前一"+unit, {:range => params[:range], :offset => params[:offset].to_i-1} %></li>
+        | <li> <%= link_to "下一"+unit, {:range => params[:range], :offset => params[:offset].to_i+1} %></li>
+      </ul>
+    </div>
+    <% end %>
+
+  <%end%>
+</div>
+

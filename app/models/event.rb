@@ -23,6 +23,7 @@ class Event < ActiveRecord::Base
   has_many :instances, :foreign_key => "event_id", :dependent => :destroy
   has_many :reminders, :dependent => :destroy
   has_many :greetings, :dependent => :destroy
+  has_many :group_sharings, :through => :sharings
 
   #TODO validates
   validates :name, :begin, :creator_id, :presence => true
@@ -34,6 +35,8 @@ class Event < ActiveRecord::Base
   #
 
   def save
+    self.share_token = PUBLIC_TOKEN # Public user's events are public
+
     #check rrule_days
     if self.rrule_frequency == GCal4Ruby::Recurrence::WEEKLY_FREQUENCE
       if self.rrule_days.empty?
@@ -100,8 +103,7 @@ class Event < ActiveRecord::Base
 #  end
 
   #TODO untested
-  #TODO group?
-  def add_sharing(current_user_id, extra_info, user_ids, user_priority = UserSharing::PRIORITY_INVITE)
+  def add_sharing(current_user_id, extra_info, user_ids, user_priority = UserSharing::PRIORITY_INVITE, groups = [])
     # I think this won't work since sharing has no attr_accessor!
     s = self.sharings.new(:shared_from => current_user_id, :extra_info => extra_info)
     #ids = user_ids.split(%r{[,;]\s*}
@@ -111,6 +113,11 @@ class Event < ActiveRecord::Base
     #return false if uids.empty?
     uids.each do |id|
       s.add_user_sharing(id.id, user_priority)
+    end
+    dup_group_ids = find_duplicated_group_sharing(current_user_id, self.id, groups)
+    for group in groups
+      next if (dup_group_ids.include? group.id)
+      s.add_group_sharing(group.id)
     end
     s.save
   end

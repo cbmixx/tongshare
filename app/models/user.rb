@@ -152,4 +152,8 @@ class User < ActiveRecord::Base
     user_extra.save!
   end
 
+  def public?
+    return self.user_extra && self.user_extra.public
+  end
+
 end

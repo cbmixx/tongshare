@@ -106,6 +106,30 @@ function add_members(data)
         }
     }
 
+    if (data.public_groups != null && data.public_groups.size() > 0)
+    {
+        $('public_groups_container').show();
+        list = $('public_groups');
+        for(i = 0; i < data.public_groups.size(); i++)
+        {
+            var_item = data.public_groups[i];
+
+            if($('public_group_' + var_item.id) != null)
+            {
+                continue;
+            }
+
+            li = new Element("li", {
+                "id": "public_group_" + var_item.id
+                });
+
+            li.insert("<a href=\"javascript: del_public_group(" + var_item.id + ")\" class=\"del\">x</a>");
+            li.insert("&nbsp;&nbsp;<span class=\"name\">" + var_item.name + "</span>");
+            li.insert("<input type=\"hidden\" name=\"public_groups[]\" value=\"" + var_item.id + "\">");
+            list.insert(li);
+        }
+    }
+
     show_errors("invalid", data.invalid);
     show_errors("duplicated", data.duplicated);
     show_errors("parse_errored", data.parse_errored);
@@ -167,6 +191,17 @@ function del_new_email(email)
     toggle_nil_prompt();
 }
 
+function del_public_group(id)
+{
+    var_item = $('public_group_' + id);
+    var_item.remove();
+    if($('public_groups').empty())
+    {
+        $('public_groups_container').hide();
+    }
+    toggle_nil_prompt();
+}
+
 function toggle_nil_prompt()
 {
     if($('new_dummy').empty() && $('new_members').empty())
@@ -201,7 +236,7 @@ function checkFormValid(form)
         return false;
     }
 
-    if (form.getInputs('hidden','members[]').size() == 0 && form.getInputs('hidden', 'dummy[]').size() == 0 && form.getInputs('hidden', 'new_email[]').size() == 0)
+    if (form.getInputs('hidden','members[]').size() == 0 && form.getInputs('hidden', 'dummy[]').size() == 0 && form.getInputs('hidden', 'new_email[]').size() == 0 && form.getInputs('hidden', 'public_groups[]').size() == 0)
     {
         $('add_members_submit').focus();
         //return confirm(I18n.t('tongshare.sharing.empty'));

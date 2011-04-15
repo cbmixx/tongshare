@@ -85,4 +85,47 @@ class SearchController < ApplicationController
     end
   end
 
+  def box
+    keyword = params[:keyword]
+    @has_user = UserExtra.find(:first, :conditions => ['name=?', keyword]) ? 1 : 0
+    #TODO next create location model
+    @has_location = 0 # Event.find(:first, :conditions => ['location LIKE ?', "\%#{keyword}\%"]) ? 1 : 0
+    @has_public_user = UserExtra.find(:first, :conditions => ['public=? AND name LIKE ?', true, "\%#{keyword}\%"]) ? 1 : 0
+    @has_public_group = Group.find(:first, :conditions => ['privacy=? AND name LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"]) ? 1 : 0
+    @sum = @has_user + @has_location + @has_public_user + @has_public_group
+    if (@sum == 1)
+      if (@has_user > 0)
+        redirect_to "/search/user/"+URI.escape(keyword)
+      elsif (@has_location > 0)
+        redirect_to "/search/location/"+URI.escape(keyword)
+      elsif (@has_public_user > 0)
+        redirect_to "/search/public_user/"+URI.escape(keyword)
+      elsif (@has_public_group > 0)
+        redirect_to "/search/public_group/"+URI.escape(keyword)
+      end
+    end
+  end
+
+  def user
+    keyword = params[:keyword]
+    @offset = params[:offset] ? params[:offset].to_i : 0
+    @users = UserExtra.find(:all, :conditions => ['name=?', keyword], :offset => @offset, :limit => 10+1, :include => :user).map{ |ue| ue.user }
+  end
+
+  def location
+    #TODO
+  end
+
+  def public_user
+    keyword = params[:keyword]
+    @offset = params[:offset] ? params[:offset].to_i : 0
+    @public_users = UserExtra.find(:all, :conditions => ['public=? AND name LIKE ?', true, "\%#{keyword}\%"], :offset => @offset, :limit => 10+1, :include => :user).map{ |ue| ue.user }
+  end
+
+  def public_group
+    keyword = params[:keyword]
+    @offset = params[:offset] ? params[:offset].to_i : 0
+    @public_groups = Group.find(:all, :conditions => ['privacy=? AND name LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"], :offset => @offset, :limit => 10+1)
+  end
+
 end
