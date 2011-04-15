@@ -145,10 +145,10 @@ class EventsHelperTest < ActionView::TestCase
     from = Time.now.beginning_of_day + 8*3600
     to = from + 3600*2
 #    pp friendly_time_range(from, to)
-    assert friendly_time_range(from, to) == "08:00 - 10:00"
+    assert friendly_time_range(from, to) == "今天 08:00 - 10:00"
     to += 24*3600
 #    pp friendly_time_range(from, to)
-    assert friendly_time_range(from, to) == "08:00 - 明天 10:00"
+    assert friendly_time_range(from, to) == "今天 08:00 - 明天 10:00"
     from += 3600*24
 #    pp friendly_time_range(from, to)
     assert friendly_time_range(from, to) == "明天 08:00 - 10:00"
@@ -158,12 +158,12 @@ class EventsHelperTest < ActionView::TestCase
     assert friendly_time_range(from, to) != "大后天 08:00 - 10:00"
     from = Time.parse("1989-7-9")
     to = from + 1.day
-#    pp friendly_time_range(from, to)
-    assert friendly_time_range(from, to) == "1989年7月09日(周日) 00:00 - 1989年7月10日(周一) 00:00"
+    pp friendly_time_range(from, to)
+    assert friendly_time_range(from, to) == "1989年7月09日(周日) 全天"
     from = Time.parse("2011-12-31")
     to = Time.parse("2012-1-1")
 #    pp friendly_time_range(from, to)
-    assert friendly_time_range(from, to) == "12月31日(周六) 00:00 - 2012年1月01日(周日) 00:00"
+    assert friendly_time_range(from, to) == "12月31日(周六) 全天"
   end
 
   test "test with xls2events" do
@@ -180,6 +180,22 @@ class EventsHelperTest < ActionView::TestCase
     query = Acceptance.where(:user_id => 1234)
     assert query.size == 14
 
+  end
+
+  test 'test hole day' do
+    from = Time.parse("1989-7-9")
+    to = Time.parse("1989-7-10")
+    assert friendly_time_range(from, to) == '1989年7月09日(周日) 全天'
+    to = Time.parse("1989-7-11")
+    assert friendly_time_range(from, to) == '1989年7月09日(周日) 全天 - 1989年7月10日(周一) 全天'
+    to = Time.parse("1989-7-10 17:00")
+    assert friendly_time_range(from, to) == '1989年7月09日(周日) 全天 - 1989年7月10日(周一) 17:00'
+    from = to
+    to = Time.parse("1989-7-11 00:00")
+    pp friendly_time_range(from, to)
+    assert friendly_time_range(from, to) == '1989年7月10日(周一) 17:00 - 1989年7月11日(周二) 00:00'
+    to = Time.parse("1989-7-12 00:00")
+    assert friendly_time_range(from, to) == '1989年7月10日(周一) 17:00 - 1989年7月11日(周二) 全天'
   end
 
 end

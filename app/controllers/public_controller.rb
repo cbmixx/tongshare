@@ -59,6 +59,10 @@ class PublicController < ApplicationController
     end
 
     events = Event.where("creator_id=? AND updated_at>?", user.id, last_update).to_a
+    for event in events
+      event.friendly_time_range = friendly_time_range(event.begin, even.end)
+      event.friendly_begin_time = friendly_time_range(event.begin, nil)
+    end
     removed_events = RemovedEvent.where('creator_id=? AND updated_at>?', user.id, last_update).to_a.map{ |re| re.event_id }
     result = {:time_now => Time.now.localtime, :events => events, :delete => removed_events}
     respond_to do |format|
@@ -75,6 +79,12 @@ class PublicController < ApplicationController
         format.xml { render :xml => result }
       end
     end
+  end
+
+  def hack_time_string(s)
+    s = s.gc /08:05/, '上午'
+    s = s.gc /13:05/, '下午'
+    s = s.gc /18:05/, '晚上'
   end
 
   def show_public_group
