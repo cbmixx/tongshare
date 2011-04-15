@@ -32,7 +32,7 @@
       <dl>
       <%=  link_to "这是我的人人链接", url_for(:controller => :profile, :action => :select, :renren_url => @renren_url, :department => @department, :photo_url => @photo_url) %>
       </dl>
-    <% elsif (@user.id != current_user.id) %>
+    <% elsif (current_user && @user.id != current_user.id) %>
       <% if @event %>
       <dl>
         <%= link_to '打个招呼，Hi~', url_for(:controller => :greeting, :action => :create, :target_user => @user.id, :event_id => @event.id) %>

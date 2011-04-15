@@ -1,7 +1,5 @@
 <h2><%= @group.name %>的公共日程</h2>
 
-<%= header_announcement %>
-
 <%= l Time.now, :format => :long %> <%=  number_of_week_in_thu %> <br/>
 
 <%= link_to_unless_current "接下来", {:range => :next} %>&nbsp;&nbsp;

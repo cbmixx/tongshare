@@ -126,6 +126,8 @@ HTML
       @photo_url = photo_url
       @department = department
       @can_be_selected = true
+    elsif (user.public?)
+      @department = user.user_extra.department if (user.user_extra)
     else
       @renren_id = user.user_extra.renren_id if (user.user_extra && (!user.user_extra.hide_profile || user.id == current_user.id))
       @renren_url = user.user_extra.renren_url if (user.user_extra && (!user.user_extra.hide_profile || user.id == current_user.id))

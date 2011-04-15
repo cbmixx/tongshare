@@ -3,12 +3,14 @@ class SearchController < ApplicationController
   include RegistrationsExtendedHelper
   include UsersHelper
   include EventsHelper
-  before_filter :authenticate_user!
 
   def index
+    authenticate_user!
   end
 
   def add_members
+    authenticate_user!
+    
     begin_time = Time.parse(params[:begin])
     end_time = Time.parse(params[:end])
 
@@ -88,6 +90,7 @@ class SearchController < ApplicationController
   def box
     keyword = params[:keyword]
     @has_user = UserExtra.find(:first, :conditions => ['name=? AND public=?', keyword, false]) ? 1 : 0
+    @has_user = 0 if (!current_user)
     @has_location = Location.find(:first, :conditions => ['name LIKE ?', "\%#{keyword}\%"]) ? 1 : 0
     @has_public_user = UserExtra.find(:first, :conditions => ['public=? AND name LIKE ?', true, "\%#{keyword}\%"]) ? 1 : 0
     @has_public_group = Group.find(:first, :conditions => ['privacy=? AND name LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"]) ? 1 : 0
@@ -106,6 +109,7 @@ class SearchController < ApplicationController
   end
 
   def user
+    authenticate_user!
     keyword = params[:keyword]
     @offset = params[:offset] ? params[:offset].to_i : 0
     @users = UserExtra.find(:all, :conditions => ['name=?', keyword], :offset => @offset, :limit => 10+1, :include => :user).map{ |ue| ue.user }

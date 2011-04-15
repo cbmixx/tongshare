@@ -9,6 +9,12 @@
 </head>
 <body>
   <h1><center>同享日程</center></h1>
+  <center>
+  <form name="search_box" action="/search/box">
+    <input type="text" name="keyword" id="keyword"></input>
+    <input type="submit" value="搜索" id="search_button" title='输入姓名查找用户；输入地点查找该地点的日程；输入公共用户查看其日程；输入共群群组名查看公共群组的日程'></input>
+  </form>
+  </center>
   <% if alert %>
     <p><%= alert %></p>
   <% end %>

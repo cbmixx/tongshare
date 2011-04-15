@@ -1,6 +1,4 @@
-<h2><%= @name %>的公共日程</h2>
-
-<%= header_announcement %>
+<h2><%= @name %>的日程</h2>
 
 <%= l Time.now, :format => :long %> <%=  number_of_week_in_thu %> <br/>
 
@@ -12,27 +10,21 @@
 <br/><br/>
 
 <% @instances.each do |instance|%>
-  <%= link_to instance.name, event_path(instance.event, :inst=>instance.id) %>
-  <% if instance.warning_count > 0 %>
-  <font color="red">（有报警！）</font>
+  <% if !@only_public || instance.event.public? %>
+    <%= link_to instance.name, event_path(instance.event, :inst=>instance.id) %>
+    <% if instance.warning_count > 0 %>
+    <font color="red">（有报警！）</font>
+    <% end %>
+    <br/>
+    <%= instance.location.blank? ? "" : (instance.location + "<br/>").html_safe%>
+    <%= friendly_time_range instance.begin, instance.end %>
+    <%#= link_to "删除", instance.event, :method => "delete" %>
+    <br/>
+  <% else %>
+    非公开的活动<br/>
+    <%= friendly_time_range instance.begin, instance.end %>
   <% end %>
-  <br/>
-  <%= instance.location.blank? ? "" : (instance.location + "<br/>").html_safe%>
-  <%= friendly_time_range instance.begin, instance.end %>
-  <%#= link_to "删除", instance.event, :method => "delete" %>
-  <br/>
   <% event = instance.event %>
-  <% if instance.user_checked_in?(current_user.id) %>
-    <%=  link_to "取消报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_OUT) %>
-  <% else %>
-    <%=  link_to "报到", event_path(event, :inst => instance.id, :feedback => Feedback::CHECK_IN) %>
-  <% end %>
-  <% if instance.warninged?(current_user.id) %>
-    <%= link_to "取消报警", event_path(event, :inst => instance.id, :feedback => Feedback::DISABLE_WARNING) %>
-  <% else %>
-    <%= link_to "报警", event_path(event, :inst => instance.id, :feedback => Feedback::WARNING) %>
-  <% end %>
-
   <hr/>
 <% end %>
 
