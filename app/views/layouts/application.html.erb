@@ -23,7 +23,9 @@
     <!--[if lt IE 9]>
     <%= javascript_include_tag "biz/html5" %>
     <![endif]-->
-
+    <script>
+      var defaultValue = "按时间、地点、公共群组查找公共日程";
+    </script>
     <%= csrf_meta_tag %>
 
     <%= calendar_date_select_includes :locale => 'cn' %>
@@ -82,8 +84,9 @@
         <% if not user_signed_in? %>               
                 <div id="search_box_home">
                   <form name="search_box" action="/search/box">
-                    <input id="search_input" type="text" name="keyword" id="keyword"></input>
-                    <input id="search_button" class="link1 commit_button" type="submit" value="搜索" id="search_button" title='输入姓名查找用户；输入地点查找该地点的日程；输入公共用户查看其日程；输入共群群组名查看公共群组的日程'></input>
+                    <input id="search_input" type="text" name="keyword" value="按用户、地点、群组搜索日程"
+                    onclick="if(value==defaultValue)value=''" onblur="if(!value)value=defaultValue" onkeydown="if(value==defaultValue)value=''"></input>
+                    <input id="search_button" class="link1 commit_button" type="submit" value="搜索" title='输入姓名查找用户；输入地点查找该地点的日程；输入公共用户查看其日程；输入共群群组名查看公共群组的日程'></input>
                   </form>
                 </div>
               <% end %>
@@ -109,8 +112,9 @@
                 <% if user_signed_in? %>               
                 <div id="search_box">
                   <form name="search_box" action="/search/box">
-                    <input id="search_input" type="text" name="keyword" id="keyword"></input>
-                    <input id="search_button" class="link1 commit_button" type="submit" value="搜索" id="search_button" title='输入姓名查找用户；输入地点查找该地点的日程；输入公共用户查看其日程；输入共群群组名查看公共群组的日程'></input>
+                    <input id="search_input" type="text" name="keyword" value="按用户、地点、群组搜索日程"
+                    onclick="if(value==defaultValue)value=''" onblur="if(!value)value=defaultValue" onkeydown="if(value==defaultValue)value=''" ></input>
+                    <input id="search_button" class="link1 commit_button" type="submit" value="搜索" title='输入姓名查找用户；输入地点查找该地点的日程；输入公共用户查看其日程；输入共群群组名查看公共群组的日程'></input>
                   </form>
                 </div>
               <% end %>
