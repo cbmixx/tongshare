@@ -88,8 +88,7 @@ class SearchController < ApplicationController
   def box
     keyword = params[:keyword]
     @has_user = UserExtra.find(:first, :conditions => ['name=?', keyword]) ? 1 : 0
-    #TODO next create location model
-    @has_location = 0 # Event.find(:first, :conditions => ['location LIKE ?', "\%#{keyword}\%"]) ? 1 : 0
+    @has_location = Location.find(:first, :conditions => ['name LIKE ?', "\%#{keyword}\%"]) ? 1 : 0
     @has_public_user = UserExtra.find(:first, :conditions => ['public=? AND name LIKE ?', true, "\%#{keyword}\%"]) ? 1 : 0
     @has_public_group = Group.find(:first, :conditions => ['privacy=? AND name LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"]) ? 1 : 0
     @sum = @has_user + @has_location + @has_public_user + @has_public_group
@@ -113,7 +112,9 @@ class SearchController < ApplicationController
   end
 
   def location
-    #TODO
+    keyword = params[:keyword]
+    @offset = params[:offset] ? params[:offset].to_i : 0
+    @locations = Location.find(:all, :conditions => ['name LIKE ?', "\%#{keyword}\%"], :offset => @offset, :limit => 10+1).map{ |loc| loc.name }
   end
 
   def public_user

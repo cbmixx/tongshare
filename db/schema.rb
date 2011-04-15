@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110408021243) do
+ActiveRecord::Schema.define(:version => 20110415061249) do
 
   create_table "acceptances", :force => true do |t|
     t.integer  "event_id"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(:version => 20110408021243) do
     t.datetime "updated_at"
     t.string   "rrule"
     t.string   "share_token"
+    t.boolean  "public",      :default => false
   end
 
   add_index "events", ["begin"], :name => "index_events_on_begin"
@@ -137,6 +138,14 @@ ActiveRecord::Schema.define(:version => 20110408021243) do
   add_index "instances", ["creator_id"], :name => "index_instances_on_creator_id"
   add_index "instances", ["end"], :name => "index_instances_on_end"
   add_index "instances", ["event_id"], :name => "index_instances_on_event_id"
+
+  create_table "locations", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "locations", ["name"], :name => "index_locations_on_name", :unique => true
 
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"

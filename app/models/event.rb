@@ -35,6 +35,7 @@ class Event < ActiveRecord::Base
   #
 
   def save
+    Location.create!(:name => self.location) if (Location.find_by_name(self.location).nil?)
     self.share_token = PUBLIC_TOKEN if self.creator.public? # Public user's events are public
 
     #check rrule_days

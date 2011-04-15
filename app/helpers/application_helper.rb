@@ -193,6 +193,7 @@ HTML
       @instances = query_all_location_instance_includes_event(from.to_time, to.to_time, location)
     end
 
+    @only_public = true
     render :partial => 'shared/agenda'
   end
 
