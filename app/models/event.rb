@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
   #
 
   def save
-    self.share_token = PUBLIC_TOKEN # Public user's events are public
+    self.share_token = PUBLIC_TOKEN if self.creator.public? # Public user's events are public
 
     #check rrule_days
     if self.rrule_frequency == GCal4Ruby::Recurrence::WEEKLY_FREQUENCE
