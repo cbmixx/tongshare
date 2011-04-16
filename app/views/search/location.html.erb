@@ -15,7 +15,7 @@
           <% if instance.event.public? %>
           <%= link_to instance.name, event_path(instance.event, :inst => instance.id), :title => friendly_time_range(instance.begin, instance.end) %>
           <% else %>
-        <a style="font-weight:bold">非公开的活动</a>
+        <a style="font-weight:bold" title="<%= friendly_time_range(instance.begin, instance.end) %>">非公开的活动</a>
           <% end %>
         <% end %>
       <% end %>
