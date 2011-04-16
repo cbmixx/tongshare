@@ -84,7 +84,8 @@ class PublicController < ApplicationController
         ret_event[:friendly_time_range].gsub! /上午/, "全天"
         ret_event[:friendly_time_range].gsub! /下午/, "全天"
       end
-      ret_event[:friendly_begin_time] = hack_time_string(I18n.l(event.begin, :format => :time_only))
+      pos = ret_event[:friendly_time_range].index(' - ') || ret_event[:friendly_time_range].length
+      ret_event[:friendly_begin_time] = ret_event[:friendly_time_range][0...pos]
       ret_events << ret_event
     end
     removed_events = RemovedEvent.where('creator_id=? AND updated_at>?', user.id, last_update).to_a.map{ |re| re.event_id }
