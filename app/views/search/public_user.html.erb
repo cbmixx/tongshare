@@ -11,7 +11,7 @@
       <% if snapshot.nil? || snapshot.count == 0 %>
         接下来没有活动了
       <% else %>
-        <a style="font-weight:bold">近期活动:</a>
+        <%= link_to '近期活动:', '/public/user/'+@user.id.to_s, :style=>"font-weight:bold" %>
         <% for instance in snapshot %>
           <%= link_to instance.name, event_path(instance.event, :inst => instance.id), :title => friendly_time_range(instance.begin, instance.end) %>
         <% end %>
