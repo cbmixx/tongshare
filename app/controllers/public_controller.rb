@@ -60,7 +60,7 @@ class PublicController < ApplicationController
 
     events = Event.where("creator_id=? AND updated_at>?", user.id, last_update).to_a
     for event in events
-      event.friendly_time_range = friendly_time_range(event.begin, even.end)
+      event.friendly_time_range = friendly_time_range(event.begin, event.end)
       event.friendly_begin_time = friendly_time_range(event.begin, nil)
     end
     removed_events = RemovedEvent.where('creator_id=? AND updated_at>?', user.id, last_update).to_a.map{ |re| re.event_id }
