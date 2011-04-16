@@ -59,12 +59,29 @@ class PublicController < ApplicationController
     end
 
     events = Event.where("creator_id=? AND updated_at>?", user.id, last_update).to_a
+    ret_events = []
     for event in events
-      event.friendly_time_range = friendly_time_range(event.begin, event.end)
-      event.friendly_begin_time = friendly_time_range(event.begin, nil)
+      ret_event = {}
+      ret_event[:name] = event.name
+      ret_event[:begin] = event.begin
+      ret_event[:end] = event.end
+      ret_event[:location] = event.location
+      ret_event[:extra_info] = event.extra_info
+      ret_event[:rrule] = event.rrule
+      ret_event[:creator_id] = event.creator_id
+      ret_event[:share_token] = event.share_token
+      ret_event[:rrule_interval] = event.rrule_interval
+      ret_event[:rrule_frequency] = event.rrule_frequency
+      ret_event[:rrule_days] = event.rrule_days
+      ret_event[:rrule_count] = event.rrule_count
+      ret_event[:rrule_repeat_until] = event.rrule_repeat_until
+      ret_event[:rrule_end_condition] = event.rrule_end_condition
+      ret_event[:friendly_time_range] = hack_time_string(friendly_time_range(event.begin, event.end))
+      ret_event[:friendly_begin_time] = hack_time_string(friendly_time_range(event.begin, nil))
+      ret_events << ret_event
     end
     removed_events = RemovedEvent.where('creator_id=? AND updated_at>?', user.id, last_update).to_a.map{ |re| re.event_id }
-    result = {:time_now => Time.now.localtime, :events => events, :delete => removed_events}
+    result = {:time_now => Time.now.localtime, :events => ret_events, :delete => removed_events}
     respond_to do |format|
       format.html { render :text => result.to_json }
       format.json { render :json => result }
@@ -82,9 +99,9 @@ class PublicController < ApplicationController
   end
 
   def hack_time_string(s)
-    s = s.gc /08:05/, '上午'
-    s = s.gc /13:05/, '下午'
-    s = s.gc /18:05/, '晚上'
+    s = s.gsub /08:05/, '上午'
+    s = s.gsub /13:05/, '下午'
+    s = s.gsub /18:05/, '晚上'
   end
 
   def show_public_group
