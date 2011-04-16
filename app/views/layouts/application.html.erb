@@ -126,7 +126,6 @@
                   <a href="/search/box?keyword=六教">六教</a>
                 </div>
               <% end %>
-                <%= yield :aside %>
                 <% if not user_signed_in? %>
                 <div id="login_container" class="inside">
                   <h2>登录</h2>
@@ -134,6 +133,7 @@
                   <br>
                 </div>
               <% end %>
+                <%= yield :aside %>
                 <div id="mobile_tip">
                   手机访问：<a href="http://m.tongshare.com">tongshare.com</a> 更省流量<br/>
                   <div style="text-align:center"><%= image_tag "qrcode.gif", :title=>"用手机扫描二维码获取本站地址" %></div>
