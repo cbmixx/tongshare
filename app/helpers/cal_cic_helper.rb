@@ -2,7 +2,11 @@ module CalCicHelper
   XML_PATH = "http://cal.cic.tsinghua.edu.cn:80/cal_pub/cal_pub/calendarXml.action"
   require 'net/http'
   require 'rexml/document'
-  def import_all(user_id)
+  def self.import_all(user_id = nil)
+    if user_id.nil?
+        query = UserIdentifier.find_all_by_login_value 'tsinghua.edu.cn.9999100100'
+        user_id = query.first.user_id
+    end
     url = URI.parse(XML_PATH)
     post_args = {'calendar.startDate' => '20101230T053000Z', 'calendar.endDate' => '20111230T053000Z'}
     resp, data = Net::HTTP.post_form(url, post_args)
