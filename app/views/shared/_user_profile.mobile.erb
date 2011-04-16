@@ -17,7 +17,7 @@
       <%= link_to '（?）', request.request_uri + (request.request_uri.include?('?') ? '&' : '?') + 'notice=' + notice, :title => notice %>
     <% end %>
   <% end %>
-  <% if @department %>
+  <% if @department && !@department.blank? %>
     <br/><%= @department %>
   <% end %>
   <% if @can_be_selected %>

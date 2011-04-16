@@ -25,7 +25,7 @@
           <% end %>
         <% end %>
       </dt>
-      <% if @department %>
+      <% if @department && !@department.blank? %>
       <dl><%= @department %></dl>
       <% end %>
     <% if @can_be_selected %>
