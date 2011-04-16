@@ -8,7 +8,7 @@ html,body {height:100%}
 /* Global Structure */
 #main {position: relative; margin:0 auto;width:1000px;font-size:.814em}
 /* Header */
-header {height:80px;position:relative}
+header {height:70px;position:relative}
 /* Content */
 section#content {width:700px;float:left}
 .inner_copy, .inner_copy a {border:0;float:left;background:#fff;color:#f00;width:50% !important;line-height:10px;font-size:10px;margin:-120% 0 0 0;overflow:hidden;padding:0}
@@ -85,8 +85,9 @@ h2 span {color:#f85811}
 .link1 span span {background:url(../../images/biz/link1-border.gif) no-repeat right top;padding:3px 15px 3px 15px}
 /* boxes */
 .nav-box {width:100%;background:url(../../images/biz/nav-box-tail.gif) repeat-x left top}
-.nav-box nav {background:url(../../images/biz/nav-box-right.gif) no-repeat right top}
+/*.nav-box nav {background:url(../../images/biz/nav-box-right.gif) no-repeat right top}
 .nav-box nav ul {height:77px;background:url(../../images/biz/nav-box-left.gif) no-repeat left top;overflow:hidden}
+*/
 .nav-box nav ul li {float:left;padding:0 36px 0 38px;background:url(../../images/biz/divider.gif) no-repeat left top;margin:0 2px 0 -2px}
 .nav-box nav ul li a {color:#666;font-size:1.231em;line-height:1.2em;text-decoration:none;font-weight:bold;font-family:"trebuchet MS",Helvetica,sans-serif;text-transform:uppercase;display:block;padding-top:25px}
 .nav-box nav ul li a:hover,.nav-box nav ul li.current a {color:#f85811}
@@ -107,7 +108,7 @@ aside .inside {padding:12px 45px 12px 40px}
 .inside {padding:12px 45px 12px 40px}
 aside h2 {letter-spacing:-1px}
 /* footer */
-footer .inside {padding-top:36px}
+footer .inside {padding-top:10px}
 /* forms */
 form {clear:right;width:100%;overflow:hidden}
 form fieldset {border:none;float:left;}
