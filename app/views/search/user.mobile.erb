@@ -1,0 +1,9 @@
+<h2>搜索结果</h2>
+<ul>
+  <% for user in @users[0...10] %>
+    <%=  user_profile(user) %>
+  <% end %>
+</ul>
+<%= link_to('上一页', :offset => [@offset-10, 0].max) if @offset > 0 %>
+<%= link_to('下一页', :offset => @offset+10) if @users.count > 10 %>
+

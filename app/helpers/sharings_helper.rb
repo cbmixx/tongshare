@@ -8,6 +8,11 @@ module SharingsHelper
     return (query | responsed_ids)
   end
   
+  def find_duplicated_group_sharing(current_user_id, event_id, groups)
+    responsed_ids = GroupSharing.joins(:sharing).where('sharings.event_id' => event_id, :group_id => groups.map{|g| g.id}).to_a.map{|gs| gs.group_id}
+    return (responsed_ids)
+  end
+
   #parse the raw string the user has input
   #return an array containing a hash {:type => xxx, :login_value => xxx}
   def parse_sharings_raw(str)

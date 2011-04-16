@@ -36,6 +36,19 @@ class GroupsController < ApplicationController
               items << {:type => :uid, :uid => uid}
             end
           end
+        elsif (group.privacy == Group::PRIVACY_PUBLIC) # only show managers for public group
+          for membership in group.membership
+            next if membership.power != Membership::POWER_MANAGER
+            user = membership.user
+            uid = user.user_identifier.first
+            if (uid.login_type == UserIdentifier::TYPE_EMPLOYEE_NO_DUMMY)
+              items << {:type => UserIdentifier::TYPE_EMPLOYEE_NO, :login_value => uid.login_value.match(/\d+$/)[0]}
+            elsif (uid.login_type == UserIdentifier::TYPE_EMAIL_DUMMY)
+              items << {:type => UserIdentifier::TYPE_EMAIL, :login_value => uid.login_value}
+            else
+              items << {:type => :uid, :uid => uid}
+            end
+          end
         end
       rescue ActiveRecord::RecordNotFound
       end
@@ -99,15 +112,21 @@ class GroupsController < ApplicationController
     end
 
     if (params[:group_name] && !params[:group_name].blank?)
-      group = query_or_create_group_via_name_and_creator_id(params[:group_name], current_user.id)
+      if (current_user.public?)
+        group = query_or_create_public_group(params[:group_name], current_user)
+      else
+        group = query_or_create_group_via_name_and_creator_id(params[:group_name], current_user.id)
+      end
+      authorize! :edit, group
       group_members = members.map do |member_id|
         {:user_id => member_id, :power => Membership::POWER_MEMBER}
       end
 
-      puts 'TEST group_members'
-      pp group_members
-
-      group.set_members(group_members)
+      if (current_user.public?)
+        group.set_managers(group_members)
+      else
+        group.set_members(group_members)
+      end
       group.save!
       flash[:notice] = '操作成功'
     else

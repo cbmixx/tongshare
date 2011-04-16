@@ -31,4 +31,11 @@ class Sharing < ActiveRecord::Base
     )
   end
 
+  def add_group_sharing(group_id)
+    self.group_sharings.build(
+      :group_id => group_id,
+      :priority => 1 # only recommendation is allowed for public group sharing
+    )
+  end
+
 end

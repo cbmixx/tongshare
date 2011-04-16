@@ -143,6 +143,10 @@ class Ability
         gs.priority == GroupSharing::PRIORITY_INVITE
     end
 
+    can :edit, Group do |group|
+      group.creator_id == @user.id
+    end
+
 
     ###############################
     # Abilities of system administrators

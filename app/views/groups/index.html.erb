@@ -10,11 +10,11 @@
   window.dhx_globalImgPath="../images/dhtmlx/";
 </script>
 
-<%= content_box "管理", "我的群组", true do %>
+<%= content_box "管理", (current_user.public? ? "公共群组" : "我的群组"), true do %>
   <%= form_tag url_for(:action => "add_members"), :remote => true, :onsubmit => 'confirmComboValue();' do %>
       <fieldset>
         <div class="field">
-          <label for="group_id" class="title">我的群组</label>
+          <label for="group_id" class="title"><%= (current_user.public? ? "公共群组" : "我的群组")%></label>
           <select style='width:200px;'  id="groups_combo" name="group_id" onChange="clear();checkNewGroup();raw_string_onblur();">
             <option value="new">新建群组</option>
             <% for group in current_user.group %>
@@ -68,7 +68,7 @@
           <label for="group_name" class="title">群组名</label>
           <%= text_field_tag "group_name"%>
         </div>
-        <label class="title">群组成员</label>
+        <label class="title"><%= (current_user.public? ? "群组管理员" : "群组成员") %> </label>
         <div id="new_member_nil" class="field_div">（请在上面的文本框中添加邀请对象，完成后单击“添加”按钮）</div>
         <div id="new_members_container" class="field_div">
           <ul id="new_members">
@@ -100,7 +100,7 @@
 
         <div class="field">
           <label class="title">&nbsp;</label>
-          <%= submit_tag "设置群组成员", :id => "set_members_submit" %>
+          <%= submit_tag( (current_user.public? ? "设置群组管理员" : "设置群组成员"), :id => "set_members_submit" )%>
         </div>
       <% end %>
     </fieldset>

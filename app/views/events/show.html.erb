@@ -71,7 +71,7 @@
       </ul>
     <% end %>
     <div class="event buttons">
-      <% if @token %>
+      <% if @acceptance.nil? && @event.creator_id != current_user.id && (@token || @event.public?) %>
       <div class="event buttons">
         <%= styled_button "参加该活动", {:controller => "acceptance", :action => "accept", :event => @event.id, :share_token => @token} %>
         <%= styled_button "拒绝该活动", {:controller => "acceptance", :action => "deny", :event => @event.id, :share_token => @token} %>

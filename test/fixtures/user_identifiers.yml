@@ -26,3 +26,8 @@ mo_two:
   login_value: 13000000001
   user_id: 2
   login_type: mobile
+
+foo3:
+  login_value: foo3@bar.com
+  user_id: 3
+  login_type: email

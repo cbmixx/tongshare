@@ -1,0 +1,11 @@
+<%= content_box '搜索结果', '' do%>
+<ul>
+  <% for location in @locations %>
+  <li>
+    <%= link_to location, '/public/location/'+URI.escape(location) %>
+  </li>
+  <% end %>
+</ul>
+<%= link_to('上一页', :offset => [@offset-10, 0].max) if @offset > 0 %>
+<%= link_to('下一页', :offset => @offset+10) if @locations.count > 10 %>
+<% end %>
