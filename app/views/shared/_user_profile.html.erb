@@ -3,13 +3,14 @@
 # and open the template in the editor.
 %>
 
-<tr>
+<tr><td>
+  <table class="user_profile"><tr>
   <td><%= image_tag( ((@photo_url.nil? || @photo_url.blank?) ? 'default.jpg' : @photo_url), :onError => "this.src='/images/default.jpg';" ) %></td>
   <td>
     <dl>
       <dt>
         <% if @user.public? %>
-          <%= link_to @name, '/public/user/'+@user.id.to_s %>
+          <%= link_to @name, '/public/user/'+@user.id.to_s, :class => "title_name" %>
         <% else %>
           <%=@name%>
           <% unless (@renren_url.nil? || @renren_url.blank?) %>
@@ -52,5 +53,5 @@
     <% end %>
     </dl>
   </td>
-</tr>
-
+</tr></table>
+</td></tr>

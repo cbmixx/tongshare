@@ -92,23 +92,65 @@ root {
   width: 300px;
   position: absolute;
   left: 700px;
-  top: 30px; 
+  top: 22px; 
   margin: 0px auto;
 }
 
 #search_box {
   background-color: #ffdd2a;
   width: 100%;
+  height: 50px;
+}
+#search_box label, #search_box_home label{
+  margin-left: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #f85811;
+}
+#search_box a, #search_box_home a{
+  margin: 0px 5px 5px 5px;
+  font-size: 11px;
 }
 #search_input {
   float: left;
-  margin: 10px 10px 5px 20px;
+  margin: 10px 5px 0px 20px;
   width: 180px;
 }
 #search_button {
-  margin: 8px 5px 5px 0px;
+  margin: 8px 5px 0px 0px;
 }
-
+.title_name {
+  font-size: 15px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+.search_item {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #fff2cc;
+  margin-bottom: 2px;
+}
+.search_user_item .item_table {
+  width: 100%;
+}
+.user_profile {
+  width: 300px;
+}
+.snapshot_line {
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 12px;
+}
+.snapshot_line a{
+  float: left;
+  margin-right: 20px;
+  max-width: 150px;
+  overflow:hidden; text-overflow:ellipsis;
+  white-space: nowrap;;
+}
 .agenda_list .agenda_pannel ul li {
     display: inline;
     font-weight: bold;

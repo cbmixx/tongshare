@@ -1,21 +1,22 @@
 <%= content_box '搜索结果', '' do%>
 <ul>
   <% for public_group in @public_groups %>
-  <li>
-    <%= link_to public_group.name, '/public/group/'+public_group.id.to_s %>
-  </li>
-  <li>
+    <div class="search_item"> 
+    <li>
+    <%= link_to public_group.name, '/public/group/'+public_group.id.to_s, :class => "title_name" %>
+    </li>
+    <li class="snapshot_line">
       <% snapshot = @snapshots[public_group.id] %>
       <% if snapshot.nil? || snapshot.count == 0 %>
-        接下来没有活动了
+        <a>接下来没有活动了</a>
       <% else %>
+        <a style="font-weight:bold">近期活动:</a>
         <% for instance in snapshot %>
-        <%= friendly_time_range(instance.begin, instance.end) %>: <%= instance.name %>
-        &nbsp;&nbsp;
+          <%= link_to instance.name, event_path(instance.event, :inst => instance.id), :title => friendly_time_range(instance.begin, instance.end) %>
         <% end %>
       <% end %>
-      <hr/>
-  </li>
+    </li>
+    </div>
   <% end %>
 </ul>
 <%= link_to('上一页', :offset => [@offset-10, 0].max) if @offset > 0 %>

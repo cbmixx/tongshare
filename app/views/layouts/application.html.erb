@@ -88,6 +88,10 @@
                     onclick="if(value==defaultValue)value=''" onblur="if(!value)value=defaultValue" onkeydown="if(value==defaultValue)value=''"></input>
                     <input id="search_button" class="link1 commit_button" type="submit" value="搜索" title='输入姓名查找用户；输入地点查找该地点的日程；输入公共用户查看其日程；输入共群群组名查看公共群组的日程'></input>
                   </form>
+                <label>热门搜索:</label>
+                  <a href="/search/box?keyword=百年校庆">百年校庆</a>
+                  <a href="/search/box?keyword=大礼堂">大礼堂</a>
+                  <a href="/search/box?keyword=六教">六教</a>
                 </div>
               <% end %>
         </header>
@@ -116,9 +120,20 @@
                     onclick="if(value==defaultValue)value=''" onblur="if(!value)value=defaultValue" onkeydown="if(value==defaultValue)value=''" ></input>
                     <input id="search_button" class="link1 commit_button" type="submit" value="搜索" title='输入姓名查找用户；输入地点查找该地点的日程；输入公共用户查看其日程；输入共群群组名查看公共群组的日程'></input>
                   </form>
+                  <label>热门搜索:</label>
+                  <a href="/search/box?keyword=百年校庆">百年校庆</a>
+                  <a href="/search/box?keyword=大礼堂">大礼堂</a>
+                  <a href="/search/box?keyword=六教">六教</a>
                 </div>
               <% end %>
                 <%= yield :aside %>
+                <% if not user_signed_in? %>
+                <div id="login_container" class="inside">
+                  <h2>登录</h2>
+                  <%= render(:partial => "sessions_extended/login_form", :locals => {:small => true})%>
+                  <br>
+                </div>
+              <% end %>
                 <div id="mobile_tip">
                   手机访问：<a href="http://tongshare.com">tongshare.com</a> 更省流量<br/>
                   <div style="text-align:center"><%= image_tag "qrcode.gif", :title=>"用手机扫描二维码获取本站地址" %></div>

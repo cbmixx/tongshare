@@ -1,21 +1,22 @@
 <%= content_box '搜索结果', '' do%>
-<div class="event attendee">
-<table>
+<div class="search_item">
+<table class="item_table">
   <% for user in @public_users[0...10] %>
     <%=  user_profile(user) %>
   <% end %>
   <tr>
     <td colspan="2">
+      <div class="snapshot_line">
       <% snapshot = @snapshots[user.id] %>
       <% if snapshot.nil? || snapshot.count == 0 %>
         接下来没有活动了
       <% else %>
+        <a style="font-weight:bold">近期活动:</a>
         <% for instance in snapshot %>
-        <%= friendly_time_range(instance.begin, instance.end) %>: <%= instance.name %>
-        &nbsp;&nbsp;
+          <%= link_to instance.name, event_path(instance.event, :inst => instance.id), :title => friendly_time_range(instance.begin, instance.end) %>
         <% end %>
       <% end %>
-      <hr/>
+    </div>
     </td>
   </tr>
 </table>
