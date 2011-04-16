@@ -383,7 +383,7 @@ module EventsHelper
   def friendly_time_range(from, to = nil)
     from = from.localtime
     to = to.localtime if to
-    if (I18n.l(from, :format => :time_only) == "00:00" && (to-from).day > 0)
+    if (to && I18n.l(from, :format => :time_only) == "00:00" && (to-from).day > 0)
       ret = friendly_year(from) + friendly_day(from) + '全天'
     else
       ret = friendly_year(from) + friendly_day(from) + I18n.l(from, :format => :time_only)
