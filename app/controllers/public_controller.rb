@@ -80,6 +80,10 @@ class PublicController < ApplicationController
       ret_event[:rrule_repeat_until] = event.rrule_repeat_until
       ret_event[:rrule_end_condition] = event.rrule_end_condition
       ret_event[:friendly_time_range] = hack_time_string(friendly_time_range(event.begin, event.end))
+      if (ret_event[:friendly_time_range].include?("上午") && ret_event[:friendly_time_range].include?("下午"))
+        ret_event[:friendly_time_range].gsub! /上午/, "全天"
+        ret_event[:friendly_time_range].gsub! /下午/, "全天"
+      end
       ret_event[:friendly_begin_time] = hack_time_string(I18n.l(event.begin, :format => :time_only))
       ret_events << ret_event
     end
