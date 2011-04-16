@@ -4,6 +4,18 @@
   <li>
     <%= link_to location, '/public/location/'+URI.escape(location) %>
   </li>
+  <li>
+      <% snapshot = @snapshots[location] %>
+      <% if snapshot.nil? || snapshot.count == 0 %>
+        接下来没有活动了
+      <% else %>
+        <% for instance in snapshot %>
+        <%= friendly_time_range(instance.begin, instance.end) %>: <%= instance.name %>
+        &nbsp;&nbsp;
+        <% end %>
+      <% end %>
+      <hr/>
+  </li>
   <% end %>
 </ul>
 <%= link_to('上一页', :offset => [@offset-10, 0].max) if @offset > 0 %>

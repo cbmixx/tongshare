@@ -119,18 +119,30 @@ class SearchController < ApplicationController
     keyword = params[:keyword].downcase
     @offset = params[:offset] ? params[:offset].to_i : 0
     @locations = Location.find(:all, :conditions => ['lower(name) LIKE ?', "\%#{keyword}\%"], :offset => @offset, :limit => 10+1).map{ |loc| loc.name }
+    @snapshots = {}
+    for location in @locations
+      @snapshots[location] = query_next_location_instance_includes_event(Time.now, 3, location, 0)
+    end
   end
 
   def public_user
     keyword = params[:keyword].downcase
     @offset = params[:offset] ? params[:offset].to_i : 0
     @public_users = UserExtra.find(:all, :conditions => ['public=? AND lower(name) LIKE ?', true, "\%#{keyword}\%"], :offset => @offset, :limit => 10+1, :include => :user).map{ |ue| ue.user }
+    @snapshots = {}
+    for public_user in @public_users
+      @snapshots[public_user.id] = query_next_accepted_instance_includes_event(Time.now, 3, public_user.id, 0)
+    end
   end
 
   def public_group
     keyword = params[:keyword].downcase
     @offset = params[:offset] ? params[:offset].to_i : 0
     @public_groups = Group.find(:all, :conditions => ['privacy=? AND lower(name) LIKE ?', Group::PRIVACY_PUBLIC, "\%#{keyword}\%"], :offset => @offset, :limit => 10+1)
+    @snapshots = {}
+    for public_group in @public_groups
+      @snapshots[public_group.id] = query_next_group_instance_includes_event(Time.now, 3, public_group.id, 0)
+    end
   end
 
 end
