@@ -84,7 +84,7 @@
         <% if not user_signed_in? %>               
                 <div id="search_box_home">
                   <form name="search_box" action="/search/box">                
-                    <input id="search_input" type="text" name="keyword" value="找人；找某地点、组织的日程"
+                    <input id="search_input" type="text" name="keyword" value="找某地点、组织的日程"
                     onclick="if(value==defaultValue)value=''" onblur="if(!value)value=defaultValue" onkeydown="if(value==defaultValue)value=''"></input>
                     <input id="search_button" class="link1 commit_button" type="submit" value="搜索" title='输入姓名查找用户；输入地点查找该地点的日程；输入公共用户查看其日程；输入共群群组名查看公共群组的日程'></input>
                   </form>
