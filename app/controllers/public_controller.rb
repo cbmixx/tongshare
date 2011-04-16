@@ -62,6 +62,9 @@ class PublicController < ApplicationController
     ret_events = []
     for event in events
       ret_event = {}
+      ret_event[:id] = event.id
+      ret_event[:created_at] = event.created_at
+      ret_event[:updated_at] = event.updated_at
       ret_event[:name] = event.name
       ret_event[:begin] = event.begin
       ret_event[:end] = event.end
