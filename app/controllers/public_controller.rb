@@ -105,6 +105,9 @@ class PublicController < ApplicationController
     s = s.gsub /08:05/, '上午'
     s = s.gsub /13:05/, '下午'
     s = s.gsub /18:05/, '晚上'
+    s = s.gsub /今天/, I18n.l(Time.now, :format => :date_only)
+    s = s.gsub /明天/, I18n.l(Time.now+1.day, :format => :date_only)
+    s = s.gsub /后天/, I18n.l(Time.now+2.day, :format => :date_only)
   end
 
   def show_public_group
