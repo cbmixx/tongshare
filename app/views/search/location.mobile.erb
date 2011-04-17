@@ -2,7 +2,23 @@
 <ul>
   <% for location in @locations %>
   <li>
-    <%= link_to location, '/public/location/'+URI.escape(location) %>
+    <%= link_to location, '/public/location/'+URI.escape(location) %> 
+      近期活动:<br/>
+      <% snapshot = @snapshots[location] %>
+      <% if snapshot.nil? || snapshot.count == 0 %>
+        接下来没有活动了
+      <% else %>
+        <% for instance in snapshot %>
+        <%= friendly_time_range(instance.begin, instance.end) %>:
+        <% if instance.event.public? %>
+        <%= instance.name %>
+        <% else %>
+        非公开的活动
+        <% end %>
+        <br/>
+        <% end %>
+      <% end %>
+      <hr/>
   </li>
   <% end %>
 </ul>

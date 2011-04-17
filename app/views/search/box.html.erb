@@ -3,13 +3,15 @@
 # and open the template in the editor.
 %>
 
-<% if @sum == 0 %>
-无搜索结果
+<% if @sum == 0 || params[:keyword].blank? || !params[:keyword] %>
+  <%= content_box '无搜索结果', '' do%>
+  <% end %>
 <% else %>
-有多个(<%= @sum %>)类型的搜索结果，请问你要看哪个？
+  <%= content_box "有多个(#{@sum})类型的搜索结果，请问你要看哪个？", '' do%>
+    <% keyword = params[:keyword] %>
+    <%= link_to '普通用户', '/search/user/' + URI.escape(keyword) if (@has_user > 0) %>
+    <%= link_to '地点', '/search/location/' + URI.escape(keyword) if (@has_location > 0) %>
+    <%= link_to '公共用户', '/search/public_user/' + URI.escape(keyword) if (@has_public_user > 0) %>
+    <%= link_to '公共群组', '/search/public_group/' + URI.escape(keyword) if @has_public_group > 0 %>
+  <%end%>
 <% end %>
-<% keyword = params[:keyword] %>
-<%= link_to '普通用户', '/search/user/' + URI.escape(keyword) if (@has_user > 0) %>
-<%= link_to '地点', '/search/location/' + URI.escape(keyword) if (@has_location > 0) %>
-<%= link_to '公共用户', '/search/public_user/' + URI.escape(keyword) if (@has_public_user > 0) %>
-<%= link_to '公共群组', '/search/public_group/' + URI.escape(keyword) if @has_public_group > 0 %>

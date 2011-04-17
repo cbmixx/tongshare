@@ -59,12 +59,38 @@ class PublicController < ApplicationController
     end
 
     events = Event.where("creator_id=? AND updated_at>?", user.id, last_update).to_a
+    ret_events = []
     for event in events
-      event.friendly_time_range = friendly_time_range(event.begin, even.end)
-      event.friendly_begin_time = friendly_time_range(event.begin, nil)
+      ret_event = {}
+      ret_event[:id] = event.id
+      ret_event[:created_at] = event.created_at
+      ret_event[:updated_at] = event.updated_at
+      ret_event[:name] = event.name
+      ret_event[:begin] = event.begin
+      ret_event[:end] = event.end
+      ret_event[:location] = event.location
+      ret_event[:extra_info] = event.extra_info
+      ret_event[:rrule] = event.rrule
+      ret_event[:creator_id] = event.creator_id
+      ret_event[:share_token] = event.share_token
+      ret_event[:rrule_interval] = event.rrule_interval
+      ret_event[:rrule_frequency] = event.rrule_frequency
+      ret_event[:rrule_days] = event.rrule_days
+      ret_event[:rrule_count] = event.rrule_count
+      ret_event[:rrule_repeat_until] = event.rrule_repeat_until
+      ret_event[:rrule_end_condition] = event.rrule_end_condition
+      ret_event[:friendly_time_range] = hack_time_string(friendly_time_range(event.begin, event.end))
+      ret_event[:friendly_begin_time] = hack_time_string(I18n.l(event.begin, :format => :time_only))
+      ret_event[:friendly_begin_time] = "全天" if (ret_event[:friendly_begin_time] == "00:00")
+      if (ret_event[:friendly_time_range].include?("上午") && ret_event[:friendly_time_range].include?("下午"))
+        ret_event[:friendly_time_range].gsub! /上午/, "全天"
+        ret_event[:friendly_time_range].gsub! /下午/, "全天"
+        ret_event[:friendly_begin_time].gsub! /上午/, "全天"
+      end
+      ret_events << ret_event
     end
     removed_events = RemovedEvent.where('creator_id=? AND updated_at>?', user.id, last_update).to_a.map{ |re| re.event_id }
-    result = {:time_now => Time.now.localtime, :events => events, :delete => removed_events}
+    result = {:time_now => Time.now.localtime, :events => ret_events, :delete => removed_events}
     respond_to do |format|
       format.html { render :text => result.to_json }
       format.json { render :json => result }
@@ -82,9 +108,12 @@ class PublicController < ApplicationController
   end
 
   def hack_time_string(s)
-    s = s.gc /08:05/, '上午'
-    s = s.gc /13:05/, '下午'
-    s = s.gc /18:05/, '晚上'
+    s = s.gsub /08:05/, '上午'
+    s = s.gsub /13:05/, '下午'
+    s = s.gsub /18:05/, '晚上'
+    s = s.gsub /今天/, I18n.l(Time.now, :format => :date_only)
+    s = s.gsub /明天/, I18n.l(Time.now+1.day, :format => :date_only)
+    s = s.gsub /后天/, I18n.l(Time.now+2.day, :format => :date_only)
   end
 
   def show_public_group

@@ -50,7 +50,7 @@ module CalCicHelper
       else
         puts 'event id = ' + e.id.to_s + ' remain'
       end
-    end  
+    end
   end
 
   def destroy_all_events_of_user(user_id)
@@ -59,5 +59,4 @@ module CalCicHelper
       e.destroy
     end
   end
-  
 end
