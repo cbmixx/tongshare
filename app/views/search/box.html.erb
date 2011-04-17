@@ -3,7 +3,7 @@
 # and open the template in the editor.
 %>
 
-<% if @sum == 0 %>
+<% if @sum == 0 || params[:keyword].blank? || !params[:keyword] %>
   <%= content_box '无搜索结果', '' do%>
   <% end %>
 <% else %>
