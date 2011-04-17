@@ -4,13 +4,14 @@
     <%=  user_profile(user) %>
   <% end %>
   <li>
+    近期活动:
       <% snapshot = @snapshots[user.id] %>
       <% if snapshot.nil? || snapshot.count == 0 %>
         接下来没有活动了
       <% else %>
         <% for instance in snapshot %>
         <%= friendly_time_range(instance.begin, instance.end) %>: <%= instance.name %>
-        &nbsp;&nbsp;
+        <br/>
         <% end %>
       <% end %>
       <hr/>

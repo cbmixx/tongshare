@@ -3,15 +3,14 @@
   <% for public_group in @public_groups %>
   <li>
     <%= link_to public_group.name, '/public/group/'+public_group.id.to_s %>
-  </li>
-  <li>
+      <br/>近期活动:
       <% snapshot = @snapshots[public_group.id] %>
       <% if snapshot.nil? || snapshot.count == 0 %>
         接下来没有活动了
       <% else %>
         <% for instance in snapshot %>
         <%= friendly_time_range(instance.begin, instance.end) %>: <%= instance.name %>
-        &nbsp;&nbsp;
+        <br/>
         <% end %>
       <% end %>
       <hr/>
