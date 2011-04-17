@@ -80,12 +80,13 @@ class PublicController < ApplicationController
       ret_event[:rrule_repeat_until] = event.rrule_repeat_until
       ret_event[:rrule_end_condition] = event.rrule_end_condition
       ret_event[:friendly_time_range] = hack_time_string(friendly_time_range(event.begin, event.end))
+      ret_event[:friendly_begin_time] = hack_time_string(I18n.l(event.begin, :format => :time_only))
+      ret_event[:friendly_begin_time] = "全天" if (ret_event[:friendly_begin_time] == "00:00")
       if (ret_event[:friendly_time_range].include?("上午") && ret_event[:friendly_time_range].include?("下午"))
         ret_event[:friendly_time_range].gsub! /上午/, "全天"
         ret_event[:friendly_time_range].gsub! /下午/, "全天"
+        ret_event[:friendly_begin_time].gsub! /上午/, "全天"
       end
-       ret_event[:friendly_begin_time] = hack_time_string(I18n.l(event.begin, :format => :time_only))
-       ret_event[:friendly_begin_time] = "全天" if (ret_event[:friendly_begin_time] == "00:00")
       ret_events << ret_event
     end
     removed_events = RemovedEvent.where('creator_id=? AND updated_at>?', user.id, last_update).to_a.map{ |re| re.event_id }
