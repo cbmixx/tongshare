@@ -13,7 +13,7 @@
         <%= link_to '近期活动:', '/public/location/'+URI.escape(location), :style => 'font-weight:bold' %>
         <% for instance in snapshot %>
           <% if instance.event.public? %>
-          <%= link_to instance.name, event_path(instance.event, :inst => instance.id), :title => friendly_time_range(instance.begin, instance.end) %>
+          <a title="<%=friendly_time_range(instance.begin, instance.end)%>"><%=instance.name%></a>
           <% else %>
         <a style="font-weight:bold" title="<%= friendly_time_range(instance.begin, instance.end) %>">非公开的活动</a>
           <% end %>
