@@ -3,7 +3,7 @@
   <% for public_group in @public_groups %>
   <li>
     <%= link_to public_group.name, '/public/group/'+public_group.id.to_s %>
-      <br/>近期活动:
+      近期活动:<br/>
       <% snapshot = @snapshots[public_group.id] %>
       <% if snapshot.nil? || snapshot.count == 0 %>
         接下来没有活动了
