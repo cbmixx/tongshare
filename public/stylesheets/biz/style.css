@@ -73,8 +73,8 @@ address b {width:84px !important;width:81px;float:left}
 /* txt,links,lines,titles */
 h1 {text-indent:-9999px}
 h1 a {width:307px;height:78px;position:absolute;left:36px;top:96px;background:url(../../images/biz/logo.gif) no-repeat left top}
-h2 {color:#434343;font-family:"trebuchet MS",Helvetica,sans-serif;font-weight:normal;text-transform:uppercase;font-size:20px;line-height:1.2em;margin-bottom:20px}
-h2 span {color:#f85811}
+h2 {font-family:"trebuchet MS",Helvetica,sans-serif;font-weight:normal;text-transform:uppercase;font-size:20px;line-height:1.2em;margin-bottom:20px}
+h2 span {}
 .link1 span {display:block;background:url(../../images/biz/link1-border.gif) no-repeat left top}
 .link1 span span {background:url(../../images/biz/link1-border.gif) no-repeat right top;padding:3px 15px 3px 15px}
 /* boxes */
