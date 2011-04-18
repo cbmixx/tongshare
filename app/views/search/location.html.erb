@@ -8,14 +8,14 @@
     <div class="snapshot_line">
       <% snapshot = @snapshots[location] %>
       <% if snapshot.nil? || snapshot.count == 0 %>
-        <a>接下来没有活动了</a>
+        <label>接下来没有活动了</label>
       <% else %>
         <%= link_to '近期活动:', '/public/location/'+URI.escape(location), :style => 'font-weight:bold' %>
         <% for instance in snapshot %>
           <% if instance.event.public? %>
-          <a title="<%=friendly_time_range(instance.begin, instance.end)%>"><%=instance.name%></a>
+          <b title="<%=friendly_time_range(instance.begin, instance.end)%>"><%=instance.name%></b>
           <% else %>
-        <a style="font-weight:bold" title="<%= friendly_time_range(instance.begin, instance.end) %>">非公开的活动</a>
+        <label style="font-weight:bold" title="<%= friendly_time_range(instance.begin, instance.end) %>">非公开的活动</label>
           <% end %>
         <% end %>
       <% end %>

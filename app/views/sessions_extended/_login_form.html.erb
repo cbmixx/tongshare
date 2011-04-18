@@ -5,7 +5,7 @@
                       :html => {:id => "login_form",
                                 :class => small ? "login_small" : nil }
             ) do |f| %>
-<fieldset>
+<fieldset style="min-height: 360px;">
 <%#*<div class="field">%>
   <%# if small %>
     <%#
@@ -45,14 +45,14 @@ OPTIONS
    <%= f.check_box :remember_me, :checked=>true %> <%= f.label :remember_me, '记住我' %>
   <%# end -%>
  </div>
-  <div class="field">
+  <div class="register_field">
     <label class="title">&nbsp;</label>
-    <%= f.submit :submit, :value => '登录', :class => 'link1 commit_button'%>
+    <%= f.submit :submit, :value => '登录', :class => 'register_button', :border => '0'%>
   </div>
   <hr>
   <div class="register_field">
     <label class="title">&nbsp;</label>
-    <a href="/users/sign_up" class="link1 register_button" >立即注册</a>
+    <a href="/users/sign_up" class="register_button" >立即注册</a>
   </div>
   </fieldset>
 <% end %>

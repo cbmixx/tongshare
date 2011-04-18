@@ -31,7 +31,6 @@
 <%#*</div>%>
 <%= header_announcement %>
 </div>
-</div>
 
 
 <div class="agenda_list" id="my_events">
@@ -91,12 +90,13 @@
             <% end %>
             <%= link_to "分享", {:controller => "sharings", :action => "new", :event_id => event.id} if can? :share, event %>
           </span>
+          <hr>
         </div>
       <% end %>
     <% end %>
     </div>
     <% else %>
-    <p style="padding-left: 20px; color: #f85811">没有活动了</p>
+    <p style="padding-left: 20px;">没有活动了</p>
     <% end %>
     <% if @range == :next %>
       <div>

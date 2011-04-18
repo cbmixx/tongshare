@@ -11,9 +11,63 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+label {
+  font-weight: bold; 
+  color: #666;
+}
+
+a {
+  color: #f85811;
+  text-decoration: none;
+}
+a:hover {
+  color: #d83811;
+  text-decoration: underline;
+}
+
+hr {border: solid 1px #ddd;}
+
+.hor_menu {height:77px;background:url(../../images/biz/nav-box-left.gif) no-repeat left top;overflow:hidden}
+.hor_menu li,.fright .item {float:left;padding:0 36px 0 38px;background:url(../../images/biz/divider.gif) no-repeat left top;margin:0 2px 0 -2px}
+.hor_menu li a,.fright .item .item_link {color:#666;font-size:1.231em;line-height:1.2em;text-decoration:none;font-weight:bold;font-family:"trebuchet MS",Helvetica,sans-serif;text-transform:uppercase;display:block;
+  margin-top:20px;
+  padding: 5px 5px 5px 5px;}
+.hor_menu li a:hover,.nav-box nav ul li.current a {color:#f85811}
+
+.item a:hover {
+  background-color: #ffdd2a;
+}
+.item:hover .vertical_menu, .item.over .vertical_menu{
+  display: block;
+}
+
+.vertical_menu {
+  position: absolute;
+  right: 10px; 
+  top: 45px;
+  width: 100px;
+  border: solid 1px #ffcc2a;
+  display: none;
+  background-color: #ffdd2a;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+#drop_menu li {
+  padding: 5px 0 5px 0;
+  text-align: center;
+}
+#drop_menu li a{
+  font-size: 13px;
+}
+
 root {
     display: block;
 }
+
+.fleft {float:left;}
+.fright {float:right;}
+.nav-box nav ul.fright {background:none;padding-right:34px}
+.nav-box nav ul.fright li {padding:0 23px 0 25px}
 
 #welcome {
     margin-left: 50px;
@@ -40,7 +94,7 @@ root {
 }
 
 #index_logo {
-    margin-top: -10px;
+    margin-top: 10px;
     color: #ee6600;
     font-size: 28px;
 }
@@ -104,8 +158,6 @@ root {
 #search_box label, #search_box_home label{
   margin-left: 20px;
   font-size: 11px;
-  font-weight: bold;
-  color: #f85811;
 }
 #search_box a, #search_box_home a{
   margin: 0px 5px 5px 5px;
@@ -211,13 +263,16 @@ root {
 }
 
 .link1 {
-    float: left;
+    display:block;
+    float:left;
+    background:url(../../images/biz/link1-bgd.gif) left top repeat-x;color:#fff;text-decoration:none
 }
 
+.link1:hover { text-decoration: underline;}
+
 .commit_button {
-    display: block;
-    border: none;
     padding: 3px 13px 5px 13px;
+    border: solid 0 #ffffff;
     font-size: 13px;
     cursor: pointer;
 }
@@ -248,6 +303,7 @@ root {
 
 .register_field {
     margin-top: 20px;
+    height: 50px;
 }
 
 .register_field .title {
@@ -256,12 +312,20 @@ root {
 }
 
 .register_button {
+    border:none;
+    float:left;
     display: block;
     text-align: center;
-    border: none;
-    padding: 10px 13px 10px 13px;
-    width: 80px;
+    font-size: 15px;
+    padding: 10px 0px 10px 0px;
+    min-width: 100px;
     background: url("../../images/biz/link1-bgd-lardge.gif") repeat-x scroll left top transparent; 
+    color: #fff;
+    cursor:pointer;
+}
+.register_button:hover {
+    color: white;
+    text-decoration: underline;
 }
 
 #login_container {padding-top:10px; background-color: #ffffdd }
@@ -376,7 +440,7 @@ root {
 
 .stressed {
     font-weight: bold;
-    color: #F85811;
+    color: #666;
     padding-top: 10px;
 }
 
