@@ -2,7 +2,7 @@
   <ul>
     <% if @num_friendship_from - @num_friendship_bidirectional > 0 %>
     <li>
-      另有<%= link_to (@num_friendship_from-@num_friendship_bidirectional).to_s, url_for(:controller => :friendship, :action => :show, :type => :only_from) %>个人想加你为好友。
+      <%= link_to "有" + (@num_friendship_from-@num_friendship_bidirectional).to_s + "个人想加你为好友。", url_for(:controller => :friendship, :action => :show, :type => :only_from) %>
     </li>
     <% end %>
 
@@ -22,6 +22,12 @@
       <li>
         <span class="stressed">课表有问题？</span>
         尝试<%= link_to "通过课表文件导入课表", {:controller=>"curriculum", :action=>"upload"}%>
+      </li>
+    <% end %>
+    <% if !current_user.has_valid_email %>
+      <li>
+        <span class="stressed">还没有填写邮箱或通过邮箱验证？</span>
+        请<%= link_to "填写邮箱地址", edit_user_registration_path %>, 并去邮箱接收验证邮件
       </li>
     <% end %>
 
