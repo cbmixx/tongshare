@@ -1,5 +1,5 @@
 set :application, "tongshare"
-set :repository,  "https://tongshare.googlecode.com/svn/branches/branch_reminder/tongshare/"
+set :repository,  "https://SpaceFlyer@github.com/cbmixx/tongshare.git"
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
@@ -8,14 +8,15 @@ set :deploy_to, "/var/www/#{application}"
 
 # If you aren't using Subversion to manage your source code, specify
 # your SCM below:
-set :user, "tongshare"
-set :runner, "tongshare"
+set :user, "deployer"
+set :runner, "deployer"
 
-set :scm, :subversion
-set :scm_user, "paullzn"
-set :scm_password, "Zv9Kw9sF2kJ9"
+set :deploy_via, :remote_cache
+set :scm, 'git'
+set :branch, 'working'
+set :scm_verbose, true
 
-server "166.111.68.70", :app, :web, :db, :primary => true
+server "lives3.net", :app, :web, :db, :primary => true
 
 default_run_options[:pty] = true
 
