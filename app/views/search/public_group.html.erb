@@ -12,7 +12,7 @@
       <% else %>
         <%= link_to '近期活动:', '/public/group/'+public_group.id.to_s, :style=>"font-weight:bold" %>
         <% for instance in snapshot %>
-          <a title="<%=friendly_time_range(instance.begin, instance.end)%>"><%=instance.name%></a>
+          <b title="<%=friendly_time_range(instance.begin, instance.end)%>"><%=instance.name%></b>
         <% end %>
       <% end %>
     </li>
