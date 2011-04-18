@@ -11,6 +11,20 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+label {
+  font-weight: bold; 
+  color: #666;
+}
+
+a {
+  color: #f85811;
+  text-decoration: none;
+}
+a:hover {
+  color: #d83811;
+  text-decoration: underline;
+}
+
 root {
     display: block;
 }
@@ -104,8 +118,6 @@ root {
 #search_box label, #search_box_home label{
   margin-left: 20px;
   font-size: 11px;
-  font-weight: bold;
-  color: #f85811;
 }
 #search_box a, #search_box_home a{
   margin: 0px 5px 5px 5px;
@@ -376,7 +388,7 @@ root {
 
 .stressed {
     font-weight: bold;
-    color: #F85811;
+    color: #666;
     padding-top: 10px;
 }
 

@@ -73,8 +73,6 @@ address b {width:84px !important;width:81px;float:left}
 #slogan img {position:absolute;right:49px;top:62px}
 .indent {padding-bottom:49px}
 /* txt,links,lines,titles */
-a {color:#f85811;text-decoration:none}
-a:hover {text-decoration:underline}
 h1 {text-indent:-9999px}
 h1 a {width:307px;height:78px;position:absolute;left:36px;top:96px;background:url(../../images/biz/logo.gif) no-repeat left top}
 h2 {color:#434343;font-family:"trebuchet MS",Helvetica,sans-serif;font-weight:normal;text-transform:uppercase;font-size:20px;line-height:1.2em;margin-bottom:20px}
